@@ -1,0 +1,18 @@
+{
+  "endpoint": "https://api.anthropic.com/v1/messages",
+  "model": "REPLACE_WITH_YOUR_MESSAGES_CAPABLE_MODEL",
+  "private_dir": "~/.research-engineering-router/anthropic",
+  "max_request_bytes": 32000,
+  "daily_budget_usd": 0.1,
+  "timeout_seconds": 25,
+  "input_usd_per_million": 3.0,
+  "output_usd_per_million": 15.0,
+  "pricing_status": "Illustrative rates only; replace model, prices and API version for your provider; mixed cache TTL rates need separate accounting",
+  "max_jev_calls_per_task": 6,
+  "protocol": "anthropic",
+  "api_key_env": "ANTHROPIC_API_KEY",
+  "max_output_tokens": 2048,
+  "anthropic_version": "2023-06-01",
+  "cached_input_usd_per_million": 0.3,
+  "cache_write_input_usd_per_million": 3.75
+}

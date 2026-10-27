@@ -1,0 +1,53 @@
+{
+  "baseline": {
+    "calls": [
+      {
+        "label": "Main model on an unchanged fixed subscription",
+        "usd": "0",
+        "basis": "explicit fixed/incremental cost assumption",
+        "usage_source": "user-declared marginal billing assumption",
+        "missing": []
+      }
+    ],
+    "other_usd": "0",
+    "total_usd": "0"
+  },
+  "routed": {
+    "calls": [
+      {
+        "label": "Main model on the same fixed subscription",
+        "usd": "0",
+        "basis": "explicit fixed/incremental cost assumption",
+        "usage_source": "user-declared marginal billing assumption",
+        "missing": []
+      },
+      {
+        "label": "Jev missing_route",
+        "usd": "0.000038094",
+        "basis": "configured rates times supplied usage",
+        "usage_source": "provider-reported tokens; configured rates, not invoice",
+        "missing": []
+      },
+      {
+        "label": "Jev missing_worker",
+        "usd": "0.000037632",
+        "basis": "configured rates times supplied usage",
+        "usage_source": "provider-reported tokens; configured rates, not invoice",
+        "missing": []
+      },
+      {
+        "label": "Jev research_leakage",
+        "usd": "0.00003822",
+        "basis": "configured rates times supplied usage",
+        "usage_source": "provider-reported tokens; configured rates, not invoice",
+        "missing": []
+      }
+    ],
+    "other_usd": "0",
+    "total_usd": "0.000113946"
+  },
+  "savings_usd": "-0.000113946",
+  "savings_percent": null,
+  "complete": true,
+  "note": "Arithmetic over supplied usage/rates; scenario counts are not billed usage. Explicit other costs are required; zero means an assumption of no difference. Currency is USD."
+}

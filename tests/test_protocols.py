@@ -86,6 +86,47 @@ class ProtocolTests(unittest.TestCase):
             with patch.object(jev_gate, 'DEFAULT_USER_CONFIG', path), patch.dict(os.environ, {}, clear=True):
                 self.assertEqual(jev_gate.load_config()['model'], 'personal-model')
 
+    def test_anthropic_request_response_and_cache_counts(self):
+        cfg = dict(self.cfg, protocol='anthropic')
+        wire = json.loads(jev_gate.payload(cfg, self.supplied))
+        self.assertIn('system', wire)
+        self.assertNotIn('response_format', wire)
+        self.assertEqual([m['role'] for m in wire['messages']], ['user'])
+        response = {'model': 'test', 'stop_reason': 'end_turn', 'content': [
+            {'type': 'text', 'text': '{"answers":{"refund":{"noul":0.9}}}'}],
+            'usage': {'input_tokens': 10, 'output_tokens': 5,
+                      'cache_read_input_tokens': 80, 'cache_creation_input_tokens': 20}}
+        normalized = jev_gate.normalize_result(cfg, response)
+        self.assertEqual(normalized['usage']['input_tokens'], 110)
+        self.assertEqual(normalized['usage']['cache_write_input_tokens'], 20)
+        prices = dict(cfg, input_usd_per_million=3, output_usd_per_million=15,
+                      cached_input_usd_per_million=0.3, cache_write_input_usd_per_million=3.75)
+        self.assertAlmostEqual(jev_gate.usage_cost(prices, normalized['usage']), 0.000204)
+        response['stop_reason'] = 'max_tokens'
+        with self.assertRaises(ValueError):
+            jev_gate.normalize_result(cfg, response)
+
+    def test_openai_cache_read_is_not_double_charged(self):
+        prices = dict(self.cfg, input_usd_per_million=2, output_usd_per_million=8,
+                      cached_input_usd_per_million=0.2)
+        usage = {'input_tokens': 100, 'cache_read_input_tokens': 80, 'output_tokens': 5}
+        self.assertAlmostEqual(jev_gate.usage_cost(prices, usage), 0.000096)
+        self.assertIsNone(jev_gate.usage_cost(prices, dict(usage, cache_read_input_tokens=101)))
+
+    def test_anthropic_transport_uses_key_header_and_records_cost(self):
+        with tempfile.TemporaryDirectory() as temp:
+            cfg = dict(self.cfg, protocol='anthropic', private_dir=temp)
+            response = {'model': 'test', 'stop_reason': 'end_turn', 'content': [
+                {'type': 'text', 'text': '{"answers":{"refund":{"noul":0.9}}}'}],
+                'usage': {'input_tokens': 10, 'output_tokens': 5}}
+            with patch.object(jev_gate, 'get_key', return_value='test-only'), patch.object(jev_gate.request, 'build_opener') as opener:
+                opener.return_value.open.return_value.__enter__.return_value.read.return_value = json.dumps(response).encode()
+                jev_gate.decide(cfg, self.supplied)
+            sent = opener.return_value.open.call_args.args[0]
+            self.assertEqual(sent.get_header('X-api-key'), 'test-only')
+            self.assertEqual(sent.get_header('Anthropic-version'), '2023-06-01')
+            self.assertFalse(sent.has_header('Authorization'))
+
 
 if __name__ == '__main__':
     unittest.main()

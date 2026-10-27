@@ -1,0 +1,59 @@
+{
+  "baseline": {
+    "calls": [
+      {
+        "label": "Primary API baseline",
+        "usd": null,
+        "basis": "unknown",
+        "usage_source": "not yet measured",
+        "missing": [
+          "input_tokens",
+          "output_tokens"
+        ]
+      }
+    ],
+    "other_usd": null,
+    "total_usd": null
+  },
+  "routed": {
+    "calls": [
+      {
+        "label": "Primary API routed",
+        "usd": null,
+        "basis": "unknown",
+        "usage_source": "not yet measured",
+        "missing": [
+          "input_tokens",
+          "output_tokens"
+        ]
+      },
+      {
+        "label": "Jev missing_route",
+        "usd": "0.000038094",
+        "basis": "configured rates times supplied usage",
+        "usage_source": "provider-reported tokens; configured rates, not invoice",
+        "missing": []
+      },
+      {
+        "label": "Jev missing_worker",
+        "usd": "0.000037632",
+        "basis": "configured rates times supplied usage",
+        "usage_source": "provider-reported tokens; configured rates, not invoice",
+        "missing": []
+      },
+      {
+        "label": "Jev research_leakage",
+        "usd": "0.00003822",
+        "basis": "configured rates times supplied usage",
+        "usage_source": "provider-reported tokens; configured rates, not invoice",
+        "missing": []
+      }
+    ],
+    "other_usd": null,
+    "total_usd": null
+  },
+  "savings_usd": null,
+  "savings_percent": null,
+  "complete": false,
+  "note": "Arithmetic over supplied usage/rates; scenario counts are not billed usage. Explicit other costs are required; zero means an assumption of no difference. Currency is USD."
+}

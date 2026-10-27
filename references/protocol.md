@@ -4,7 +4,7 @@ Run `python <skill>/scripts/jev_gate.py configure` once for a non-echoing key pr
 
 Commands: `status`, `self-test`, `usage`, and `decide --request <file.json> --dry-run` make no provider calls. `decide --request <file.json>` sends one request, with no automatic retry. Use the installed Python runtime if `python` is not on PATH. Status means the credential can be loaded; only a live request verifies connectivity and acceptance.
 
-The public default is direct TypeSafe with model `jev-1.14.0`; a private user config preserves personal choices such as GapGPT. `protocol` selects `systemone` or `openai-chat`; see [access methods](access.md) for ready-to-edit profiles. The native question types are described in [TypeSafe's introduction](https://docs.typesafe.ai/introduction); provider limits and billing may differ. The helper accepts the user's string, list-of-strings, or question-object instruction forms and validates returned IDs, values, and probability distributions.
+The public default is direct TypeSafe with model `jev-1.14.0`; a private user config preserves personal choices such as GapGPT. `protocol` selects `systemone`, `openai-chat` or `anthropic`; see [access methods](access.md) for ready-to-edit profiles. The native question types are described in [TypeSafe's introduction](https://docs.typesafe.ai/introduction); provider limits and billing may differ. The helper accepts the user's string, list-of-strings, or question-object instruction forms and validates returned IDs, values, and probability distributions.
 
 ## Example: select the next experiment
 
@@ -52,3 +52,5 @@ The SQLite ledger reserves an estimate before a call under a transaction, shared
 An unavailable API or rejected response means report the limitation and continue with the selected model. Do not silently loosen validation, switch endpoints, or retry. Diagnose a failed connection with secret-free status information before another user-authorized test.
 
 For local, cloud, first-party and third-party access, read [access methods](access.md). For context manifests and measured-versus-estimated cost, read [cost routing](cost-routing.md).
+
+For disjoint cache categories, subscription versus metered billing, provider-reported cost and the decimal comparison tool, read [financial accounting](financial-accounting.md).

@@ -4,7 +4,7 @@
 
 A provider-configurable agent skill for evidence triage, Clean Code/OOP, missing-integration checks, and reproducible research. Route bounded decisions to your chosen inexpensive model while your selected chat model owns reasoning, implementation, synthesis and verification.
 
-The historical name and invocation **`$jev-research-engineering`** remain compatible. **Jev is optional:** native System One providers and JSON-capable OpenAI-compatible chat models are supported. The author's personal GapGPT route is not bundled into other users' setup.
+The historical name and invocation **`$jev-research-engineering`** remain compatible. **Jev is optional:** System One, OpenAI-compatible Chat Completions, and Anthropic Messages contracts are supported. The author's personal GapGPT route is not bundled into other users' setup.
 
 **Experimental:** context-only token reduction has been measured, but total cost savings have not. The small synthetic workload uses more input text after instruction overhead. Skip routing for small tasks; see the full [token comparison](benchmarks/token-counts.md).
 
@@ -28,6 +28,7 @@ Copy one complete JSON profile to `~/.config/research-engineering-router/config.
 | TypeSafe / Jev direct | [default config](references/config.json) | Published native contract |
 | OpenRouter / Jev | [openrouter-jev.json](examples/providers/openrouter-jev.json) | Native `/api/v1/systemone`; use an OpenRouter key |
 | OpenRouter / another chat model | [openrouter-chat.json](examples/providers/openrouter-chat.json) | Replace model and both illustrative prices; JSON mode required |
+| Anthropic-compatible Messages model | [anthropic.json](examples/providers/anthropic.json) | Model, API version, key and all prices configurable |
 | Local Ollama / another model | [ollama.json](examples/providers/ollama.json) | Replace with your installed model; explicit loopback HTTP |
 
 Cloud workers and private endpoints use the same contracts. Endpoint, model, protocol, key environment variable, private storage and prices are configurable. [Access methods](references/access.md) lists requirements, official sources and which routes were actually tested. This repository supplies no Jev weights and no claim of offline Jev inference.
@@ -71,7 +72,18 @@ python scripts/benchmark_triage.py --live --output benchmarks/new-run.json
 
 [The first live run](benchmarks/first-run.md) retained all nine critical evidence items across three easy synthetic cases. [Exact tokenizer text counts](benchmarks/token-counts.md) show **1316 → 1093 tokens (16.95% fewer)** for the routed context with `o200k_base`. With one **923-token** entrypoint load, the result is **2016 tokens (53.19% more)** across those small cases. This is a negative net-token result, not a savings claim. Actual primary-model billing and financial savings remain unmeasured.
 
-Protocol tests cover native request compatibility, chat JSON/usage normalization, rejected truncation/malformed responses, configured credential variables, loopback restrictions, transport accounting, and preservation of personal configuration. Selection tests cover required evidence and safe fallback. Live GapGPT succeeded; other provider profiles have documented contracts and offline tests, not live-provider certification.
+Protocol tests cover native request compatibility, Anthropic Messages/header/cache handling, chat JSON/usage normalization, rejected truncation/malformed responses, configured credential variables, loopback restrictions, transport accounting, and preservation of personal configuration. Selection tests cover required evidence and safe fallback. Live GapGPT succeeded; other provider profiles have documented contracts and offline tests, not live-provider certification.
+
+## Financial interpretation
+
+A fixed subscription does not have the same marginal billing as a metered API. Under an unchanged subscription with no paid overage, reduced context does not directly lower the subscription bill; the decision API adds its configured-rate cost. Quota/capacity effects remain unmeasured. The [financial accounting guide](references/financial-accounting.md) separates subscription and API scenarios and explains cache normalization, failed reservations and exact decimal arithmetic.
+
+```bash
+python scripts/compare_costs.py --input examples/subscription-cost-comparison.json
+python scripts/compare_costs.py --input examples/api-cost-comparison.json
+```
+
+Missing API usage or prices stays unknown; the calculator never fills it with a fake zero. Provider-reported cost is distinguished from configured-rate estimates and explicit fixed-cost assumptions.
 
 ## Discovery
 

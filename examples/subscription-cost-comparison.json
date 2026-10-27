@@ -1,0 +1,59 @@
+{
+  "baseline": [
+    {
+      "label": "Main model on an unchanged fixed subscription",
+      "fixed_cost_usd": "0",
+      "usage_source": "user-declared marginal billing assumption"
+    }
+  ],
+  "routed": [
+    {
+      "label": "Main model on the same fixed subscription",
+      "fixed_cost_usd": "0",
+      "usage_source": "user-declared marginal billing assumption"
+    },
+    {
+      "label": "Jev missing_route",
+      "usage": {
+        "input_tokens": 907,
+        "output_tokens": 134
+      },
+      "rates": {
+        "input_usd_per_million": "0.042",
+        "output_usd_per_million": "0"
+      },
+      "usage_source": "provider-reported tokens; configured rates, not invoice"
+    },
+    {
+      "label": "Jev missing_worker",
+      "usage": {
+        "input_tokens": 896,
+        "output_tokens": 136
+      },
+      "rates": {
+        "input_usd_per_million": "0.042",
+        "output_usd_per_million": "0"
+      },
+      "usage_source": "provider-reported tokens; configured rates, not invoice"
+    },
+    {
+      "label": "Jev research_leakage",
+      "usage": {
+        "input_tokens": 910,
+        "output_tokens": 136
+      },
+      "rates": {
+        "input_usd_per_million": "0.042",
+        "output_usd_per_million": "0"
+      },
+      "usage_source": "provider-reported tokens; configured rates, not invoice"
+    }
+  ],
+  "baseline_other_usd": "0",
+  "routed_other_usd": "0",
+  "assumptions": [
+    "Same subscription fee in both cases; common fixed fees cancel.",
+    "No paid overage, upgrade, or avoided renewal is measured.",
+    "Jev rates are configured assumptions; exact charges require provider billing."
+  ]
+}

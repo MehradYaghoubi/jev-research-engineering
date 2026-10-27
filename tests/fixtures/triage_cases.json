@@ -1,0 +1,155 @@
+[
+  {
+    "name": "missing_route",
+    "task": "A POST /refunds handler works in unit tests but the running app returns 404. Identify evidence needed to diagnose missing wiring and verify the smallest fix.",
+    "expected_critical_ids": [
+      "startup",
+      "refund_route",
+      "http_test"
+    ],
+    "candidates": [
+      {
+        "id": "startup",
+        "summary": "Application bootstrap registers users and orders routers, but not refunds.",
+        "body": "app.py: app = FastAPI(); app.include_router(users.router); app.include_router(orders.router). No refunds import or registration is present. This is the production application entry point used by the server. Startup succeeds and the other endpoints respond normally."
+      },
+      {
+        "id": "refund_route",
+        "summary": "Refund router defines POST /refunds and calls the refund service successfully in isolation.",
+        "body": "refunds.py: router = APIRouter(); @router.post(\"/refunds\") async def refund(body): return await service.refund(body). The router is exported but never imported by app.py. Its direct handler unit test succeeds. Existing service validation rejects nonpositive amounts."
+      },
+      {
+        "id": "http_test",
+        "summary": "HTTP integration tests instantiate the production app; there is no refund endpoint assertion.",
+        "body": "test_http.py: client = TestClient(app); test_orders checks GET /orders. Refund service tests call the service directly and never perform POST /refunds. Add a request through this app instance and verify both valid and invalid payload behavior so a disconnected router cannot pass."
+      },
+      {
+        "id": "theme",
+        "summary": "Dashboard CSS color tokens and fonts.",
+        "body": "theme.css defines text colors, border radius, spacing, typography, dark mode and focus outlines for the dashboard. It has no imports from the application backend and does not control HTTP routing. Theme tests are visual snapshots of the account page."
+      },
+      {
+        "id": "avatar",
+        "summary": "Profile avatar image crop and upload-preview layout.",
+        "body": "AvatarPreview handles local file selection, crop coordinates, an image preview and accessible labels. The user-profile API is a separate feature. No refund action, startup hook, service call or route table appears in this component."
+      },
+      {
+        "id": "markdown",
+        "summary": "Markdown article renderer settings.",
+        "body": "The article renderer supports headings, lists, tables and fenced code blocks. It escapes raw HTML and applies syntax highlighting to static documentation. It neither registers backend routes nor sends financial requests or constructs the production test client."
+      },
+      {
+        "id": "weather",
+        "summary": "Optional weather widget display formatting.",
+        "body": "WeatherWidget maps external forecast observations into daily cards and applies locale-specific temperature and date formatting. Its API client calls only the forecast service. It has no connection to payment processing, the refund module or server startup."
+      },
+      {
+        "id": "license",
+        "summary": "Third-party font license notices.",
+        "body": "This document lists license notices for bundled fonts and icon assets, attribution requirements, and upstream distribution URLs. It is static legal metadata for visual assets and is not read by backend startup or HTTP test registration."
+      }
+    ]
+  },
+  {
+    "name": "missing_worker",
+    "task": "Invoice jobs are published to invoice.created but no handler runs. Diagnose a missing producer-to-worker connection without redesigning the queue.",
+    "expected_critical_ids": [
+      "producer",
+      "worker_boot",
+      "registry"
+    ],
+    "candidates": [
+      {
+        "id": "producer",
+        "summary": "Invoice service publishes invoice.created after transaction commit.",
+        "body": "invoices.py commits the invoice record and publishes event name invoice.created with invoice_id. The queue dashboard shows the message was delivered to the broker. The unit test checks that publish was called; it does not run a consumer or assert handler execution."
+      },
+      {
+        "id": "worker_boot",
+        "summary": "Production worker startup subscribes only to user.created.",
+        "body": "worker_main.py builds the existing broker client and calls subscribe(\"user.created\", handle_user). Then it starts the consumer loop. There is no subscription for invoice.created. Startup logs are normal and user-created messages are consumed successfully."
+      },
+      {
+        "id": "registry",
+        "summary": "handle_invoice exists but is absent from the subscription registry; queue integration check is missing.",
+        "body": "handlers.py exports handle_invoice(message), which loads invoice_id and sends the invoice. The registration map includes only user.created. The handler unit test passes when called directly. Verify publication through the broker and the production worker registration, with a bounded wait and deterministic test broker."
+      },
+      {
+        "id": "gallery",
+        "summary": "Static portfolio image gallery ordering.",
+        "body": "The gallery page sorts image descriptions and creates accessible thumbnail links. It is a build-time static page and neither imports the message broker nor invokes the invoice service. There are no invoice event names or background job registrations in this module."
+      },
+      {
+        "id": "date_format",
+        "summary": "Client calendar day-label formatting.",
+        "body": "The calendar formatting helper maps locale and date values to day names. It is a pure client-side transformation with no side effects, events, startup hooks, broker settings or subscription registry. Tests cover daylight-saving boundary display."
+      },
+      {
+        "id": "search_style",
+        "summary": "Search field spacing and focus ring.",
+        "body": "Search field styling defines width, padding and focus behavior for the help center. Its selectors are local to the static help interface. The file does not reference the invoice dashboard, queue consumer, transaction manager or worker process."
+      },
+      {
+        "id": "music",
+        "summary": "Offline audio playlist sorting example.",
+        "body": "The playlist example sorts local song metadata by artist and duration. It is a standalone demonstration and is excluded from the backend package. It does not use invoices, broker connections, consumer groups, event names or production worker startup."
+      },
+      {
+        "id": "font_cache",
+        "summary": "Browser cache headers for font downloads.",
+        "body": "The static web server supplies immutable cache headers for versioned font assets. It is unrelated to the application broker and does not contain invoice event subscriptions. The deployment serves this configuration from a separate assets-only container."
+      }
+    ]
+  },
+  {
+    "name": "research_leakage",
+    "task": "A retrieval method claims better QA accuracy. Identify evidence needed to assess whether the improvement generalizes and choose a valid next experiment.",
+    "expected_critical_ids": [
+      "results",
+      "selection",
+      "holdout"
+    ],
+    "candidates": [
+      {
+        "id": "results",
+        "summary": "Both methods were scored on the same 20 examples: baseline 12 correct, retrieval 13 correct.",
+        "body": "The evaluation table records baseline accuracy of 12/20 and retrieval accuracy of 13/20 on a single case set. No uncertainty intervals or repeated samples are reported. The same evaluator scored both outputs, and the run used one retrieval configuration. These observations alone do not establish generalization."
+      },
+      {
+        "id": "selection",
+        "summary": "The 20 examples and scoring rubric were selected after examining retrieval outputs.",
+        "body": "The experiment log states that the researcher inspected the retrieval answers, removed difficult examples and revised the rubric before choosing the final 20 cases. This introduces selection bias and test-set leakage. An apparent improvement can reflect case selection rather than a more effective retrieval method."
+      },
+      {
+        "id": "holdout",
+        "summary": "Untouched cases are available; preregister scoring and run both methods on them.",
+        "body": "A separate untouched set contains additional cases from the same target task. Freeze the scoring rubric and both methods before evaluating it. Report the paired outcomes and relevant uncertainty. Keep the selected exploratory cases as development data, not as an independent test of generalization."
+      },
+      {
+        "id": "brand_palette",
+        "summary": "Marketing site palette survey.",
+        "body": "A design survey compares saturated accent colors, whitespace and hero typography for a public marketing page. It includes preference comments about visual hierarchy but no QA answers, scoring rubric, held-out examples, retrieval settings or evidence about model accuracy."
+      },
+      {
+        "id": "keyboard",
+        "summary": "Keyboard layout preference poll.",
+        "body": "The developer survey asks whether participants prefer compact keyboards and alternative keycap layouts. Its responses are ergonomic opinions unrelated to the retrieval experiment, evaluation contamination, measured answer correctness or experimental design."
+      },
+      {
+        "id": "parking",
+        "summary": "Campus parking capacity report.",
+        "body": "The facilities report describes the number of parking spaces by campus building, renovation schedules and accessibility signage. It does not evaluate a QA method or report evidence about dataset selection, scoring, retrieval experiments or held-out accuracy."
+      },
+      {
+        "id": "coffee",
+        "summary": "Coffee shop menu translation draft.",
+        "body": "The translation draft contains names of drinks, ingredient descriptions and serving sizes for a cafe. It has no relevance to the QA evaluation task, no benchmark outcomes and no observation of contamination, scoring procedure or retrieval performance."
+      },
+      {
+        "id": "garden",
+        "summary": "Garden irrigation calendar.",
+        "body": "The garden calendar tracks watering intervals for plants across seasons and soil types. It is a horticultural schedule rather than research evidence about a language-model retrieval method. It contains no evaluation cases, accuracy results or experimental controls."
+      }
+    ]
+  }
+]

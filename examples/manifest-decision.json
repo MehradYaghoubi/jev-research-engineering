@@ -1,0 +1,11 @@
+{
+  "state": {
+    "text": "The customer requests a refund for a duplicate payment."
+  },
+  "questions": {
+    "refund": {
+      "type": "noul",
+      "instructions": "Is a refund requested?"
+    }
+  }
+}

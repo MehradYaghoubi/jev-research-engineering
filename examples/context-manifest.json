@@ -1,0 +1,18 @@
+{
+  "task": "Make the refund endpoint reachable from application startup",
+  "candidates": [
+    {
+      "id": "startup",
+      "summary": "app.py registers orders and users routers",
+      "required": true
+    },
+    {
+      "id": "refund",
+      "summary": "refunds.py exports a router; no startup registration found"
+    },
+    {
+      "id": "theme",
+      "summary": "CSS color tokens"
+    }
+  ]
+}

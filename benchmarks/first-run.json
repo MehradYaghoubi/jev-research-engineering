@@ -1,0 +1,131 @@
+{
+  "checked_at_utc": "2026-10-27T22:16:31.090702+00:00",
+  "scope": "Three synthetic fixtures; expected IDs frozen before calls and withheld from provider",
+  "passed": true,
+  "complete": true,
+  "cases": [
+    {
+      "case": "missing_route",
+      "status": "selected",
+      "passed": true,
+      "critical_recall": 1.0,
+      "missing_critical_ids": [],
+      "baseline_context_bytes": 2356,
+      "routed_context_bytes_including_output": 1663,
+      "context_byte_reduction_percent": 29.41,
+      "latency_seconds": 1.633,
+      "routing": {
+        "status": "selected",
+        "selected_ids": [
+          "startup",
+          "refund_route",
+          "http_test"
+        ],
+        "excluded_ids": [
+          "theme",
+          "avatar",
+          "markdown",
+          "weather",
+          "license"
+        ],
+        "verify_ids": [
+          "theme"
+        ],
+        "provider_calls": 1,
+        "model": "typesafe/jev-1.14-20261014",
+        "usage": {
+          "input_tokens": 907,
+          "output_tokens": 134
+        },
+        "estimated_usd": 3.8094e-05,
+        "cost_basis": "reported tokens"
+      }
+    },
+    {
+      "case": "missing_worker",
+      "status": "selected",
+      "passed": true,
+      "critical_recall": 1.0,
+      "missing_critical_ids": [],
+      "baseline_context_bytes": 2405,
+      "routed_context_bytes_including_output": 1720,
+      "context_byte_reduction_percent": 28.48,
+      "latency_seconds": 0.513,
+      "routing": {
+        "status": "selected",
+        "selected_ids": [
+          "producer",
+          "worker_boot",
+          "registry"
+        ],
+        "excluded_ids": [
+          "gallery",
+          "date_format",
+          "search_style",
+          "music",
+          "font_cache"
+        ],
+        "verify_ids": [
+          "gallery"
+        ],
+        "provider_calls": 1,
+        "model": "typesafe/jev-1.14-20261014",
+        "usage": {
+          "input_tokens": 896,
+          "output_tokens": 136
+        },
+        "estimated_usd": 3.763200000000001e-05,
+        "cost_basis": "reported tokens"
+      }
+    },
+    {
+      "case": "research_leakage",
+      "status": "selected",
+      "passed": true,
+      "critical_recall": 1.0,
+      "missing_critical_ids": [],
+      "baseline_context_bytes": 2532,
+      "routed_context_bytes_including_output": 1792,
+      "context_byte_reduction_percent": 29.23,
+      "latency_seconds": 1.19,
+      "routing": {
+        "status": "selected",
+        "selected_ids": [
+          "results",
+          "selection",
+          "holdout"
+        ],
+        "excluded_ids": [
+          "brand_palette",
+          "keyboard",
+          "parking",
+          "coffee",
+          "garden"
+        ],
+        "verify_ids": [
+          "keyboard"
+        ],
+        "provider_calls": 1,
+        "model": "typesafe/jev-1.14-20261014",
+        "usage": {
+          "input_tokens": 910,
+          "output_tokens": 136
+        },
+        "estimated_usd": 3.8219999999999997e-05,
+        "cost_basis": "reported tokens"
+      }
+    }
+  ],
+  "total_jev_estimated_usd": 0.000113946,
+  "total_context_byte_reduction_percent": 29.04,
+  "primary_model_tokens": null,
+  "primary_model_cost": null,
+  "actual_total_cost_savings": null,
+  "limitations": [
+    "Source bytes are not billed tokens.",
+    "No primary-model baseline or billing telemetry.",
+    "Synthetic relevance checks do not verify a real implementation or research outcome.",
+    "Prompt, search, skill-loading and correction overhead are not measured.",
+    "One run; no held-out generalization claim; failure is retained without retries."
+  ]
+}

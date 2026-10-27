@@ -1,0 +1,4 @@
+interface:
+  display_name: "Jev Research & Engineering"
+  short_description: "Evidence-led research and engineering with Jev"
+  default_prompt: "Use $jev-research-engineering to investigate this task, select relevant evidence, and verify the smallest complete solution with my current chat model."

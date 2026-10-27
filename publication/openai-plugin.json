@@ -1,0 +1,39 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "research-engineering-router",
+  "version": "0.2.1",
+  "description": "Provider-configurable evidence triage and verified software/research workflows.",
+  "author": {
+    "name": "Mehrad Yaghoubi"
+  },
+  "homepage": "https://github.com/MehradYaghoubi/jev-research-engineering",
+  "repository": "https://github.com/MehradYaghoubi/jev-research-engineering",
+  "license": "MIT",
+  "keywords": [
+    "agent-skills",
+    "research",
+    "software-engineering"
+  ],
+  "extensions": {
+    "com.openai": {
+      "requires_local_executor": true,
+      "interface": {
+        "displayName": "Research & Engineering Router",
+        "shortDescription": "Evidence triage with your configured decision model",
+        "longDescription": "Routes bounded evidence decisions to a configured provider while the selected main model owns reasoning, implementation and verification. Python 3.10+ and provider configuration are required. No guaranteed token or cost savings.",
+        "developerName": "Mehrad Yaghoubi",
+        "category": "Productivity",
+        "capabilities": [
+          "Read",
+          "Write"
+        ],
+        "websiteURL": "https://github.com/MehradYaghoubi/jev-research-engineering",
+        "privacyPolicyURL": "https://github.com/MehradYaghoubi/jev-research-engineering/blob/main/PRIVACY.md",
+        "termsOfServiceURL": "https://github.com/MehradYaghoubi/jev-research-engineering/blob/main/LICENSE",
+        "defaultPrompt": [
+          "Use Research & Engineering Router to select relevant evidence and verify a scoped implementation or research task."
+        ]
+      }
+    }
+  }
+}

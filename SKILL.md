@@ -5,7 +5,7 @@ description: Reduce expensive-model context with configurable decision-model tri
 
 # Research & Engineering Router
 
-The historical invocation `$jev-research-engineering` stays compatible. The decision model is configurable and need not be Jev. Keep the selected chat model and reasoning setting as lead. Do not add an independent supervisor through this skill.
+Use the host's skill loader (Codex `$jev-research-engineering`, Claude `/jev-research-engineering`, Pi `/skill:jev-research-engineering`) or request this skill by name. Resolve bundled paths from this skill directory and use the available Python 3.10+ interpreter (`python`, `python3` or `py -3`). The decision model is configurable and need not be Jev. Keep the selected chat model and reasoning setting as lead. Do not add an independent supervisor through this skill.
 
 ## Route only work that it replaces
 
@@ -33,4 +33,4 @@ Normally use one batch per decision boundary; at most configured `max_jev_calls_
 
 Exclude keys, secret files, full chat history and unrelated private data. Never print credentials, headers or raw provider errors. Get only relevant authorized excerpts across the configured trust boundary.
 
-Preserve Ponytail full: the smallest complete change, existing dependencies, necessary checks and concise reporting. Report verified results first, then actual decision calls/usage and configured-rate cost. Label missing usage unknown. Compare main-model cached/uncached input/output, routing, tool and correction costs before claiming financial savings. Tokenizer text counts, cold-start instruction overhead and actual billed tokens are different measurements. End with untested limits and material risks.
+Use the smallest complete change, existing dependencies, necessary checks and concise reporting; honor Ponytail full when it is present. No other installed skill or host-specific tool is required. Report verified results first, then actual decision calls/usage and configured-rate cost. Label missing usage unknown. Compare main-model cached/uncached input/output, routing, tool and correction costs before claiming financial savings. Tokenizer text counts, cold-start instruction overhead and actual billed tokens are different measurements. End with untested limits and material risks.

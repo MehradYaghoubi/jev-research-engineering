@@ -1,0 +1,17 @@
+{
+  "name": "mehrad-research-tools",
+  "owner": {
+    "name": "Mehrad Yaghoubi"
+  },
+  "plugins": [
+    {
+      "name": "research-engineering-router",
+      "source": "./",
+      "description": "Provider-configurable evidence triage, missing-integration checks and reproducible research.",
+      "version": "0.2.0"
+    }
+  ],
+  "metadata": {
+    "description": "Portable evidence triage, software engineering and research tools."
+  }
+}

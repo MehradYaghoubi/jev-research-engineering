@@ -1,0 +1,40 @@
+{
+  "agent": "Codex CLI with existing ChatGPT authentication",
+  "test_type": "actual model execution and code modification in an isolated workspace",
+  "skill_read_observed": true,
+  "baseline": {
+    "tests": 3,
+    "failing": 2,
+    "passing": 1
+  },
+  "result": {
+    "tests": 3,
+    "passing": 3,
+    "failing": 0,
+    "independent_parent_verification": "passed"
+  },
+  "change": {
+    "files_changed": [
+      "app.py"
+    ],
+    "before": "ROUTES = {}\n\ndef dispatch(path, amount):\n    handler = ROUTES.get(path)\n    return {\"status\": 404} if handler is None else handler(amount)\n",
+    "after": "from refunds import handle_refund\n\nROUTES = {\"/refunds\": handle_refund}\n\ndef dispatch(path, amount):\n    handler = ROUTES.get(path)\n    return {\"status\": 404} if handler is None else handler(amount)\n",
+    "tests_unchanged": true,
+    "validation_handler_unchanged": true
+  },
+  "helper_payload_dry_run": {
+    "passed": true,
+    "provider_request_sent": false
+  },
+  "previous_attempt": {
+    "status": "environment-blocked",
+    "reason": "Windows sandbox denied temp directory access; fixture was moved inside the authorized workspace"
+  },
+  "usage_measurement": "No completed-turn token usage event was available when the report was captured; no savings claim.",
+  "limits": [
+    "Codex model execution was tested; other agents have installation/manifest checks only.",
+    "Claude CLI was present but not authenticated; its native plugin and marketplace validation passed.",
+    "Pi-native git package metadata was verified against official docs; no Pi model run was performed."
+  ],
+  "decision_api": "Skipped for this small fixture; helper dry-run independently verified sent=false"
+}

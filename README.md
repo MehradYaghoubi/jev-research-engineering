@@ -2,7 +2,7 @@
 
 [![skills.sh](https://skills.sh/b/MehradYaghoubi/jev-research-engineering)](https://skills.sh/MehradYaghoubi/jev-research-engineering)
 
-A provider-configurable agent skill for evidence triage, Clean Code/OOP, missing-integration checks, and reproducible research. Route bounded decisions to your chosen inexpensive model while your selected chat model owns reasoning, implementation, synthesis and verification.
+A portable Agent Skills package for Codex, Claude Code, Pi, OpenCode and compatible hosts, with provider-configurable evidence triage, Clean Code/OOP, missing-integration checks, and reproducible research. Route bounded decisions to your chosen inexpensive model while your selected chat model owns reasoning, implementation, synthesis and verification.
 
 The historical name and invocation **`$jev-research-engineering`** remain compatible. **Jev is optional:** System One, OpenAI-compatible Chat Completions, and Anthropic Messages contracts are supported. The author's personal GapGPT route is not bundled into other users' setup.
 
@@ -11,12 +11,18 @@ The historical name and invocation **`$jev-research-engineering`** remain compat
 ## Install
 
 ```bash
-npx skills add MehradYaghoubi/jev-research-engineering --skill jev-research-engineering -g -a codex
+# Choose your agents interactively
+npx skills add MehradYaghoubi/jev-research-engineering --skill jev-research-engineering -g
+
+# Or target specific agents
+npx skills add MehradYaghoubi/jev-research-engineering --skill jev-research-engineering -g -a codex claude-code pi opencode
 ```
 
-Or clone this repository and copy it to your agent's skills directory (`~/.codex/skills/jev-research-engineering` for the default Codex setup). Python 3.10+ is required for the helpers; runtime code uses only the standard library. The Skills CLI has its own Node.js requirements. Other SKILL.md-compatible agents may load the instructions and scripts, but only Codex installation is verified here.
+Pi-native: `pi install git:github.com/MehradYaghoubi/jev-research-engineering@v0.2.0`.
 
-Invoke `$jev-research-engineering`. Existing users keep their invocation and can update without losing a private user config. Newly installed skills are available on the next turn; reopen the client if it has not refreshed discovery.
+Claude marketplace: `/plugin marketplace add MehradYaghoubi/jev-research-engineering`, then `/plugin install research-engineering-router@mehrad-research-tools`.
+
+[Full installation guide](references/installation.md) covers activation commands, VS Code extensions, manual ZIP installs, runtime requirements, compatibility limits and avoiding duplicate installs. Python 3.10+ is needed for the helpers; runtime code uses only the standard library. Existing private provider setup survives updates. No other skill is required.
 
 ## Choose a provider once
 
@@ -70,7 +76,7 @@ python scripts/measure_tokens.py
 python scripts/benchmark_triage.py --live --output benchmarks/new-run.json
 ```
 
-[The first live run](benchmarks/first-run.md) retained all nine critical evidence items across three easy synthetic cases. [Exact tokenizer text counts](benchmarks/token-counts.md) show **1316 → 1093 tokens (16.95% fewer)** for the routed context with `o200k_base`. With one **923-token** entrypoint load, the result is **2016 tokens (53.19% more)** across those small cases. This is a negative net-token result, not a savings claim. Actual primary-model billing and financial savings remain unmeasured.
+[The first live run](benchmarks/first-run.md) retained all nine critical evidence items across three easy synthetic cases. [Exact tokenizer text counts](benchmarks/token-counts.md) show **1316 → 1093 tokens (16.95% fewer)** for the routed context with `o200k_base`. At the measured pre-portability revision, one **923-token** entrypoint load, gave **2016 tokens (53.19% more)** across those small cases. This is a negative net-token result, not a savings claim. Actual primary-model billing and financial savings remain unmeasured.
 
 Protocol tests cover native request compatibility, Anthropic Messages/header/cache handling, chat JSON/usage normalization, rejected truncation/malformed responses, configured credential variables, loopback restrictions, transport accounting, and preservation of personal configuration. Selection tests cover required evidence and safe fallback. Live GapGPT succeeded; other provider profiles have documented contracts and offline tests, not live-provider certification.
 
@@ -86,6 +92,8 @@ python scripts/compare_costs.py --input examples/api-cost-comparison.json
 Missing API usage or prices stays unknown; the calculator never fills it with a fake zero. Provider-reported cost is distinguished from configured-rate estimates and explicit fixed-cost assumptions.
 
 ## Discovery
+
+[Versioned downloads and releases](https://github.com/MehradYaghoubi/jev-research-engineering/releases) · [Agent installation guide](references/installation.md) · [Compatibility checks](benchmarks/agent-installation.json)
 
 Install through the command above and share the public repository. Skills.sh discovery uses real installation telemetry; submission or an install does not guarantee a ranking. [Distribution status](references/distribution.md) records submissions separately from confirmed listings. No popularity, usage or financial-savings claims are fabricated.
 

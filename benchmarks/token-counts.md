@@ -13,7 +13,7 @@ Every expected critical source remains selected. Routed strings include selected
 
 ## Instruction overhead changes the conclusion
 
-The current skill entrypoint costs **923 tokens** in this encoding. Adding one load across these three tasks gives **2016 tokens**, compared with **1316** in the direct full-context baseline: **53.19% more input text tokens**. The small workload therefore does **not** demonstrate a net token saving. Per-request references, tool wrappers, repeated chat history, cache behavior and output/correction work can add further differences.
+The pre-portability entrypoint measured at revision `3a6c2ab` cost **923 tokens** in this encoding. Adding one load across these three tasks gives **2016 tokens**, compared with **1316** in the direct full-context baseline: **53.19% more input text tokens**. The small workload therefore does **not** demonstrate a net token saving. Per-request references, tool wrappers, repeated chat history, cache behavior and output/correction work can add further differences.
 
 The right response is to skip decision-model routing on small workloads, not to advertise the context-only percentage as end-to-end savings. The skill now explicitly checks whether likely eliminated work justifies routing overhead.
 
@@ -38,3 +38,5 @@ More inexpensive-model tokens need not increase total dollars. For the recorded 
 For example, at a purely hypothetical primary input rate of **$3/M**, baseline input is **$0.003948** and warm routed input plus Jev is **$0.003392946**: approximately **14.06% lower**, after the Jev charge. Counting one 923-token skill load instead gives **$0.006161946**, approximately **56.08% higher** on these tiny cases. These are arithmetic scenarios, not the selected chat model's current price or a measured cost reduction. Real output, tool costs, cached-input rates, repeated-history charges and correctness/correction work must be measured.
 
 [Reproducible cost assumptions](cost-example.json). The 53.19% cold input-token increase came from added **primary-model instructions**, not from adding Jev's differently priced token usage. A skill already present in context may still incur repeated or cached input charges on subsequent requests; warm accounting must be verified by the host.
+
+The v0.2.0 portability instructions change entrypoint length. Recorded results above remain historical; running the counter against a newer revision measures its current instruction overhead.

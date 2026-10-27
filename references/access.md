@@ -1,50 +1,55 @@
-# Access methods
+# Choose your provider and decision model
 
-The Python helpers use the native System One JSON contract: HTTPS POST with `model`, `state`, keyed `questions`, bearer authentication, and keyed `answers`. They do not use `/chat/completions`. Credentials belong to the selected provider; a GapGPT key is not a TypeSafe or Vercel key. Only GapGPT has been tested live in this repository's first evaluation.
+The provider, model ID, wire protocol, credential variable, prices and private storage are configurable. Jev is optional. Your selected chat model remains the lead researcher/coder. Existing `$jev-research-engineering`, `jev_gate.py` and `JEV_GATE_CONFIG` names remain compatible.
 
-## 1. Run locally, call GapGPT (tested)
+## Available profiles
 
-Use the public default endpoint `https://api.gapgpt.app/v1/systemone` and model `typesafe/jev-1.14`. On Windows run `python scripts/jev_gate.py configure` once. It prompts without echo and encrypts the key using Windows user-bound DPAPI outside the skill. `status` checks whether it can be loaded; use a live `decide` for an actual connection test. Existing users can keep their private config via `--config` or `JEV_GATE_CONFIG`.
+| Profile | Endpoint / protocol | Model | Credential variable | Verification |
+| --- | --- | --- | --- | --- |
+| [GapGPT](../examples/providers/gapgpt.json) | `https://api.gapgpt.app/v1/systemone` / `systemone` | `typesafe/jev-1.14` | `GAPGPT_API_KEY` | Live Jev calls passed |
+| [TypeSafe default](config.json) | `https://api.typesafe.ai/v1/systemone` / `systemone` | `jev-1.14.0` | `DECISION_API_KEY` | Official contract; offline adapter tests |
+| [OpenRouter Jev](../examples/providers/openrouter-jev.json) | `https://openrouter.ai/api/v1/systemone` / `systemone` | `typesafe/jev-1.14` | `OPENROUTER_API_KEY` | Official contract; no OpenRouter key used here |
+| [OpenRouter chat model](../examples/providers/openrouter-chat.json) | `https://openrouter.ai/api/v1/chat/completions` / `openai-chat` | Your JSON-capable model | `OPENROUTER_API_KEY` | Mocked transport/response tests |
+| [Local Ollama](../examples/providers/ollama.json) | `http://127.0.0.1:11434/v1/chat/completions` / `openai-chat` | Your installed JSON-capable model | None for this explicit loopback profile | Official compatibility docs; no local inference tested |
 
-The helper is local; inference happens at the remote provider. This is not offline Jev inference. Request-size and estimated-budget controls apply, but provider billing is authoritative.
+Profiles are complete JSON configs. Copy the appropriate profile to `~/.config/research-engineering-router/config.json` for one-time personal setup, outside any installed skill. Replace every `REPLACE_...` model and the illustrative chat input/output prices before calling. A native System One-compatible non-Jev model can also be selected if your provider exposes it. A chat model must actually support the request fields used below. Provider/model changes require a workload-quality check; a syntactically valid answer is not evidence of equivalent accuracy or calibration.
 
-## 2. Direct TypeSafe API (documented; not tested here)
+Config precedence: `--config`, then `DECISION_GATE_CONFIG`, then legacy `JEV_GATE_CONFIG`, then the private user config if it exists, then public `references/config.json`. Public defaults use TypeSafe, while the author's private GapGPT setup remains separate. Editing public files is unnecessary and updates cannot overwrite the private user config.
 
-Get your own key from the [TypeSafe console](https://console.typesafe.ai/keys). Copy `references/config.json` to a private path outside the repository, set `endpoint` to `https://api.typesafe.ai/v1/systemone`, `model` to `jev-1.14.0` (or a model returned by its model-list endpoint), and set the correct prices and private directory. The published input rate was $0.042 per million tokens and output free when these docs were checked; verify current rates before use.
+## Credentials and persistent setup
+
+Each profile has a separate `private_dir`. On Windows run `python scripts/jev_gate.py configure` after selecting the personal config. The non-echoing prompt writes user-bound DPAPI ciphertext there. Alternatively inject the exact `api_key_env` named in the config from a secret manager. No other provider's environment variable is used as fallback. For old configs without `api_key_env`, `JEV_API_KEY` remains supported.
+
+A GapGPT key cannot be reused at OpenRouter or TypeSafe. Do not share provider credential directories unless you intend to use the same credential. DPAPI ciphertext does not work under another user or in a Linux container. For cloud runners use a runtime environment secret and a private config; retain `usage.sqlite` in persistent private storage if its daily estimate must survive restarts. Other machines have separate ledgers, not a globally enforced quota.
 
 ```bash
-export JEV_GATE_CONFIG="$HOME/.config/jev/typesafe.json"
-# Inject JEV_API_KEY from your shell's secret manager, not a committed .env file.
 python scripts/jev_gate.py status
-python scripts/jev_gate.py decide --request examples/manifest-decision.json
-```
-
-The sample request pins no model, so the configuration supplies it. Official sources: [quickstart](https://docs.typesafe.ai/introduction/quickstart), [HTTP contract](https://docs.typesafe.ai/api/system-one), [models and prices](https://docs.typesafe.ai/models). Provider limits can exceed this helper's conservative limits; the helper supports only text, noul, choice and score, not experimental assets or box questions.
-
-## 3. Run in cloud CI, container, or remote agent
-
-Use the same Python scripts and a private configuration, with `JEV_API_KEY` injected as a runtime secret and `JEV_GATE_CONFIG` pointing to that config. The helper explicitly reads `JEV_API_KEY`; map a provider-specific secret into that name. Windows DPAPI ciphertext cannot be copied into a Linux container or another user's account.
-
-Mount a persistent private directory for `usage.sqlite` if the daily estimate must survive restarts. Processes sharing that directory use the same SQLite ledger. Separate machines or ephemeral directories have separate estimates, not a globally enforced spending cap. Never run paid API calls automatically on untrusted pull requests or print secrets in CI logs. The bundled offline tests require no credentials; there is no live-test GitHub Action.
-
-## 4. Vercel AI Gateway or another external API
-
-Vercel documents Jev via its AI SDK decision integration and a TypeSafe-compatible API. See [the official integration](https://vercel.com/i/jev-agent-control) and [current SDK naming](https://vercel.com/i/ai-sdk-evaluation-to-decisions). These are alternative integration paths, not a claim that all gateway endpoints accept this helper's wire format.
-
-Use this helper only with a provider's documented native System One endpoint and model ID, then run a schema/usage test with that provider's key. A Gateway `/v1/decisions` endpoint uses a different request/response contract; changing only `endpoint` is insufficient. SDK `boolean` and native `noul` are not interchangeable field names without an adapter. No gateway adapter or failover is bundled. OpenRouter and other providers may offer Jev, but availability, native route, model IDs and pricing must be verified in their current docs before configuration.
-
-## 5. Local or private compatible server
-
-The helpers can call an explicitly configured HTTPS System One-compatible server with a trusted TLS certificate, a nonempty bearer credential and the same answer schema. For a private CA, install trust through your runtime/OS configuration; certificate verification must remain enabled. HTTP loopback and disabled TLS verification are deliberately unsupported. A reverse proxy can expose an existing compatible local service over trusted HTTPS, but this repository does not install a server, issue certificates, or supply a decision model.
-
-A compatible open model is an alternative backend, not proof of identical Jev quality, calibration, or cost. This repository contains no Jev weights and provides no verified offline Jev inference method. Re-evaluate the selection threshold and quality gates after changing any model/provider. For fully offline use, run the deterministic tests or direct local analysis without Jev; simulated responses are test fixtures, not inference.
-
-## Connection and troubleshooting
-
-```bash
-python scripts/jev_gate.py self-test
 python scripts/jev_gate.py decide --request examples/manifest-decision.json --dry-run
 python scripts/jev_gate.py decide --request examples/manifest-decision.json
 ```
 
-The first two commands are offline. The third is a billable live call; do not repeat it automatically. Check endpoint/model, provider account access, credential readiness, TLS and network if it fails. Never display raw provider errors or authorization headers. If the route returns an unsupported envelope or usage shape, keep usage unknown rather than inventing token counts. No silent endpoint fallback occurs.
+`status` checks credential availability and selected route, not network connectivity. The dry-run validates the final wire payload without sending it. The final command is one billable request; no automatic retries or provider failover occur.
+
+## Supported contracts
+
+**systemone** sends `{model, state, questions}` and expects `{answers, model, usage}`. Jev on GapGPT, direct TypeSafe, and OpenRouter's native System One route use this shape. Supported primitives are text-only `noul`, `choice` and `score`; no experimental images or box questions. The different OpenRouter `/api/alpha/decisions` and OpenAI-style `/v1/decisions` shapes are not this protocol.
+
+**openai-chat** sends `model`, a system message and a JSON user message, `response_format: {type: json_object}`, and `max_tokens`. The model must return plain JSON containing an `answers` map under `choices[0].message.content` with `finish_reason: stop`. The adapter rejects truncated, malformed or wrong-ID answers. Usage maps `prompt_tokens`/`completion_tokens` to input/output. The helper does not support streaming, tools, Responses-only models, provider-specific reasoning parameters, or chat endpoints that reject JSON mode/max_tokens. Do not silently remove validation or change protocol when a model is incompatible.
+
+JSON-mode chat outputs may imitate probabilities without meaningful calibration; use them as uncalibrated relevance judgments. Verify selected evidence and retain required IDs. Record output costs as well as input costs: another model's output is not assumed free. Missing usage stays unknown with a conservative reservation. Prices in the non-Jev chat profile are illustrative and must be replaced.
+
+## Local, cloud and custom deployments
+
+The same scripts run on a laptop, server, container or remote agent with Python 3.10+. Hosted inference remains remote even when the helper runs locally. This repository supplies no Jev weights or offline Jev inference. A local alternative model is a different backend, not equivalent Jev.
+
+For a local compatible chat server, start it using its official documentation and choose an installed model in the loopback profile. Local HTTP requires explicit `allow_http_loopback: true` and a literal `127.0.0.1` or `::1` host. `auth_required: false` is allowed only on loopback. Remote HTTP is rejected; custom cloud endpoints require HTTPS and authentication. Redirects are refused and TLS verification remains enabled. A local operator may still need to restrict who can access the model server.
+
+All runtime code uses the Python standard library. Only optional token-count measurement requires `tiktoken`. Offline unit tests use mocked responses and do not claim live provider compatibility. No paid API test runs automatically in CI or on pull requests.
+
+## Official sources checked
+
+- [TypeSafe System One contract](https://docs.typesafe.ai/api/system-one) and [models/pricing](https://docs.typesafe.ai/models).
+- [OpenRouter System One API](https://openrouter.ai/docs/api/api-reference/systemone/submit-a-system-one-request), [TypeSafe SDK compatibility](https://openrouter.ai/docs/guides/community/typesafe-sdk), and [Chat Completions contract](https://openrouter.ai/docs/api/api-reference/chat/create-a-chat-completion).
+- [Ollama OpenAI compatibility](https://docs.ollama.com/api/openai-compatibility).
+
+For Vercel or another gateway, select only a documented supported endpoint/contract and its own key; an advertised Jev model does not make every endpoint interchangeable. Check availability and rates again at setup time. Never print keys, headers or raw provider errors while diagnosing a rejected request.

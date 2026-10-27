@@ -1,84 +1,86 @@
-# Jev Research & Engineering
+# Research & Engineering Router
 
-A Codex skill that routes bounded decisions and evidence triage to Jev while keeping your selected chat model responsible for reasoning, research synthesis, and code.
+[![skills.sh](https://skills.sh/b/MehradYaghoubi/jev-research-engineering)](https://skills.sh/MehradYaghoubi/jev-research-engineering)
 
-**Goal:** reduce total workflow cost by giving the main model less irrelevant context to process. **Status:** early experimental release; live connectivity and synthetic triage are tested, but real main-model cost savings are not established.
+A provider-configurable agent skill for evidence triage, Clean Code/OOP, missing-integration checks, and reproducible research. Route bounded decisions to your chosen inexpensive model while your selected chat model owns reasoning, implementation, synthesis and verification.
 
-## How it works
+The historical name and invocation **`$jev-research-engineering`** remain compatible. **Jev is optional:** native System One providers and JSON-capable OpenAI-compatible chat models are supported. The author's personal GapGPT route is not bundled into other users' setup.
 
-1. Deterministic search/indexing produces compact candidate summaries without returning every source body to chat.
-2. Jev ranks relevance or makes a narrow typed decision over those summaries.
-3. The main model reads selected evidence, required dependencies, and the strongest excluded alternative that could matter.
-4. It implements or synthesizes the result and runs the appropriate acceptance checks.
+**Experimental:** context-only token reduction has been measured, but total cost savings have not. The small synthetic workload uses more input text after instruction overhead. Skip routing for small tasks; see the full [token comparison](benchmarks/token-counts.md).
 
-No independent supervisor, model switching, automatic retries, or extra runtime dependencies. Compatible with Ponytail full. Jev returns typed decisions; it does not write the implementation or research report. Routing adds a cost and should be skipped for simple tasks.
-
-## Engineering and research behavior
-
-- **Clean Code and OOP:** cohesive responsibilities, encapsulated invariants, explicit dependencies, composition, and the existing architecture. No ceremonial classes or speculative frameworks.
-- **Missing connections:** compare the required trigger-to-result path with actual route registration, DI, events, workers, config, permissions, persistence, exports and frontend/API mappings. Existing-reference graphs alone cannot prove a never-written edge exists. Verify behavior through a real entry-point test.
-- **Research:** primary sources, provenance, contrary evidence, freshness, and separation of observations from inference. Jev cannot create valid citations or verify unread sources.
-- **R&D:** explicit hypothesis, baseline, discriminating experiment, measurable success, reproducibility, negative results, and a stopping condition.
-- **Budget and privacy:** bounded requests, a shared estimated daily ledger, encrypted Windows credentials or runtime secrets, required-context retention and visible fallback.
-
-## Install in Codex
-
-Requires Python 3.10+ and Git. Python runtime code uses only the standard library.
+## Install
 
 ```bash
-git clone https://github.com/MehradYaghoubi/jev-research-engineering.git
+npx skills add MehradYaghoubi/jev-research-engineering --skill jev-research-engineering -g -a codex
 ```
 
-Copy the cloned folder to your Codex skills directory (`~/.codex/skills/jev-research-engineering`, or the corresponding skills directory under your configured Codex home). Do not overwrite an existing installation without preserving its private configuration. Invoke `$jev-research-engineering`; if a running client has not discovered it yet, reopen the chat/client.
+Or clone this repository and copy it to your agent's skills directory (`~/.codex/skills/jev-research-engineering` for the default Codex setup). Python 3.10+ is required for the helpers; runtime code uses only the standard library. The Skills CLI has its own Node.js requirements. Other SKILL.md-compatible agents may load the instructions and scripts, but only Codex installation is verified here.
 
-Suggested prompt:
+Invoke `$jev-research-engineering`. Existing users keep their invocation and can update without losing a private user config. Newly installed skills are available on the next turn; reopen the client if it has not refreshed discovery.
 
-> Use $jev-research-engineering with Ponytail full. Triage relevant evidence before loading full files, preserve required dependencies, check missing wiring, and verify the smallest complete solution. Report actual usage without promising savings.
+## Choose a provider once
 
-## Configure once
+Copy one complete JSON profile to `~/.config/research-engineering-router/config.json`:
 
-From the installed skill folder:
+| Decision route | Profile | Notes |
+| --- | --- | --- |
+| GapGPT / Jev | [gapgpt.json](examples/providers/gapgpt.json) | Live tested; use your own GapGPT key |
+| TypeSafe / Jev direct | [default config](references/config.json) | Published native contract |
+| OpenRouter / Jev | [openrouter-jev.json](examples/providers/openrouter-jev.json) | Native `/api/v1/systemone`; use an OpenRouter key |
+| OpenRouter / another chat model | [openrouter-chat.json](examples/providers/openrouter-chat.json) | Replace model and both illustrative prices; JSON mode required |
+| Local Ollama / another model | [ollama.json](examples/providers/ollama.json) | Replace with your installed model; explicit loopback HTTP |
+
+Cloud workers and private endpoints use the same contracts. Endpoint, model, protocol, key environment variable, private storage and prices are configurable. [Access methods](references/access.md) lists requirements, official sources and which routes were actually tested. This repository supplies no Jev weights and no claim of offline Jev inference.
+
+For authenticated Windows routes, run `python scripts/jev_gate.py configure` from the skill directory. It prompts without echo and stores DPAPI ciphertext outside the skill. For cloud/Linux/macOS, inject the exact configured credential environment variable through a secret manager. Existing configs without `api_key_env` still use `JEV_API_KEY`. Never commit credentials or reuse one provider's key at another provider.
+
+Private config precedence is `--config`, `DECISION_GATE_CONFIG`, legacy `JEV_GATE_CONFIG`, then the private user config, then public defaults. Public updates cannot overwrite the private user config.
+
+## Use
 
 ```bash
-python scripts/jev_gate.py configure
 python scripts/jev_gate.py status
-```
-
-Windows setup uses a non-echoing prompt and user-bound DPAPI. On Linux/macOS or cloud runners, inject `JEV_API_KEY` from a secret manager. Never commit a key. Configure endpoint/model/prices in a private JSON config and point `JEV_GATE_CONFIG` or `--config` to it. The public defaults use GapGPT; no credential is bundled. `private_dir` defaults to `~/.jev-research-engineering`, outside the repository.
-
-[Access methods](references/access.md) covers local execution, cloud runners, direct TypeSafe, external gateways, and private compatible servers. Local execution does not imply local Jev inference. [The protocol](references/protocol.md) documents the wire contract and accounting.
-
-## Select context or make a decision
-
-```bash
 python scripts/select_context.py --manifest examples/context-manifest.json
 python scripts/jev_gate.py decide --request examples/manifest-decision.json --dry-run
 python scripts/jev_gate.py decide --request examples/manifest-decision.json
 python scripts/jev_gate.py usage
 ```
 
-The selector emits IDs and usage rather than full evidence bodies. Keep the ID-to-source mapping locally and retrieve the selected sources afterward. Mark essential candidates required. See [cost routing](references/cost-routing.md) for manifests, failure behavior and the comparison method. `--dry-run` does not call the provider; `decide` without it and nontrivial selection are billable.
+`status` and dry-run are offline. Nontrivial selection and `decide` without dry-run call the configured model and may be billable. The selector accepts compact candidate summaries and returns source IDs; read full selected bodies afterward. Preserve required evidence and inspect the strongest excluded alternative. Do not load the whole corpus into the main model first. No automatic retry, provider switching or independent supervisor.
 
-## Tests and first evaluation
+[Wire protocol](references/protocol.md) · [Cost routing and manifests](references/cost-routing.md)
+
+## Quality rules
+
+- **Clean Code and meaningful OOP:** cohesive responsibilities, encapsulated invariants, composition and explicit collaborators; follow existing architecture without ceremonial classes or frameworks.
+- **Missing connections:** trace required trigger-to-result behavior and check route registration, DI, events, workers, config, permissions, persistence, exports and API mappings. A graph of existing references cannot prove an unwritten edge exists. Verify through an actual entry point.
+- **Research and R&D:** current primary evidence, provenance, contrary findings, explicit hypothesis, baseline, discriminating experiment, reproducibility and stopping conditions. No invented citations or benchmark outcomes.
+- **Cost and privacy:** routing must replace work; count instruction/output/correction overhead, keep secrets out of requests, validate answers, retain mandatory context and visibly fall back on failure. Chat-model probabilities are uncalibrated judgments, not confidence guarantees.
+
+## Tests and measured results
 
 ```bash
 python -m unittest discover -s tests -v
 python scripts/jev_gate.py self-test
-python scripts/benchmark_triage.py --live --output benchmarks/first-run.json
+# Optional tokenizer measurement; no inference calls:
+python -m pip install -r benchmarks/requirements.txt
+python scripts/measure_tokens.py
+# Explicitly opt-in billable synthetic rerun:
+python scripts/benchmark_triage.py --live --output benchmarks/new-run.json
 ```
 
-The first two commands are offline. The benchmark makes up to three provider calls on synthetic tasks: a missing HTTP registration, a missing worker subscription, and a research comparison with data leakage. Expected evidence IDs are frozen in the fixture before the call and never sent to Jev. It reports critical-evidence recall, delivered-context bytes including a verification candidate and routing-output overhead, elapsed time, actual provider usage, and configured-rate Jev cost. It does not run a second expensive main model or measure this chat's billing. [First-run results](benchmarks/first-run.md) state the observed outcome and limits.
+[The first live run](benchmarks/first-run.md) retained all nine critical evidence items across three easy synthetic cases. [Exact tokenizer text counts](benchmarks/token-counts.md) show **1316 → 1093 tokens (16.95% fewer)** for the routed context with `o200k_base`. With one **923-token** entrypoint load, the result is **2016 tokens (53.19% more)** across those small cases. This is a negative net-token result, not a savings claim. Actual primary-model billing and financial savings remain unmeasured.
 
-Compare real end-to-end quality, primary-model billed input/output and total cost before claiming savings. Context-byte reduction is only a proxy. Results on three synthetic cases do not establish generalization or safe autonomous routing.
+Protocol tests cover native request compatibility, chat JSON/usage normalization, rejected truncation/malformed responses, configured credential variables, loopback restrictions, transport accounting, and preservation of personal configuration. Selection tests cover required evidence and safe fallback. Live GapGPT succeeded; other provider profiles have documented contracts and offline tests, not live-provider certification.
 
-## Limits
+## Discovery
 
-The task call limit is agent-enforced, while the helper enforces per-request size and an estimated daily ledger. The ledger cannot cap billing in unrelated software or other machines. Source privacy review remains the operator's responsibility. The permissive relevance cutoff is not calibrated; missed context can harm quality. Fallback retains all candidates instead of forcing a reduction. No networked test runs in CI by default.
+Install through the command above and share the public repository. Skills.sh discovery uses real installation telemetry; submission or an install does not guarantee a ranking. [Distribution status](references/distribution.md) records submissions separately from confirmed listings. No popularity, usage or financial-savings claims are fabricated.
 
 ## فارسی
 
-هدف این اسکیل کاهش هزینهٔ کل از طریق سپردن تصمیم‌های محدود به Jev و کاهش زمینهٔ غیرضروری مدل اصلی است. مدل اصلی مسئول تحقیق، طراحی، کدنویسی و آزمون می‌ماند. اصول Clean Code، استفادهٔ معنادار از OOP و بررسی اتصال‌هایی که باید وجود داشته باشند اما پیاده نشده‌اند، جزو روند کار هستند. اتصال موفق و کاهش حجم متن به‌تنهایی اثبات صرفه‌جویی واقعی نیستند. کلید API در ریپوی عمومی قرار ندارد.
+ارائه‌دهنده و مدل تصمیم‌گیر قابل‌تغییر است: Jev از GapGPT، TypeSafe یا OpenRouter، یا مدل دیگری با API سازگار و خروجی JSON. تنظیمات شخصی خارج از پوشهٔ نصب می‌مانند. در آزمون کوچک، زمینه ۱۶٫۹۵٪ توکن کمتر داشت اما با سربار اسکیل مصرف بیشتر شد؛ صرفه‌جویی مالی هنوز اثبات نشده است. اصول Clean Code، OOP معنادار و بررسی اتصال‌های جاافتاده حفظ شده‌اند.
 
 ## License
 
-MIT. Independent community skill; not affiliated with TypeSafe, GapGPT, OpenAI or Vercel. Provider models, services and terms are separate from this repository's license.
+MIT. Independent community project; not affiliated with OpenAI, TypeSafe, GapGPT, OpenRouter, Ollama or Vercel. Provider software, models and service terms are separate.

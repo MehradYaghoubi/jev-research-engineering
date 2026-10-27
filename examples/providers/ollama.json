@@ -1,0 +1,17 @@
+{
+  "endpoint": "http://127.0.0.1:11434/v1/chat/completions",
+  "model": "REPLACE_WITH_YOUR_INSTALLED_MODEL",
+  "private_dir": "~/.research-engineering-router/ollama",
+  "max_request_bytes": 32000,
+  "daily_budget_usd": 0.1,
+  "timeout_seconds": 25,
+  "input_usd_per_million": 0,
+  "output_usd_per_million": 0,
+  "pricing_status": "No API charge assumed; hardware/electricity and hosting costs excluded",
+  "max_jev_calls_per_task": 6,
+  "protocol": "openai-chat",
+  "api_key_env": "DECISION_API_KEY",
+  "max_output_tokens": 2048,
+  "allow_http_loopback": true,
+  "auth_required": false
+}

@@ -1,0 +1,15 @@
+{
+  "endpoint": "https://openrouter.ai/api/v1/systemone",
+  "model": "typesafe/jev-1.14",
+  "private_dir": "~/.research-engineering-router/openrouter-jev",
+  "max_request_bytes": 32000,
+  "daily_budget_usd": 0.1,
+  "timeout_seconds": 25,
+  "input_usd_per_million": 0.042,
+  "output_usd_per_million": 0.0,
+  "pricing_status": "Estimated default; verify rates with your configured provider",
+  "max_jev_calls_per_task": 6,
+  "protocol": "systemone",
+  "api_key_env": "OPENROUTER_API_KEY",
+  "max_output_tokens": 2048
+}

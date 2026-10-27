@@ -1,0 +1,48 @@
+{
+  "cases": [
+    {
+      "case": "missing_route",
+      "baseline_text_tokens": 448,
+      "routed_text_tokens": 377,
+      "saved_text_tokens": 71,
+      "reduction_percent": 15.85,
+      "all_critical_evidence_selected": true
+    },
+    {
+      "case": "missing_worker",
+      "baseline_text_tokens": 434,
+      "routed_text_tokens": 361,
+      "saved_text_tokens": 73,
+      "reduction_percent": 16.82,
+      "all_critical_evidence_selected": true
+    },
+    {
+      "case": "research_leakage",
+      "baseline_text_tokens": 442,
+      "routed_text_tokens": 367,
+      "saved_text_tokens": 75,
+      "reduction_percent": 16.97,
+      "all_critical_evidence_selected": true
+    }
+  ],
+  "baseline_text_tokens": 1324,
+  "routed_text_tokens": 1105,
+  "context_only_reduction_percent": 16.54,
+  "skill_entrypoint_tokens_once": 930,
+  "routed_plus_one_skill_load_tokens": 2035,
+  "reduction_with_one_skill_load_percent": -53.7,
+  "billed_primary_model_tokens": null,
+  "actual_financial_savings": null,
+  "limitations": [
+    "Exact text counts for the named encoding, not a model-specific billing measurement.",
+    "Main-model tokenizer mapping is not verified for the selected chat model.",
+    "Context-only measurement includes the selected bodies, a verification candidate and routing JSON.",
+    "One skill entrypoint load is shown separately; references, chat/tool wrappers, cached-input pricing and repeated history may add overhead.",
+    "Uses recorded selections; no new inference and no independent direct-model task run.",
+    "Tiny synthetic cases do not establish workload-wide savings."
+  ],
+  "encoding": "cl100k_base",
+  "tokenizer_version": "0.14.0",
+  "measured_at_utc": "2026-10-27T22:30:31.098204+00:00",
+  "provider_calls": 0
+}

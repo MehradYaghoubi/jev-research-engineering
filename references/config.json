@@ -1,12 +1,15 @@
 {
-  "endpoint": "https://api.gapgpt.app/v1/systemone",
-  "model": "typesafe/jev-1.14",
-  "private_dir": "~/.jev-research-engineering",
+  "endpoint": "https://api.typesafe.ai/v1/systemone",
+  "model": "jev-1.14.0",
+  "private_dir": "~/.research-engineering-router/typesafe",
   "max_request_bytes": 32000,
   "daily_budget_usd": 0.1,
   "timeout_seconds": 25,
   "input_usd_per_million": 0.042,
   "output_usd_per_million": 0.0,
   "pricing_status": "Estimated default; verify rates with your configured provider",
-  "max_jev_calls_per_task": 6
+  "max_jev_calls_per_task": 6,
+  "protocol": "systemone",
+  "api_key_env": "DECISION_API_KEY",
+  "max_output_tokens": 2048
 }

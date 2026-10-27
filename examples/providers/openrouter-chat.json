@@ -1,0 +1,15 @@
+{
+  "endpoint": "https://openrouter.ai/api/v1/chat/completions",
+  "model": "REPLACE_WITH_A_JSON_CAPABLE_CHAT_MODEL",
+  "private_dir": "~/.research-engineering-router/openrouter-chat",
+  "max_request_bytes": 32000,
+  "daily_budget_usd": 0.1,
+  "timeout_seconds": 25,
+  "input_usd_per_million": 1.0,
+  "output_usd_per_million": 2.0,
+  "pricing_status": "Illustrative rates only; replace both with actual model prices before use",
+  "max_jev_calls_per_task": 6,
+  "protocol": "openai-chat",
+  "api_key_env": "OPENROUTER_API_KEY",
+  "max_output_tokens": 2048
+}

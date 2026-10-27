@@ -6,7 +6,7 @@ A portable Agent Skills package for Codex, Claude Code, Pi, OpenCode and compati
 
 The historical name and invocation **`$jev-research-engineering`** remain compatible. **Jev is optional:** System One, OpenAI-compatible Chat Completions, and Anthropic Messages contracts are supported. The author's personal GapGPT route is not bundled into other users' setup.
 
-**Experimental:** context-only token reduction has been measured, but total cost savings have not. The small synthetic workload uses more input text after instruction overhead. Skip routing for small tasks; see the full [token comparison](benchmarks/token-counts.md).
+**Experimental:** two real primary-agent A/B pairs increased total primary-model tokens **42.17%**, while uncached input fell **1.82%**. No net token or financial saving is established. Skip routing for small tasks; see the [real agent benchmark](benchmarks/real-agent-ab.md) and historical [context-only comparison](benchmarks/token-counts.md).
 
 ## Install
 
@@ -18,30 +18,101 @@ npx skills add MehradYaghoubi/jev-research-engineering --skill jev-research-engi
 npx skills add MehradYaghoubi/jev-research-engineering --skill jev-research-engineering -g -a codex claude-code pi opencode
 ```
 
-Pi-native: `pi install git:github.com/MehradYaghoubi/jev-research-engineering@v0.2.0`.
+Pi-native: `pi install git:github.com/MehradYaghoubi/jev-research-engineering@v0.2.1`.
 
 Claude marketplace: `/plugin marketplace add MehradYaghoubi/jev-research-engineering`, then `/plugin install research-engineering-router@mehrad-research-tools`.
 
 [Full installation guide](references/installation.md) covers activation commands, VS Code extensions, manual ZIP installs, runtime requirements, compatibility limits and avoiding duplicate installs. Python 3.10+ is needed for the helpers; runtime code uses only the standard library. Existing private provider setup survives updates. No other skill is required.
 
-## Choose a provider once
+## Configure and connect (complete quickstart)
 
-Copy one complete JSON profile to `~/.config/research-engineering-router/config.json`:
+Install the skill as above. To configure it from a terminal, clone this repository and run the commands from that checkout; the private user configuration is shared with your installed copies:
 
-| Decision route | Profile | Notes |
-| --- | --- | --- |
-| GapGPT / Jev | [gapgpt.json](examples/providers/gapgpt.json) | Live tested; use your own GapGPT key |
-| TypeSafe / Jev direct | [default config](references/config.json) | Published native contract |
-| OpenRouter / Jev | [openrouter-jev.json](examples/providers/openrouter-jev.json) | Native `/api/v1/systemone`; use an OpenRouter key |
-| OpenRouter / another chat model | [openrouter-chat.json](examples/providers/openrouter-chat.json) | Replace model and both illustrative prices; JSON mode required |
-| Anthropic-compatible Messages model | [anthropic.json](examples/providers/anthropic.json) | Model, API version, key and all prices configurable |
-| Local Ollama / another model | [ollama.json](examples/providers/ollama.json) | Replace with your installed model; explicit loopback HTTP |
+```bash
+git clone https://github.com/MehradYaghoubi/jev-research-engineering.git
+cd jev-research-engineering
+```
 
-Cloud workers and private endpoints use the same contracts. Endpoint, model, protocol, key environment variable, private storage and prices are configurable. [Access methods](references/access.md) lists requirements, official sources and which routes were actually tested. This repository supplies no Jev weights and no claim of offline Jev inference.
+Python 3.10+ is required. Use `python3` on systems where `python` is unavailable, or `py -3` on Windows. No runtime pip dependencies are needed.
 
-For authenticated Windows routes, run `python scripts/jev_gate.py configure` from the skill directory. It prompts without echo and stores DPAPI ciphertext outside the skill. For cloud/Linux/macOS, inject the exact configured credential environment variable through a secret manager. Existing configs without `api_key_env` still use `JEV_API_KEY`. Never commit credentials or reuse one provider's key at another provider.
+### 1. Choose the API contract and provider
 
-Private config precedence is `--config`, `DECISION_GATE_CONFIG`, legacy `JEV_GATE_CONFIG`, then the private user config, then public defaults. Public updates cannot overwrite the private user config.
+| Provider / model | Copy this complete profile | Protocol | Secret environment variable |
+| --- | --- | --- | --- |
+| GapGPT / Jev | [gapgpt.json](examples/providers/gapgpt.json) | `systemone` | `GAPGPT_API_KEY` |
+| TypeSafe / Jev direct | [config.json](references/config.json) | `systemone` | `DECISION_API_KEY` |
+| OpenRouter / Jev | [openrouter-jev.json](examples/providers/openrouter-jev.json) | `systemone` | `OPENROUTER_API_KEY` |
+| OpenRouter / another JSON-capable chat model | [openrouter-chat.json](examples/providers/openrouter-chat.json) | `openai-chat` | `OPENROUTER_API_KEY` |
+| Anthropic-compatible Messages model | [anthropic.json](examples/providers/anthropic.json) | `anthropic` | `ANTHROPIC_API_KEY` |
+| Local Ollama / installed chat model | [ollama.json](examples/providers/ollama.json) | `openai-chat` | None for explicit loopback profile |
+
+The provider name does not determine the wire format: `openai-chat` means Chat Completions JSON (`messages`, `response_format`, `choices`), `anthropic` means Messages (`system`, `messages`, text blocks and `x-api-key`), and `systemone` means native typed decisions (`state`, `questions`, `answers`). An OpenAI-compatible chat endpoint cannot serve a Jev System One request merely by changing the model ID. Choose a supported model and matching endpoint/contract.
+
+### 2. Create your private configuration
+
+Example for **GapGPT on Windows PowerShell**. If a config already exists, preserve it and use `--config` for a separate profile instead of overwriting it:
+
+```powershell
+$routerConfigDir = Join-Path $env:USERPROFILE '.config\research-engineering-router'
+$routerConfigFile = Join-Path $routerConfigDir 'config.json'
+New-Item -ItemType Directory -Force -Path $routerConfigDir | Out-Null
+if (Test-Path -LiteralPath $routerConfigFile) { throw 'A private config already exists; preserve it or choose another --config path.' }
+Copy-Item -LiteralPath '.\examples\providers\gapgpt.json' -Destination $routerConfigFile
+python scripts/jev_gate.py configure
+```
+
+`configure` asks for the key without echo and stores Windows user-bound DPAPI ciphertext outside the skill. **Do not paste a real key into JSON, README, a command argument, or Git.** A provider environment variable overrides the encrypted stored key.
+
+Example for **Linux/macOS using Bash**:
+
+```bash
+mkdir -p "$HOME/.config/research-engineering-router"
+# Stop here if this file already exists; preserve an existing private configuration.
+test ! -e "$HOME/.config/research-engineering-router/config.json" || exit 1
+cp examples/providers/gapgpt.json "$HOME/.config/research-engineering-router/config.json"
+read -r -s -p "GapGPT API key: " GAPGPT_API_KEY
+export GAPGPT_API_KEY
+```
+
+That environment secret lasts for this shell/session. For cloud, CI, or another agent process, inject the same configured variable through that host's secret manager; it cannot inherit a key entered in an unrelated terminal. DPAPI setup is Windows-only; environment secrets work across platforms. Ollama's explicit unauthenticated loopback profile does not need `configure`.
+
+To use another provider, copy its profile instead and use its credential variable. Edit `REPLACE_...` model IDs and illustrative prices before sending any request. Never reuse the GapGPT key at OpenRouter or Anthropic.
+
+| Setting | Meaning |
+| --- | --- |
+| `endpoint`, `model`, `protocol` | Full endpoint URL, provider-supported model ID, and matching contract |
+| `api_key_env`, `private_dir` | Secret variable name and provider-specific private credential/usage directory |
+| `input_usd_per_million`, `output_usd_per_million` | Actual rates for your chosen provider/model; example chat rates are placeholders |
+| `cached_input_usd_per_million`, `cache_write_input_usd_per_million` | Optional cache rates; set correctly when comparing cached requests |
+| `daily_budget_usd`, `max_request_bytes`, `max_output_tokens` | Estimated shared daily budget and request/output bounds |
+| `anthropic_version` | API version supported by your Anthropic-compatible provider |
+
+Config precedence: `--config`, `DECISION_GATE_CONFIG`, legacy `JEV_GATE_CONFIG`, private `~/.config/research-engineering-router/config.json`, then public defaults. Existing legacy configs without `api_key_env` use `JEV_API_KEY`. Updating the installed skill does not overwrite the private user config.
+
+### 3. Verify setup, then test the connection
+
+```bash
+# Offline: selected endpoint/model/protocol and credential availability
+python scripts/jev_gate.py status
+# Offline: validate the request without sending it (sent=false)
+python scripts/jev_gate.py decide --request examples/manifest-decision.json --dry-run
+# Live: one potentially billable request, no automatic retry
+python scripts/jev_gate.py decide --request examples/manifest-decision.json
+# Inspect the local estimated usage ledger
+python scripts/jev_gate.py usage
+```
+
+`credential_ready: true` does not prove connectivity. A successful live test returns validated `answers`, the served model, reported `usage` and a cost basis. Missing usage is reported unknown. Do not repeatedly run a failed request without diagnosis.
+
+For a separate config, place `--config /path/to/provider.json` **before** the command, for example `python scripts/jev_gate.py --config /path/to/provider.json status`. The context selector accepts `--config` too.
+
+Troubleshooting: missing credentials → configure or inject the exact named variable; request rejected → check model, protocol and JSON-mode support; TLS/network error → verify the documented endpoint and connectivity; budget exhausted → inspect `usage` and continue with the lead model. Do not print keys, auth headers or raw provider errors. [Full access requirements and tested routes](references/access.md).
+
+### 4. Activate in your agent
+
+Use the host's skills menu/name: Codex standalone `$jev-research-engineering` (plugin-aware builds may show `$research-engineering-router:jev-research-engineering`), Claude standalone `/jev-research-engineering`, Claude plugin `/research-engineering-router:jev-research-engineering`, Pi `/skill:jev-research-engineering`, or ask OpenCode to load the named skill. Start a new session if discovery has not refreshed.
+
+Example task: “Use Research & Engineering Router. Before loading a large corpus, triage evidence with my configured provider, retain required dependencies, check missing wiring, and verify the smallest complete change. Skip routing for small tasks and report actual usage without promising savings.”
 
 ## Use
 
@@ -76,7 +147,7 @@ python scripts/measure_tokens.py
 python scripts/benchmark_triage.py --live --output benchmarks/new-run.json
 ```
 
-[The first live run](benchmarks/first-run.md) retained all nine critical evidence items across three easy synthetic cases. [Exact tokenizer text counts](benchmarks/token-counts.md) show **1316 → 1093 tokens (16.95% fewer)** for the routed context with `o200k_base`. At the measured pre-portability revision, one **923-token** entrypoint load, gave **2016 tokens (53.19% more)** across those small cases. This is a negative net-token result, not a savings claim. Actual primary-model billing and financial savings remain unmeasured.
+[The first live run](benchmarks/first-run.md) retained all nine critical evidence items across three easy synthetic cases. [Exact tokenizer text counts](benchmarks/token-counts.md) show **1316 → 1093 tokens (16.95% fewer)** for the routed context with `o200k_base`. At the measured pre-portability revision, one **923-token** entrypoint load gave **2016 tokens (53.19% more)** across those small cases. This is a negative net-token result, not a savings claim. The new [real primary-agent A/B test](benchmarks/real-agent-ab.md) measured whole CLI runs: **617,245 baseline versus 877,518 routed input + output tokens (+42.17%)** across two pairs. Uncached input fell 1.82%; this is not total-token savings. All four outputs passed the same 13 acceptance cases and independent full-suite reruns. One decision call added 5,544 tokens and an estimated $0.000201684; subscription-bill savings remain unproven.
 
 Protocol tests cover native request compatibility, Anthropic Messages/header/cache handling, chat JSON/usage normalization, rejected truncation/malformed responses, configured credential variables, loopback restrictions, transport accounting, and preservation of personal configuration. Selection tests cover required evidence and safe fallback. Live GapGPT succeeded; other provider profiles have documented contracts and offline tests, not live-provider certification.
 
@@ -91,6 +162,17 @@ python scripts/compare_costs.py --input examples/api-cost-comparison.json
 
 Missing API usage or prices stays unknown; the calculator never fills it with a fake zero. Provider-reported cost is distinguished from configured-rate estimates and explicit fixed-cost assumptions.
 
+## Official marketplace publication
+
+A public GitHub release or self-hosted Claude marketplace is not an approved official directory listing.
+
+- **OpenAI public Plugins Directory:** upload the dedicated OpenAI plugin ZIP at [OpenAI Platform → Plugins](https://platform.openai.com/plugins). The publisher needs organization/project access with Apps Management Write (or owner access) and a verified publishing identity. Validate the imported package, resolve findings, submit for review, and publish only after approval. See the [official submission instructions](https://developers.openai.com/plugins/deploy/submission).
+- **Anthropic Directory:** submit the GitHub plugin through [claude.ai/directory/manage](https://claude.ai/directory/manage). A paid Claude plan and the appropriate role are required. Run strict local validation, then the portal's own validation and review. `claude-plugins-official` is a separate partner-managed marketplace; its listing is not obtained by submitting a generic GitHub PR. See [official publication guidance](https://code.claude.com/docs/en/plugins/publish).
+- **Pi package catalog:** publish the prepared npm package under your authenticated npm account with `pi-package` metadata; its catalog indexes npm packages. Git installation already works independently. `npm pack --dry-run` checks packaging; it is not npm publication.
+- **Skills.sh:** genuine installs through its CLI drive discovery. Do not create artificial installs/stars or describe an unverified listing as approved.
+
+[Submission packet and current blockers](references/official-submission.md) distinguishes prepared files, completed checks, submitted drafts and accepted listings. Account login/identity verification and final publisher attestations must be completed by the account owner; do not send passwords or authenticator codes in chat.
+
 ## Discovery
 
 [Versioned downloads and releases](https://github.com/MehradYaghoubi/jev-research-engineering/releases) · [Agent installation guide](references/installation.md) · [Compatibility checks](benchmarks/agent-installation.json)
@@ -99,7 +181,7 @@ Install through the command above and share the public repository. Skills.sh dis
 
 ## فارسی
 
-ارائه‌دهنده و مدل تصمیم‌گیر قابل‌تغییر است: Jev از GapGPT، TypeSafe یا OpenRouter، یا مدل دیگری با API سازگار و خروجی JSON. تنظیمات شخصی خارج از پوشهٔ نصب می‌مانند. در آزمون کوچک، زمینه ۱۶٫۹۵٪ توکن کمتر داشت اما با سربار اسکیل مصرف بیشتر شد؛ صرفه‌جویی مالی هنوز اثبات نشده است. اصول Clean Code، OOP معنادار و بررسی اتصال‌های جاافتاده حفظ شده‌اند.
+ارائه‌دهنده و مدل تصمیم‌گیر قابل‌تغییر است: Jev از GapGPT، TypeSafe یا OpenRouter، یا مدل دیگری با API سازگار و خروجی JSON. تنظیمات شخصی خارج از پوشهٔ نصب می‌مانند. در دو تست واقعی Codex، مجموع توکن مدل اصلی ۴۲٫۱۷٪ بیشتر و ورودی کش‌نشده ۱٫۸۲٪ کمتر شد؛ کاهش مصرف کل و صرفه‌جویی مالی اثبات نشده است. راهنمای تنظیم اتصال، انتخاب پروتکل و تست آنلاین در بخش Configure and connect آمده است. اصول Clean Code، OOP معنادار و بررسی اتصال‌های جاافتاده حفظ شده‌اند.
 
 ## License
 

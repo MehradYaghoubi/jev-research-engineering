@@ -45,7 +45,7 @@ def load_config(path=None):
         raise ValueError('A model ID is required')
     if cfg['model'].startswith('REPLACE_'):
         raise ValueError('Replace the example model ID before use')
-    if not isinstance(cfg['max_request_bytes'], int) or not 1 <= cfg['max_request_bytes'] <= 100000:
+    if not isinstance(cfg['max_request_bytes'], int) or isinstance(cfg['max_request_bytes'], bool) or not 1 <= cfg['max_request_bytes'] <= 100000:
         raise ValueError('Request bound must be between 1 and 100000 bytes')
     if not finite(cfg['timeout_seconds'], 1, 120):
         raise ValueError('Invalid timeout')

@@ -16,6 +16,19 @@ class ProtocolTests(unittest.TestCase):
         self.supplied = {'state': 'Refund requested', 'questions': {
             'refund': {'type': 'noul', 'instructions': 'Is a refund requested?'}}}
 
+    def test_max_request_bytes_rejects_booleans_and_invalid_values(self):
+        for value in (True, False, 0, -1, 100001, 1.0, '1', None):
+            with self.subTest(value=value):
+                with patch.object(Path, 'read_text', return_value=json.dumps(dict(self.cfg, max_request_bytes=value))):
+                    with self.assertRaisesRegex(ValueError, 'Request bound must be between 1 and 100000 bytes'):
+                        jev_gate.load_config('config.json')
+
+    def test_max_request_bytes_accepts_inclusive_integer_bounds(self):
+        for value in (1, 2, 32000, 99999, 100000):
+            with self.subTest(value=value):
+                with patch.object(Path, 'read_text', return_value=json.dumps(dict(self.cfg, max_request_bytes=value))):
+                    self.assertEqual(jev_gate.load_config('config.json')['max_request_bytes'], value)
+
     def test_chat_request_uses_configured_model_and_json_contract(self):
         cfg = dict(self.cfg, protocol='openai-chat', model='another-model', max_output_tokens=512)
         body = json.loads(jev_gate.payload(cfg, self.supplied))

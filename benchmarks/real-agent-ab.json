@@ -1,0 +1,134 @@
+{
+  "experiment": "Real Codex CLI baseline versus routed bug fix on this public repository",
+  "source_revision": "1e5ffceea29d472ef9a5841cdc7b4efb193f198b",
+  "task": "Fix configuration validation that admits JSON booleans as integer max_request_bytes. Preserve integer bounds 1..100000 and add regression tests. Identify implementation, relevant callers and validation tests.",
+  "cli_version": "0.162.1",
+  "configured_default_model": "gpt-6.1-sol",
+  "configured_default_effort": "medium",
+  "model_override": null,
+  "arms": {
+    "baseline": {
+      "usage": {
+        "input_tokens": 249115,
+        "cached_input_tokens": 209536,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1455,
+        "reasoning_output_tokens": 199
+      },
+      "input_plus_output_tokens": 250570,
+      "uncached_input_tokens": 39579,
+      "common_acceptance_checks": 13,
+      "acceptance_passed": true,
+      "full_suite_passed_independently": true,
+      "sandbox_suite_note": "Both arms encountered 5 temporary-directory permission errors inside the Windows sandbox; both full suites passed in independent parent verification.",
+      "completed_command_count": 6
+    },
+    "routed": {
+      "usage": {
+        "input_tokens": 410144,
+        "cached_input_tokens": 371200,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2266,
+        "reasoning_output_tokens": 326
+      },
+      "input_plus_output_tokens": 412410,
+      "uncached_input_tokens": 38944,
+      "common_acceptance_checks": 13,
+      "acceptance_passed": true,
+      "full_suite_passed_independently": true,
+      "sandbox_suite_note": "Both arms encountered 5 temporary-directory permission errors inside the Windows sandbox; both full suites passed in independent parent verification.",
+      "completed_command_count": 10
+    }
+  },
+  "input_plus_output_change_percent": 64.59,
+  "uncached_input_reduction_percent": 1.6,
+  "decision_routing": {
+    "selected_paths": [
+      "examples/providers/gapgpt.json",
+      "references/config.json",
+      "references/protocol.md",
+      "scripts/jev_gate.py",
+      "tests/test_protocols.py"
+    ],
+    "verify_paths": [
+      "tests/test_costs.py"
+    ],
+    "decision_model": "typesafe/jev-1.14-20261014",
+    "usage": {
+      "input_tokens": 4802,
+      "output_tokens": 742
+    },
+    "estimated_usd": 0.000201684,
+    "replication_note": "The second routed arm reused the first shortlist; one decision API call total across the two experiments."
+  },
+  "actual_financial_savings": null,
+  "conclusion": "Neither pair reduced total main-model tokens; routing overhead exceeded the benefit on this small task.",
+  "limits": [
+    "Two paired runs on one small task; stochastic behavior, not a generalized estimate.",
+    "Shared installed host context and cached prompt prefixes are included in reported input counts.",
+    "Cached input is a subset of input; reasoning output is reported separately and is not added twice.",
+    "Benchmark controller/setup conversation and parent verification are outside the two CLI usage totals.",
+    "Subscription quota effects and provider invoice were not measured.",
+    "The direct-capture replication was started while the first JSONL summary was delayed; both pairs are included."
+  ],
+  "replication": {
+    "baseline": {
+      "usage": {
+        "input_tokens": 364176,
+        "cached_input_tokens": 315136,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2499,
+        "reasoning_output_tokens": 526
+      },
+      "input_plus_output_tokens": 366675,
+      "uncached_input_tokens": 49040,
+      "common_acceptance_checks": 13,
+      "acceptance_passed": true,
+      "full_suite_passed_independently": true,
+      "independent_suite_tests": 27,
+      "sandbox_suite_note": "5 temporary-directory permission errors inside Windows sandbox; full suite passed in independent parent verification."
+    },
+    "routed": {
+      "usage": {
+        "input_tokens": 462397,
+        "cached_input_tokens": 414336,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2711,
+        "reasoning_output_tokens": 452
+      },
+      "input_plus_output_tokens": 465108,
+      "uncached_input_tokens": 48061,
+      "common_acceptance_checks": 13,
+      "acceptance_passed": true,
+      "full_suite_passed_independently": true,
+      "independent_suite_tests": 27,
+      "sandbox_suite_note": "5 temporary-directory permission errors inside Windows sandbox; full suite passed in independent parent verification."
+    }
+  },
+  "aggregate": {
+    "baseline": {
+      "input_plus_output_tokens": 617245,
+      "uncached_input_tokens": 88619,
+      "usage": {
+        "input_tokens": 613291,
+        "cached_input_tokens": 524672,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 3954,
+        "reasoning_output_tokens": 725
+      }
+    },
+    "routed": {
+      "input_plus_output_tokens": 877518,
+      "uncached_input_tokens": 87005,
+      "usage": {
+        "input_tokens": 872541,
+        "cached_input_tokens": 785536,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 4977,
+        "reasoning_output_tokens": 778
+      }
+    }
+  },
+  "aggregate_input_plus_output_change_percent": 42.17,
+  "aggregate_uncached_input_reduction_percent": 1.82
+}

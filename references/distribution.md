@@ -10,6 +10,7 @@ The public source of truth is [MehradYaghoubi/jev-research-engineering](https://
 | Skills.sh | Real installation using the official Skills CLI | Public listing verified on 2026-10-28; its Snyk audit still references the older optional tokenizer dependency pending refresh |
 | UseThisSkill / nodegenie list | Submit the public source through its Add a skill repository issue template | Not submitted: both connected integration and existing account API returned HTTP 403; browser form did not load usable controls |
 | SkillsMP | Public GitHub SKILL.md source eligible for its catalog crawl | Listing not verified; no direct submission endpoint confirmed |
+| Agensi | Free, non-exclusive listing linked to the MIT-licensed GitHub source | Free catalog verified; submission portal requires sign-in. Listing/helper-file support not yet confirmed; no listing submitted |
 | VoltAgent awesome-agent-skills | PR after community adoption | Not submitted: contribution rules exclude brand-new unproven skills |
 
 Sources: [Skills.sh discovery FAQ](https://skills.sh/docs/faq), [UseThisSkill submission template](https://github.com/nodegenie/awesome-agent-skills/blob/main/.github/ISSUE_TEMPLATE/add-skill-repo.yml), [SkillsMP about](https://skillsmp.com/about), [VoltAgent contribution criteria](https://github.com/VoltAgent/awesome-agent-skills/blob/main/CONTRIBUTING.md).

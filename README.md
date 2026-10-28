@@ -2,9 +2,26 @@
 
 [![skills.sh](https://skills.sh/b/MehradYaghoubi/jev-research-engineering)](https://skills.sh/MehradYaghoubi/jev-research-engineering)
 
-A portable Agent Skills package for Codex, Claude Code, Pi, OpenCode and compatible hosts, with provider-configurable evidence triage, Clean Code/OOP, missing-integration checks, and reproducible research. Route bounded decisions to your chosen inexpensive model while your selected chat model owns reasoning, implementation, synthesis and verification.
+A free, open-source skill that helps your coding agent read less irrelevant material before solving a coding or research task.
+
+Your main model stays in charge. When there is a large set of files or research sources, a cheaper model can first select the relevant evidence. The main model then checks that evidence and does the work. Small tasks skip the extra call.
+
+**Free to install and use under MIT.** Your chosen model provider may charge for API calls; local model hosting has its own requirements.
+
+If this helps your work, thank you for trying it. **[Give the project a GitHub star](https://github.com/MehradYaghoubi/jev-research-engineering)** if you find it useful, or share it with someone who could use it. Stars are optional; feedback and reproducible bug reports are welcome too.
 
 [Install](#install) · [How to use it](#how-to-use-it) · [Configure a provider](#configure-and-connect-complete-quickstart) · [Results table](#measured-results) · [فارسی](#فارسی)
+
+## What it helps with
+
+| Your task | How the skill helps |
+| --- | --- |
+| Understand a large codebase | Select relevant evidence before the main model reads it all |
+| Fix a feature that looks complete but does not work | Check missing connections such as routes, startup registration and background workers |
+| Write or review code | Apply Clean Code, meaningful OOP and checks through the actual entry point |
+| Research an API or technical question | Preserve source references, conflicting evidence and claims that need verification |
+
+Works with Codex, Claude Code, Pi, OpenCode and compatible skill loaders. API-assisted routing requires Python 3.10+, file/shell access and a configured provider. Jev is optional; see [provider setup](references/setup.md).
 
 ## One skill, several installation formats
 
@@ -65,100 +82,29 @@ You do not need to run the helper commands manually for every task; the agent in
 
 ## Configure and connect (complete quickstart)
 
-Install the skill as above. To configure it from a terminal, clone this repository and run the commands from that checkout; the private user configuration is shared with your installed copies:
+Install once, choose a provider, then run a task. No second skill or extra supervisor is needed.
+
+1. **Pick the model connection.** Use a matching System One, OpenAI-compatible Chat Completions or Anthropic Messages profile. A provider name alone does not determine the protocol.
+2. **Save private settings and credentials.** Follow the [Windows or Linux/macOS setup steps](references/setup.md#2-create-your-private-configuration). Keep API keys out of Git and chat. Existing working configuration needs no replacement.
+3. **Check the route.** From a repository checkout or the installed skill folder, run:
 
 ```bash
-git clone https://github.com/MehradYaghoubi/jev-research-engineering.git
-cd jev-research-engineering
-```
-
-Python 3.10+ is required. Use `python3` on systems where `python` is unavailable, or `py -3` on Windows. No runtime pip dependencies are needed.
-
-### 1. Choose the API contract and provider
-
-| Provider / model | Copy this complete profile | Protocol | Secret environment variable |
-| --- | --- | --- | --- |
-| GapGPT / Jev | [gapgpt.json](examples/providers/gapgpt.json) | `systemone` | `GAPGPT_API_KEY` |
-| TypeSafe / Jev direct | [config.json](references/config.json) | `systemone` | `DECISION_API_KEY` |
-| OpenRouter / Jev | [openrouter-jev.json](examples/providers/openrouter-jev.json) | `systemone` | `OPENROUTER_API_KEY` |
-| OpenRouter / another JSON-capable chat model | [openrouter-chat.json](examples/providers/openrouter-chat.json) | `openai-chat` | `OPENROUTER_API_KEY` |
-| Anthropic-compatible Messages model | [anthropic.json](examples/providers/anthropic.json) | `anthropic` | `ANTHROPIC_API_KEY` |
-| Local Ollama / installed chat model | [ollama.json](examples/providers/ollama.json) | `openai-chat` | None for explicit loopback profile |
-
-The provider name does not determine the wire format: `openai-chat` means Chat Completions JSON (`messages`, `response_format`, `choices`), `anthropic` means Messages (`system`, `messages`, text blocks and `x-api-key`), and `systemone` means native typed decisions (`state`, `questions`, `answers`). An OpenAI-compatible chat endpoint cannot serve a Jev System One request merely by changing the model ID. Choose a supported model and matching endpoint/contract.
-
-### 2. Create your private configuration
-
-Example for **GapGPT on Windows PowerShell**. If a config already exists, preserve it and use `--config` for a separate profile instead of overwriting it:
-
-```powershell
-$routerConfigDir = Join-Path $env:USERPROFILE '.config\research-engineering-router'
-$routerConfigFile = Join-Path $routerConfigDir 'config.json'
-New-Item -ItemType Directory -Force -Path $routerConfigDir | Out-Null
-if (Test-Path -LiteralPath $routerConfigFile) { throw 'A private config already exists; preserve it or choose another --config path.' }
-Copy-Item -LiteralPath '.\examples\providers\gapgpt.json' -Destination $routerConfigFile
-python scripts/jev_gate.py configure
-```
-
-`configure` asks for the key without echo and stores Windows user-bound DPAPI ciphertext outside the skill. **Do not paste a real key into JSON, README, a command argument, or Git.** A provider environment variable overrides the encrypted stored key.
-
-Example for **Linux/macOS using Bash**:
-
-```bash
-mkdir -p "$HOME/.config/research-engineering-router"
-# Stop here if this file already exists; preserve an existing private configuration.
-test ! -e "$HOME/.config/research-engineering-router/config.json" || exit 1
-cp examples/providers/gapgpt.json "$HOME/.config/research-engineering-router/config.json"
-read -r -s -p "GapGPT API key: " GAPGPT_API_KEY
-export GAPGPT_API_KEY
-```
-
-That environment secret lasts for this shell/session. For cloud, CI, or another agent process, inject the same configured variable through that host's secret manager; it cannot inherit a key entered in an unrelated terminal. DPAPI setup is Windows-only; environment secrets work across platforms. Ollama's explicit unauthenticated loopback profile does not need `configure`.
-
-To use another provider, copy its profile instead and use its credential variable. Edit `REPLACE_...` model IDs and illustrative prices before sending any request. Never reuse the GapGPT key at OpenRouter or Anthropic.
-
-| Setting | Meaning |
-| --- | --- |
-| `endpoint`, `model`, `protocol` | Full endpoint URL, provider-supported model ID, and matching contract |
-| `api_key_env`, `private_dir` | Secret variable name and provider-specific private credential/usage directory |
-| `input_usd_per_million`, `output_usd_per_million` | Actual rates for your chosen provider/model; example chat rates are placeholders |
-| `cached_input_usd_per_million`, `cache_write_input_usd_per_million` | Optional cache rates; set correctly when comparing cached requests |
-| `daily_budget_usd`, `max_request_bytes`, `max_output_tokens` | Estimated shared daily budget and request/output bounds |
-| `anthropic_version` | API version supported by your Anthropic-compatible provider |
-| `max_attempts`, `retry_budget_seconds` | At most 3 attempts (1 disables replay), bounded retry window; every attempted request is accounted separately |
-
-Config precedence: `--config`, `DECISION_GATE_CONFIG`, legacy `JEV_GATE_CONFIG`, private `~/.config/research-engineering-router/config.json`, then public defaults. Existing legacy configs without `api_key_env` use `JEV_API_KEY`. Updating the installed skill does not overwrite the private user config.
-
-### 3. Verify setup, then test the connection
-
-```bash
-# Offline: selected endpoint/model/protocol and credential availability
 python scripts/jev_gate.py status
-# Offline: validate the request without sending it (sent=false)
 python scripts/jev_gate.py decide --request examples/manifest-decision.json --dry-run
-# Live: one logical request, up to three billable attempts for transient errors
+# Optional live connection test; may be billable
 python scripts/jev_gate.py decide --request examples/manifest-decision.json
-# Inspect the local estimated usage ledger
-python scripts/jev_gate.py usage
 ```
 
-`credential_ready: true` does not prove connectivity. A successful live test returns validated `answers`, the served model, reported `usage` and a cost basis. Missing usage is reported unknown. Do not repeatedly run a failed request without diagnosis.
+4. **Invoke the skill and give it your task**, using the [examples above](#how-to-use-it). The agent decides whether routing would replace enough reading to justify the extra call. It does not reduce context already read by the main model.
 
-For a separate config, place `--config /path/to/provider.json` **before** the command, for example `python scripts/jev_gate.py --config /path/to/provider.json status`. The context selector accepts `--config` too.
+| Connection | Example profiles |
+| --- | --- |
+| Jev through GapGPT, TypeSafe or OpenRouter | [Choose a native System One profile](references/setup.md#1-choose-the-api-contract-and-provider) |
+| A JSON-capable model through an OpenAI-compatible endpoint | [OpenRouter chat](examples/providers/openrouter-chat.json) |
+| An Anthropic-compatible model | [Anthropic Messages](examples/providers/anthropic.json) |
+| A locally hosted compatible model | [Ollama example](examples/providers/ollama.json) |
 
-Troubleshooting: missing credentials → configure or inject the exact named variable; request rejected → check model, protocol and JSON-mode support; TLS/network error → verify the documented endpoint and connectivity; budget exhausted → inspect `usage` and continue with the lead model. Do not print keys, auth headers or raw provider errors. [Full access requirements and tested routes](references/access.md).
-
-### 4. Run a task
-
-Use the invocation and task examples in [How to use it](#how-to-use-it). You can use the same skill for code work and research; no second activation or separate Jev skill is needed.
-
-For integration into your own tooling, `prepare_context.py` accepts evidence bodies and returns selected evidence; the older `select_context.py` accepts summaries and returns source IDs. These are two helper interfaces inside the same skill. Start with `prepare_context.py` for new integrations:
-
-```bash
-python scripts/prepare_context.py --corpus examples/evidence-corpus.json --audit new-audit.json
-```
-
-This deliberately small example makes no provider call. Larger authorized corpora can make billable calls. The helper must run before primary-model intake; it cannot remove evidence already read by the primary model. Usage is stored in the separate audit file. See the [corpus contract](references/cost-routing.md).
+[Full setup, budgets, retries and troubleshooting](references/setup.md) · [Integrate evidence screening into your own tools](references/cost-routing.md)
 
 ## Quality rules
 
@@ -200,7 +146,7 @@ python -S -m unittest discover -s tests -v
 python -S scripts/jev_gate.py self-test
 ```
 
-For a **live connection check**, use step 3 of the quickstart. It may be billable and confirms the configured route works; it does not establish savings. An optional small triage exercise is also available:
+For a **live connection check**, use the [connection-check commands](#configure-and-connect-complete-quickstart). It may be billable and confirms the configured route works; it does not establish savings. An optional small triage exercise is also available:
 
 ```bash
 python scripts/benchmark_triage.py --live --output benchmarks/new-run.json
@@ -246,13 +192,21 @@ A public GitHub release or self-hosted Claude marketplace is not an approved off
 
 [Submission packet and current blockers](references/official-submission.md) distinguishes prepared files, completed checks, submitted drafts and accepted listings. Account login/identity verification and final publisher attestations must be completed by the account owner; do not send passwords or authenticator codes in chat.
 
-## Discovery
+## Share and support the project
+
+Thanks for using the skill. If it is useful, [star the GitHub repository](https://github.com/MehradYaghoubi/jev-research-engineering), share the source link, or [report a reproducible problem](https://github.com/MehradYaghoubi/jev-research-engineering/issues). No payment or star is required to use it.
+
+Use the same repository link in free marketplace listings, technical posts and demos so people can inspect the source, read the limitations and get updates. [Ready-to-use English social posts and listing copy](publication/community.md) are available. Agensi listing is not yet confirmed.
 
 [Versioned downloads and releases](https://github.com/MehradYaghoubi/jev-research-engineering/releases) · [Agent installation guide](references/installation.md) · [Compatibility checks](benchmarks/agent-installation.json)
 
 Install through the command above and share the public repository. Skills.sh discovery uses real installation telemetry; submission or an install does not guarantee a ranking. [Distribution status](references/distribution.md) records submissions separately from confirmed listings. No popularity, usage or financial-savings claims are fabricated.
 
 ## فارسی
+
+این اسکیل **رایگان و متن‌باز با مجوز MIT** است. هدف آن این است که پیش از خواندن حجم زیادی کد یا منبع تحقیق، شواهد مرتبط را انتخاب کند تا مدل اصلی کمتر مطالب نامرتبط بخواند. هزینهٔ احتمالی API به ارائه‌دهندهٔ انتخابی شما مربوط است.
+
+اگر برایتان مفید بود، ممنون می‌شویم به [مخزن GitHub ستاره بدهید](https://github.com/MehradYaghoubi/jev-research-engineering) یا آن را به دیگران معرفی کنید؛ استفاده از اسکیل به ستاره یا پرداخت وابسته نیست.
 
 **فقط یک اسکیل داریم:** شناسهٔ نصب و اجرا `jev-research-engineering` و نام نمایشی آن **Research & Engineering Router** است. پلاگین `research-engineering-router` بستهٔ نصب همان اسکیل است؛ اسکیل دوم یا ناظر جداگانه نیست. برای هر ایجنت فقط یکی از روش‌های نصب را انتخاب کنید. دو اسکریپت انتخاب شواهد هم ابزار داخلی همین اسکیل هستند.
 

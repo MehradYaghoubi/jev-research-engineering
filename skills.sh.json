@@ -1,0 +1,9 @@
+{
+  "groupings": [
+    {
+      "title": "Coding and research",
+      "description": "Free MIT-licensed evidence screening for coding and research. Your main model stays in charge; bring your own decision-model provider.",
+      "skills": ["jev-research-engineering"]
+    }
+  ]
+}

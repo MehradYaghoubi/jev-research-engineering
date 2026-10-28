@@ -19,15 +19,11 @@ The right response is to skip decision-model routing on small workloads, not to 
 
 As an encoding sensitivity check, `cl100k_base` counts 1324 baseline and 1105 routed tokens (**16.54% context reduction**); with one 930-token skill load, the result is **53.7% more**. Neither encoding has a verified mapping to the selected `gpt-6.1-sol` chat model in this installed library. These are exact tokenizer text counts, **not actual billed primary-model usage** or a measured financial saving.
 
-## Reproduce
+## Historical provenance
 
-```bash
-python -m pip install -r benchmarks/requirements.txt
-python scripts/measure_tokens.py
-python scripts/measure_tokens.py --encoding cl100k_base --output benchmarks/token-counts-cl100k.json
-```
+These are archived measurements, not setup instructions. The old counter and its third-party package requirement were removed in v0.3.1; the skill and its tests require only the Python standard library. The original counter, fixtures and dependency declaration remain inspectable at [the frozen v0.3.0 source](https://github.com/MehradYaghoubi/jev-research-engineering/tree/v0.3.0). No historical result has been recomputed or changed.
 
-The optional tokenizer dependency is separate from the standard-library runtime. Counts require no inference calls. Compare primary-model billing and verified task outcomes in a controlled direct-versus-routed run before claiming financial savings. Jev's observed input/output usage and estimated cost remain in [the original provider run](first-run.json); tokens from different models have different prices and tokenizer conventions.
+For new comparisons, record actual host/provider-reported primary-model usage and verify equivalent task outcomes; see the [measurement guide](../references/cost-routing.md). Jev's observed input/output usage and estimated cost remain in [the original provider run](first-run.json); tokens from different models have different prices and tokenizer conventions.
 
 [Machine-readable o200k results](token-counts.json) · [cl100k sensitivity](token-counts-cl100k.json)
 
@@ -39,4 +35,4 @@ For example, at a purely hypothetical primary input rate of **$3/M**, baseline i
 
 [Reproducible cost assumptions](cost-example.json). The 53.19% cold input-token increase came from added **primary-model instructions**, not from adding Jev's differently priced token usage. A skill already present in context may still incur repeated or cached input charges on subsequent requests; warm accounting must be verified by the host.
 
-The v0.2.0 portability instructions change entrypoint length. Recorded results above remain historical; running the counter against a newer revision measures its current instruction overhead.
+The v0.2.0 portability instructions changed entrypoint length. Recorded results above remain historical and do not describe the current entrypoint overhead.

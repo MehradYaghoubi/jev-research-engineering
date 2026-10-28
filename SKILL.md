@@ -5,7 +5,7 @@ description: Screen large evidence sets with a configured inexpensive decision m
 
 # Research & Engineering Router
 
-Keep the chat-selected model and reasoning setting as lead; no independent supervisor. Resolve helper paths from this skill directory. Python 3.10+ is required.
+Keep the chat-selected model and reasoning setting as lead; no independent supervisor. Resolve helper paths from this skill directory. Python 3.10+ is required; helpers and offline tests use only its standard library, with no pip installation.
 
 Use deterministic search first. Skip routing when a small search already identifies the work. For large evidence intake, save authorized blocks directly to a corpus without first printing their bodies into chat. Run `python <skill>/scripts/prepare_context.py --corpus <file> --audit <new-local-file>` once; stdout is the evidence packet, audit holds usage. Read [corpus setup](references/cost-routing.md) only when preparing that input. Never send secrets, unrelated private data or whole chat history. Configure a new route through [access](references/access.md); do not reuse another provider's key.
 

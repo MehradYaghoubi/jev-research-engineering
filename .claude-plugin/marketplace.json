@@ -8,7 +8,7 @@
       "name": "research-engineering-router",
       "source": "./",
       "description": "Provider-configurable evidence triage, missing-integration checks and reproducible research.",
-      "version": "0.3.0"
+      "version": "0.3.1"
     }
   ],
   "metadata": {

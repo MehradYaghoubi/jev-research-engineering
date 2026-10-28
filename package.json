@@ -1,6 +1,6 @@
 {
   "name": "@mehradyaghoubi/research-engineering-router",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Provider-configurable evidence triage, missing-integration checks and reproducible research.",
   "license": "MIT",
   "author": "Mehrad Yaghoubi",
@@ -29,7 +29,6 @@
     "examples/providers/*.json",
     "benchmarks/*.json",
     "benchmarks/*.md",
-    "benchmarks/requirements.txt",
     "tests/*.py",
     "tests/fixtures/*.json",
     ".claude-plugin/*.json",

@@ -33,7 +33,7 @@ Paths above follow official current documentation. Agent versions, enterprise po
 The repository's `package.json` declares `pi.skills: ["./"]`; there are no JavaScript dependencies or install hooks.
 
 ```bash
-pi install git:github.com/MehradYaghoubi/jev-research-engineering@v0.3.0
+pi install git:github.com/MehradYaghoubi/jev-research-engineering@v0.3.1
 ```
 
 This is a git-backed Pi package. It does not require npm registry publication. Do not advertise the scoped npm name as installable from npm until it is actually published there. `pi-package` metadata prepares it for Pi packaging, but does not itself confirm gallery indexing.

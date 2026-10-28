@@ -49,7 +49,7 @@ The same scripts run on a laptop, server, container or remote agent with Python 
 
 For a local compatible chat server, start it using its official documentation and choose an installed model in the loopback profile. Local HTTP requires explicit `allow_http_loopback: true` and a literal `127.0.0.1` or `::1` host. `auth_required: false` is allowed only on loopback. Remote HTTP is rejected; custom cloud endpoints require HTTPS and authentication. Redirects are refused and TLS verification remains enabled. A local operator may still need to restrict who can access the model server.
 
-All runtime code uses the Python standard library. Only optional token-count measurement requires `tiktoken`. Offline unit tests use mocked responses and do not claim live provider compatibility. No paid API test runs automatically in CI or on pull requests.
+All runtime helpers and offline tests use only the Python standard library. No pip dependency or automatic package installation is needed. The optional historical tokenizer counter has been retired; current comparisons use host/provider-reported usage. Offline unit tests use mocked responses and do not claim live provider compatibility. No paid API test runs automatically in CI or on pull requests.
 
 ## Official sources checked
 

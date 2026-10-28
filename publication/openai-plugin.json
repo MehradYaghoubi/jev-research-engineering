@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "research-engineering-router",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Provider-configurable evidence triage and verified software/research workflows.",
   "author": {
     "name": "Mehrad Yaghoubi"

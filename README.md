@@ -18,7 +18,7 @@ npx skills add MehradYaghoubi/jev-research-engineering --skill jev-research-engi
 npx skills add MehradYaghoubi/jev-research-engineering --skill jev-research-engineering -g -a codex claude-code pi opencode
 ```
 
-Pi-native: `pi install git:github.com/MehradYaghoubi/jev-research-engineering@v0.3.0`.
+Pi-native: `pi install git:github.com/MehradYaghoubi/jev-research-engineering@v0.3.1`.
 
 Claude marketplace: `/plugin marketplace add MehradYaghoubi/jev-research-engineering`, then `/plugin install research-engineering-router@mehrad-research-tools`.
 
@@ -148,12 +148,11 @@ python scripts/jev_gate.py usage
 
 ## Tests and measured results
 
+Runtime helpers and offline tests use only the Python standard library; no pip packages are required or installed. The historical tokenizer counter has been retired. For current comparisons, record actual primary-model usage from equivalent baseline and assisted runs, including cached input and output; see the [measurement guide](references/cost-routing.md).
+
 ```bash
 python -m unittest discover -s tests -v
 python scripts/jev_gate.py self-test
-# Optional tokenizer measurement; no inference calls:
-python -m pip install -r benchmarks/requirements.txt
-python scripts/measure_tokens.py
 # Explicitly opt-in billable synthetic rerun:
 python scripts/benchmark_triage.py --live --output benchmarks/new-run.json
 ```

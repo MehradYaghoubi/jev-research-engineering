@@ -4,10 +4,10 @@ The public source of truth is [MehradYaghoubi/jev-research-engineering](https://
 
 | Channel | Method | Status |
 | --- | --- | --- |
-| GitHub | Public source plus versioned release ZIP and checksums | Public source; versioned release ZIP and checksums at the v0.2.1 release link |
+| GitHub | Public source plus versioned release ZIP and checksums | Public source; versioned release ZIP and checksums linked below |
 | Claude Code | Public self-hosted marketplace and plugin manifests | Both manifests passed native Claude validation; official Anthropic directory acceptance not claimed |
 | Pi | Git-installable package with explicit pi.skills metadata | Package prepared and npm pack checked; npm/Pi gallery publication requires registry authentication |
-| Skills.sh | Real installation using the official Skills CLI | One real Codex install completed using Skills CLI 1.7.4; public listing not verified |
+| Skills.sh | Real installation using the official Skills CLI | Public listing verified on 2026-10-28; its Snyk audit still references the older optional tokenizer dependency pending refresh |
 | UseThisSkill / nodegenie list | Submit the public source through its Add a skill repository issue template | Not submitted: both connected integration and existing account API returned HTTP 403; browser form did not load usable controls |
 | SkillsMP | Public GitHub SKILL.md source eligible for its catalog crawl | Listing not verified; no direct submission endpoint confirmed |
 | VoltAgent awesome-agent-skills | PR after community adoption | Not submitted: contribution rules exclude brand-new unproven skills |
@@ -35,3 +35,9 @@ Versioned release: [v0.2.0](https://github.com/MehradYaghoubi/jev-research-engin
 ## v0.3.0 atomic screening and bounded retries
 
 [Release v0.3.0](https://github.com/MehradYaghoubi/jev-research-engineering/releases/tag/v0.3.0) publishes atomic evidence screening, transient retries and the [confirmation report](../benchmarks/retry-confirmation-results.md). The limited code-audit/research evaluation measured **10.20% fewer primary-model tokens** and **20.42% longer whole-process time**, with all six assisted quality checks passed. Code audit and research individually measured 13.96% and 6.41% token reduction. This is an experimental release, not a universal savings claim or official directory approval.
+
+## v0.3.1 dependency removal
+
+The [Snyk report](https://skills.sh/mehradyaghoubi/jev-research-engineering/jev-research-engineering/security/snyk), analyzed 2026-10-27 and checked 2026-10-28, flags W012 for the optional historical tokenizer package. v0.3.1 removes the counter, its package requirement, installation commands and package-manifest entry. Runtime helpers and offline tests use only the Python standard library. Archived results retain their original provenance; the routing algorithm and measured v0.3.0 results are unchanged. This removes the reported dependency rather than suppressing the audit.
+
+The listing and audit can retain an older snapshot. A Skills maintainer [states that a new installation triggers a rescan](https://github.com/vercel-labs/skills/issues/575); a new install is not proof that the public audit has refreshed. Check the audit date and current finding before claiming W012 has cleared. No fresh Snyk PASS is claimed here.

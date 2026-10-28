@@ -22,7 +22,7 @@ Owner steps:
 4. Follow the portal review steps. Supply actual requested test evidence; do not invent reviewer credentials, demo URLs or savings claims.
 5. The publisher reviews the final policy attestations and submits. Approval is external; publish only after approval.
 
-Current access evidence: the browser redirected to `platform.openai.com/login?next=%2Fplugins`. The account owner was asked to log in in the portal. No draft, review submission or official listing has been created. Passwords and authenticator codes belong in the official page, not chat.
+Current access evidence: the account owner signed in successfully. Upload was blocked by the portal message: "You need a verified developer identity before you can create or upload a plugin." The portal opened Organization settings → Verifications, offering Individual or Business verification. The account owner must complete the appropriate identity flow directly. No ZIP upload, draft, review submission or official listing has been created. Passwords, authenticator codes and identity documents belong in the official verification flow, not chat.
 
 ## Anthropic Directory
 

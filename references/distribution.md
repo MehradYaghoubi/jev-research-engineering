@@ -30,4 +30,4 @@ Versioned release: [v0.2.0](https://github.com/MehradYaghoubi/jev-research-engin
 
 ## v0.2.1 setup and official submission packet
 
-[Release v0.2.1](https://github.com/MehradYaghoubi/jev-research-engineering/releases/tag/v0.2.1) includes complete connection setup, a dedicated OpenAI directory ZIP, privacy notice and [two real A/B pairs](../benchmarks/real-agent-ab.md). The OpenAI portal requires owner login; no official draft or review submission exists. See [submission steps and blockers](official-submission.md).
+[Release v0.2.1](https://github.com/MehradYaghoubi/jev-research-engineering/releases/tag/v0.2.1) includes complete connection setup, a dedicated OpenAI directory ZIP, privacy notice and [two real A/B pairs](../benchmarks/real-agent-ab.md). The owner signed in, but the OpenAI portal requires verified developer identity before upload or draft creation; no official draft or review submission exists. See [submission steps and blockers](official-submission.md).

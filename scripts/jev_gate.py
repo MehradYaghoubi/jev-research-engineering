@@ -1,15 +1,19 @@
-"""Small synchronous System One decision client. No automatic retries or raw-error logs."""
+"""Bounded synchronous decision client with transient retries and no raw-error logs."""
 import argparse
 import ctypes
 import getpass
 import hashlib
+import http.client
 import json
 import math
 import os
 import re
 from pathlib import Path
 import sqlite3
+import ssl
 import sys
+import time
+from email.utils import parsedate_to_datetime
 from datetime import datetime, timezone
 from urllib import request, error, parse
 
@@ -49,6 +53,10 @@ def load_config(path=None):
         raise ValueError('Request bound must be between 1 and 100000 bytes')
     if not finite(cfg['timeout_seconds'], 1, 120):
         raise ValueError('Invalid timeout')
+    if type(cfg.get('max_attempts', 3)) is not int or not 1 <= cfg.get('max_attempts', 3) <= 3:
+        raise ValueError('max_attempts must be an integer from 1 to 3')
+    if not finite(cfg.get('retry_budget_seconds', 90), 1, 180):
+        raise ValueError('Invalid total retry time budget')
     private = Path(os.path.expandvars(cfg['private_dir'])).expanduser().resolve()
     cfg['private_dir'] = str(private)
     skill = Path(__file__).resolve().parents[1]
@@ -255,7 +263,46 @@ class NoRedirect(request.HTTPRedirectHandler):
         return None
 
 
-def decide(cfg, supplied, dry_run=False):
+class DecisionError(ValueError):
+    def __init__(self, kind, reserved=0, status=None, retry_after=None, retryable=False):
+        super().__init__('Decision request failed: ' + kind)
+        self.kind, self.reserved = kind, reserved
+        self.status, self.retry_after, self.retryable = status, retry_after, retryable
+        self.attempts = []
+
+
+def retry_failure(exc, reserved):
+    if isinstance(exc, error.HTTPError):
+        delay = None
+        headers = exc.headers or {}
+        for name, scale in (('Retry-After', 1), ('retry-after-ms', .001)):
+            value = headers.get(name)
+            if value is None:
+                continue
+            try:
+                seconds = float(value) * scale
+            except (ValueError, TypeError):
+                try:
+                    date = parsedate_to_datetime(value)
+                    if date.tzinfo is None:
+                        date = date.replace(tzinfo=timezone.utc)
+                    seconds = (date - datetime.now(timezone.utc)).total_seconds()
+                except (ValueError, TypeError, OverflowError):
+                    continue
+            if math.isfinite(seconds):
+                delay = max(delay or 0, max(0, seconds))
+        return DecisionError('http_status', reserved, exc.code, delay,
+                             exc.code in (408, 429, 500, 502, 503, 504, 529))
+    cause = exc.reason if isinstance(exc, error.URLError) else exc
+    transient = isinstance(cause, (TimeoutError, ConnectionError, http.client.IncompleteRead,
+                                   http.client.RemoteDisconnected))
+    if isinstance(exc, error.URLError) and isinstance(cause, OSError) and not isinstance(cause, ssl.SSLError):
+        transient = True
+    kind = 'timeout' if isinstance(cause, TimeoutError) else 'connection' if transient else 'response_or_local_validation'
+    return DecisionError(kind, reserved, retryable=transient)
+
+
+def _decide_once(cfg, supplied, dry_run=False):
     body = payload(cfg, supplied)
     if dry_run:
         return {'mode': 'dry-run', 'bytes': len(body), 'input_reservation_usd': cost(cfg, len(body) + 4096, 4096), 'sent': False}
@@ -298,11 +345,58 @@ def decide(cfg, supplied, dry_run=False):
             return {'answers': answers, 'model': result.get('model', cfg['model']), 'usage': clean_usage, 'estimated_usd': charge, 'provider_reported_usd': reported_cost, 'cost_basis': basis}
         except Exception as exc:
             conn.execute('UPDATE calls SET status=? WHERE id=?', ('failed-billing-unknown', call_id))
+            failure = retry_failure(exc, reserved)
             if isinstance(exc, error.HTTPError):
-                raise ValueError('Provider HTTP status ' + str(exc.code) + '; no retry; reservation retained') from None
-            raise ValueError('Provider call or validation failed; no retry; reservation retained') from None
+                exc.close()
+            raise failure from None
     finally:
         conn.close()
+
+
+def decide(cfg, supplied, dry_run=False):
+    if dry_run:
+        return _decide_once(cfg, supplied, True)
+    maximum = cfg.get('max_attempts', 3)
+    budget = cfg.get('retry_budget_seconds', 90)
+    if type(maximum) is not int or not 1 <= maximum <= 3 or not finite(budget, 1, 180):
+        raise ValueError('Invalid retry bounds')
+    deadline = time.monotonic() + budget
+    attempts = []
+    for number in range(1, maximum + 1):
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            failure = DecisionError('retry_deadline')
+            failure.attempts = attempts
+            raise failure
+        try:
+            result = _decide_once(dict(cfg, timeout_seconds=min(cfg['timeout_seconds'], remaining)), supplied)
+        except DecisionError as exc:
+            attempts.append({'number': number, 'status': 'failed', 'failure_kind': exc.kind,
+                             'http_status': exc.status, 'usage': None, 'reserved_usd': exc.reserved,
+                             'billing': 'unknown; reservation retained'})
+            delay = max(2 ** (number - 1), exc.retry_after or 0)
+            if not exc.retryable or number == maximum or time.monotonic() + delay >= deadline:
+                exc.attempts = attempts
+                raise
+            time.sleep(delay)
+            continue
+        except (ValueError, OSError, sqlite3.Error):
+            if attempts:
+                failure = DecisionError('budget_or_setup')
+                failure.attempts = attempts
+                raise failure from None
+            raise
+        attempts.append({'number': number, 'status': 'ok', 'usage': result['usage'],
+                         'charge_usd': result['estimated_usd'], 'cost_basis': result['cost_basis']})
+        result = dict(result, request_attempts=len(attempts), attempts=attempts)
+        if number > 1:
+            result['successful_usage'] = result['usage']
+            result['usage'] = {'input_tokens': None, 'output_tokens': None}
+            result['successful_provider_reported_usd'] = result.get('provider_reported_usd')
+            result['provider_reported_usd'] = None
+            result['estimated_usd'] += sum(a.get('reserved_usd', 0) for a in attempts[:-1])
+            result['cost_basis'] = 'Successful request charge plus conservative reservations for failed attempts; total usage/billing unknown'
+        return result
 
 
 def self_test(cfg):
@@ -376,7 +470,7 @@ def main():
                 ready = True
             except (ValueError, OSError):
                 ready = False
-            result = {'credential_ready': ready, 'endpoint': cfg['endpoint'], 'model': cfg['model'], 'protocol': cfg.get('protocol', 'systemone'), 'auth_required': cfg.get('auth_required', True), 'api_key_env': cfg.get('api_key_env', 'JEV_API_KEY'), 'daily_budget_usd': cfg['daily_budget_usd'], 'main_model': 'current chat selection'}
+            result = {'credential_ready': ready, 'endpoint': cfg['endpoint'], 'model': cfg['model'], 'protocol': cfg.get('protocol', 'systemone'), 'auth_required': cfg.get('auth_required', True), 'api_key_env': cfg.get('api_key_env', 'JEV_API_KEY'), 'daily_budget_usd': cfg['daily_budget_usd'], 'max_attempts': cfg.get('max_attempts', 3), 'retry_budget_seconds': cfg.get('retry_budget_seconds', 90), 'main_model': 'current chat selection'}
         elif args.command == 'self-test':
             result = self_test(cfg)
         elif args.command == 'usage':
@@ -393,7 +487,7 @@ def main():
         return 0
     except (ValueError, KeyError, OSError, TypeError, sqlite3.Error):
         # Do not print exceptions which may include remote payloads or secrets.
-        print(json.dumps({'error': 'Operation failed: check configuration, input, credential or connectivity. No automatic retry; main model fallback required.'}), file=sys.stderr)
+        print(json.dumps({'error': 'Operation failed: check configuration, input, credential or connectivity. Bounded retries exhausted or non-retryable failure; inspect usage ledger and continue with main-model fallback.'}), file=sys.stderr)
         return 1
 
 

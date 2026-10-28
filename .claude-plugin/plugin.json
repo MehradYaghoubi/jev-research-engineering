@@ -1,6 +1,6 @@
 {
   "name": "research-engineering-router",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Provider-configurable evidence triage, missing-integration checks and reproducible research.",
   "author": {
     "name": "Mehrad Yaghoubi"

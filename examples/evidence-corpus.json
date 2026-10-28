@@ -1,0 +1,7 @@
+{
+  "task": "Which registration is missing from startup?",
+  "candidates": [
+    {"id": "startup", "body": "app.py includes the orders router but not the refunds router.", "required": true},
+    {"id": "refund", "body": "refunds.py defines the refunds router with POST /refunds."}
+  ]
+}

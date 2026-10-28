@@ -1,0 +1,33 @@
+{
+  "status": "REJECTED by preregistered auxiliary-usage completeness gate; not a confirmed savings claim",
+  "aggregate": {
+    "full": {
+      "primary_tokens": 178806,
+      "passed": 6,
+      "runs": 6,
+      "end_to_end_seconds_sum": 415.790311
+    },
+    "adaptive": {
+      "primary_tokens": 160724,
+      "passed": 6,
+      "runs": 6,
+      "end_to_end_seconds_sum": 493.95157600000005
+    },
+    "lexical": {
+      "primary_tokens": 54302,
+      "passed": 0,
+      "runs": 2,
+      "end_to_end_seconds_sum": 148.340686
+    }
+  },
+  "observed_primary_reduction_percent": 10.112636041296152,
+  "failed_routing_trials": [
+    "primitives-2"
+  ],
+  "retry_policy": "No automatic retry during this cycle. User authorized bounded retries afterward.",
+  "limitations": [
+    "Same authored evidence-intake scope; not a complete autonomous coding workflow.",
+    "One timeout-like routing failure had unknown usage; no failed trial is discarded.",
+    "Observed reduction barely crossed 10 percent and is not generalizable."
+  ]
+}

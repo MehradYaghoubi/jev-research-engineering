@@ -9,7 +9,7 @@ Official sources: [submission](https://developers.openai.com/plugins/deploy/subm
 Prepared source: `publication/openai-plugin.json`, with Agent Plugins 1.0.0 identity and OpenAI listing metadata. It declares `requires_local_executor: true` because the helper executes local Python. The builder creates root `plugin.json` and `skills/jev-research-engineering/`, preserving bundled relative paths. It contains no MCP server, app reference, lifecycle hook or credential. The root manifest passed the public Agent Plugins JSON schema; OpenAI extension fields and directory acceptance still require portal validation.
 
 ```bash
-python scripts/build_submission.py --output ../release-artifacts/research-engineering-router-openai-v0.2.1.zip
+python scripts/build_submission.py --output ../release-artifacts/research-engineering-router-openai-v0.3.0.zip
 ```
 
 Upload this dedicated ZIP, not the original source-layout release ZIP. The factual [privacy notice](../PRIVACY.md) describes local storage and configured-provider data transmission; software terms link to the MIT license. Confirm publisher details and URLs before submitting.

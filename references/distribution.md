@@ -31,3 +31,7 @@ Versioned release: [v0.2.0](https://github.com/MehradYaghoubi/jev-research-engin
 ## v0.2.1 setup and official submission packet
 
 [Release v0.2.1](https://github.com/MehradYaghoubi/jev-research-engineering/releases/tag/v0.2.1) includes complete connection setup, a dedicated OpenAI directory ZIP, privacy notice and [two real A/B pairs](../benchmarks/real-agent-ab.md). The owner signed in, but the OpenAI portal requires verified developer identity before upload or draft creation; no official draft or review submission exists. See [submission steps and blockers](official-submission.md).
+
+## v0.3.0 atomic screening and bounded retries
+
+[Release v0.3.0](https://github.com/MehradYaghoubi/jev-research-engineering/releases/tag/v0.3.0) publishes atomic evidence screening, transient retries and the [confirmation report](../benchmarks/retry-confirmation-results.md). The limited code-audit/research evaluation measured **10.20% fewer primary-model tokens** and **20.42% longer whole-process time**, with all six assisted quality checks passed. Code audit and research individually measured 13.96% and 6.41% token reduction. This is an experimental release, not a universal savings claim or official directory approval.

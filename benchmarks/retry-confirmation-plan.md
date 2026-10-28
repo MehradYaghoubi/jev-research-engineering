@@ -1,0 +1,13 @@
+# Prospective replication after user-authorized transient retries
+
+User target: at least 10% fewer **total primary-model input + output tokens**, same answer quality. Speed is recorded for subsequent comparison, not an acceptance constraint. Publication stays stopped.
+
+This is a replication after a reliability-policy change, not a newly held-out benchmark: reuse the exact frozen source corpora, task strings, schemas and factual checks from `atomic-confirmation/frozen.json`. Do not change evidence, answers, selection thresholds or response length to hit the target. Preserve the earlier rejected cycle and all development records separately.
+
+Run three pairs per task (twelve primary reader runs total), alternating arm order, with the same installed CLI/model defaults. The two lexical controls already failed on this exact data and are not repeated. Every adaptive repetition makes fresh decision calls. There is no reuse of selections or automatic reader rerun. Freeze implementation, schema and evaluator hashes before inference. Explicit JSON schema validation stays in force.
+
+The shared decision client now permits at most three attempts for transient HTTP/network failures, observes server backoff and an overall retry-start window, and independently reserves each attempted charge. Authentication/schema/certificate failures do not replay. Context batches share the task attempt cap. No outer retry loop is added. A final failure retains the original corpus and remains in the aggregate.
+
+Prospective acceptance follows the user's selected metric: all six adaptive answers must pass unchanged factual/citation checks, primary usage must be complete for every reader, no unexpected reader tools, and summed actual primary input + output must be at least 10% below the six full-intake runs. Unknown failed **decision** usage is retained as unknown and does not erase precisely reported primary usage; it forbids an exact all-model-token or financial-savings claim. This distinction is registered before this replication, rather than used to rescore the old cycle's stricter gate. Report successful decision tokens, unknown attempts, reservations and estimated charges separately.
+
+Start a monotonic timer before corpus preparation/config load and finish after the answer quality check; include all attempts, delays and fallback. Record preparation, reader/check and whole-task durations. Do not substitute reader latency for the user's whole-process comparison. Report every per-case/per-repetition result, including increases and fallbacks. This small evidence-intake replication cannot establish general savings, autonomous-agent coding performance, or lower subscription bills.

@@ -1,0 +1,557 @@
+{
+  "scope": "Local single-turn evidence-intake pilot, 3 authored cases, 3 arms, 2 repetitions; not autonomous agent end-to-end proof",
+  "aggregate": {
+    "full": {
+      "usage": {
+        "input_tokens": 163720,
+        "cached_input_tokens": 36480,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 534,
+        "reasoning_output_tokens": 82
+      },
+      "total_primary_tokens": 164254,
+      "passed": 6,
+      "runs": 6
+    },
+    "lexical": {
+      "usage": {
+        "input_tokens": 160040,
+        "cached_input_tokens": 21888,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 537,
+        "reasoning_output_tokens": 225
+      },
+      "total_primary_tokens": 160577,
+      "passed": 4,
+      "runs": 6
+    },
+    "adaptive": {
+      "usage": {
+        "input_tokens": 162218,
+        "cached_input_tokens": 7296,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 669,
+        "reasoning_output_tokens": 216
+      },
+      "total_primary_tokens": 162887,
+      "passed": 6,
+      "runs": 6
+    }
+  },
+  "cases": {
+    "small": {
+      "full": {
+        "total_primary_tokens": 47422,
+        "passed": 2
+      },
+      "lexical": {
+        "total_primary_tokens": 47439,
+        "passed": 2
+      },
+      "adaptive": {
+        "total_primary_tokens": 47822,
+        "passed": 2
+      },
+      "primary_reduction_percent": -0.843
+    },
+    "engineering": {
+      "full": {
+        "total_primary_tokens": 58136,
+        "passed": 2
+      },
+      "lexical": {
+        "total_primary_tokens": 55279,
+        "passed": 0
+      },
+      "adaptive": {
+        "total_primary_tokens": 56055,
+        "passed": 2
+      },
+      "primary_reduction_percent": 3.58
+    },
+    "research": {
+      "full": {
+        "total_primary_tokens": 58696,
+        "passed": 2
+      },
+      "lexical": {
+        "total_primary_tokens": 57859,
+        "passed": 2
+      },
+      "adaptive": {
+        "total_primary_tokens": 59010,
+        "passed": 2
+      },
+      "primary_reduction_percent": -0.535
+    }
+  },
+  "primary_reduction_percent": 0.832,
+  "decision_tokens_actual_two_calls": 12319,
+  "estimated_decision_usd": 0.000508116,
+  "total_model_tokens_actual_reuse": 175206,
+  "total_model_increase_percent_actual_reuse": 6.668,
+  "total_model_tokens_if_decision_rerun_each_reader_repetition": 187525,
+  "total_model_increase_percent_without_reuse": 14.168,
+  "initial_evaluator_format_corrections": 3,
+  "zero_reader_tool_executions": true,
+  "gates": {
+    "all_adaptive_quality_passed": true,
+    "primary_tokens_lower": true,
+    "overall_total_model_token_increase_within_20_percent": true
+  },
+  "results": [
+    {
+      "case": "small",
+      "arm": "full",
+      "repetition": 1,
+      "usage": {
+        "input_tokens": 23901,
+        "cached_input_tokens": 7296,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 9,
+        "reasoning_output_tokens": 0
+      },
+      "passed": true,
+      "tool_starts": 0,
+      "seconds": 66.83,
+      "exit_code": 0,
+      "original_evaluator_passed": true
+    },
+    {
+      "case": "small",
+      "arm": "lexical",
+      "repetition": 1,
+      "usage": {
+        "input_tokens": 23905,
+        "cached_input_tokens": 7296,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 21,
+        "reasoning_output_tokens": 10
+      },
+      "passed": true,
+      "tool_starts": 0,
+      "seconds": 66.33,
+      "exit_code": 0,
+      "original_evaluator_passed": true
+    },
+    {
+      "case": "small",
+      "arm": "adaptive",
+      "repetition": 1,
+      "usage": {
+        "input_tokens": 23902,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 9,
+        "reasoning_output_tokens": 0
+      },
+      "passed": true,
+      "tool_starts": 0,
+      "seconds": 64.57,
+      "exit_code": 0,
+      "original_evaluator_passed": true
+    },
+    {
+      "case": "engineering",
+      "arm": "full",
+      "repetition": 1,
+      "usage": {
+        "input_tokens": 28679,
+        "cached_input_tokens": 7296,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 124,
+        "reasoning_output_tokens": 37
+      },
+      "passed": true,
+      "tool_starts": 0,
+      "seconds": 70.14,
+      "exit_code": 0,
+      "original_evaluator_passed": true
+    },
+    {
+      "case": "engineering",
+      "arm": "lexical",
+      "repetition": 1,
+      "usage": {
+        "input_tokens": 27765,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 119,
+        "reasoning_output_tokens": 41
+      },
+      "passed": false,
+      "tool_starts": 0,
+      "seconds": 69.77,
+      "exit_code": 0,
+      "original_evaluator_passed": false
+    },
+    {
+      "case": "engineering",
+      "arm": "adaptive",
+      "repetition": 1,
+      "usage": {
+        "input_tokens": 27842,
+        "cached_input_tokens": 7296,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 185,
+        "reasoning_output_tokens": 72
+      },
+      "passed": true,
+      "tool_starts": 0,
+      "seconds": 70.24,
+      "exit_code": 0,
+      "original_evaluator_passed": true
+    },
+    {
+      "case": "research",
+      "arm": "full",
+      "repetition": 1,
+      "usage": {
+        "input_tokens": 29486,
+        "cached_input_tokens": 7296,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 129,
+        "reasoning_output_tokens": 0
+      },
+      "passed": true,
+      "tool_starts": 0,
+      "seconds": 69.23,
+      "exit_code": 0,
+      "original_evaluator_passed": false
+    },
+    {
+      "case": "research",
+      "arm": "lexical",
+      "repetition": 1,
+      "usage": {
+        "input_tokens": 28495,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 94,
+        "reasoning_output_tokens": 34
+      },
+      "passed": true,
+      "tool_starts": 0,
+      "seconds": 70.16,
+      "exit_code": 0,
+      "original_evaluator_passed": true
+    },
+    {
+      "case": "research",
+      "arm": "adaptive",
+      "repetition": 1,
+      "usage": {
+        "input_tokens": 29365,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 107,
+        "reasoning_output_tokens": 32
+      },
+      "passed": true,
+      "tool_starts": 0,
+      "seconds": 70.11,
+      "exit_code": 0,
+      "original_evaluator_passed": true
+    },
+    {
+      "case": "small",
+      "arm": "adaptive",
+      "repetition": 2,
+      "usage": {
+        "input_tokens": 23902,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 9,
+        "reasoning_output_tokens": 0
+      },
+      "passed": true,
+      "tool_starts": 0,
+      "seconds": 68.66,
+      "exit_code": 0,
+      "original_evaluator_passed": true
+    },
+    {
+      "case": "small",
+      "arm": "lexical",
+      "repetition": 2,
+      "usage": {
+        "input_tokens": 23493,
+        "cached_input_tokens": 7296,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 20,
+        "reasoning_output_tokens": 9
+      },
+      "passed": true,
+      "tool_starts": 0,
+      "seconds": 69.98,
+      "exit_code": 0,
+      "original_evaluator_passed": true
+    },
+    {
+      "case": "small",
+      "arm": "full",
+      "repetition": 2,
+      "usage": {
+        "input_tokens": 23489,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 23,
+        "reasoning_output_tokens": 12
+      },
+      "passed": true,
+      "tool_starts": 0,
+      "seconds": 70.14,
+      "exit_code": 0,
+      "original_evaluator_passed": true
+    },
+    {
+      "case": "engineering",
+      "arm": "adaptive",
+      "repetition": 2,
+      "usage": {
+        "input_tokens": 27842,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 186,
+        "reasoning_output_tokens": 73
+      },
+      "passed": true,
+      "tool_starts": 0,
+      "seconds": 73.78,
+      "exit_code": 0,
+      "original_evaluator_passed": true
+    },
+    {
+      "case": "engineering",
+      "arm": "lexical",
+      "repetition": 2,
+      "usage": {
+        "input_tokens": 27231,
+        "cached_input_tokens": 7296,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 164,
+        "reasoning_output_tokens": 86
+      },
+      "passed": false,
+      "tool_starts": 0,
+      "seconds": 70.13,
+      "exit_code": 0,
+      "original_evaluator_passed": false
+    },
+    {
+      "case": "engineering",
+      "arm": "full",
+      "repetition": 2,
+      "usage": {
+        "input_tokens": 29213,
+        "cached_input_tokens": 7296,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 120,
+        "reasoning_output_tokens": 33
+      },
+      "passed": true,
+      "tool_starts": 0,
+      "seconds": 70.12,
+      "exit_code": 0,
+      "original_evaluator_passed": true
+    },
+    {
+      "case": "research",
+      "arm": "adaptive",
+      "repetition": 2,
+      "usage": {
+        "input_tokens": 29365,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 173,
+        "reasoning_output_tokens": 39
+      },
+      "passed": true,
+      "tool_starts": 0,
+      "seconds": 70.33,
+      "exit_code": 0,
+      "original_evaluator_passed": false
+    },
+    {
+      "case": "research",
+      "arm": "lexical",
+      "repetition": 2,
+      "usage": {
+        "input_tokens": 29151,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 119,
+        "reasoning_output_tokens": 45
+      },
+      "passed": true,
+      "tool_starts": 0,
+      "seconds": 75.42,
+      "exit_code": 0,
+      "original_evaluator_passed": true
+    },
+    {
+      "case": "research",
+      "arm": "full",
+      "repetition": 2,
+      "usage": {
+        "input_tokens": 28952,
+        "cached_input_tokens": 7296,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 129,
+        "reasoning_output_tokens": 0
+      },
+      "passed": true,
+      "tool_starts": 0,
+      "seconds": 66.75,
+      "exit_code": 0,
+      "original_evaluator_passed": false
+    }
+  ],
+  "configured_default_model": "gpt-6.1-sol",
+  "configured_default_effort": "medium",
+  "cli_version": "codex-cli 0.162.1",
+  "source_revision": "1e5ffceea29d472ef9a5841cdc7b4efb193f198b",
+  "plan_sha256_before_run": "2f208182aabb67be991d1deb81f6ad529eae16ad55ca7252996717b3ba69a3ed",
+  "evaluator_format_correction": {
+    "reason": "Prompt did not specify evidence_ids list versus keyed citation map. Initial evaluator incorrectly treated map keys as source IDs. Normalize both documented-by-response representations and recheck every arm symmetrically without model reruns. Boolean/content criteria unchanged.",
+    "before_sha256": "86048b27e767a566f91e862e438bbd408b22883caed7fd40371eac53cc4ff3b2",
+    "after_sha256": "3d0b98d511c175f7a7ff48c95bf16db1070fdc9681aa0a27c98296d57077281a",
+    "original_evaluator_preserved": "evaluator-before-format-fix.py"
+  },
+  "source_block_sha256": {
+    "small": {
+      "python_rule": "f7cd708f7f7dcf0f368d1ef82ded663978c20d4214c6cd95193d31f95d84ab8d"
+    },
+    "engineering": {
+      "validator": "41ae146ae3eb49a6be2fc9ba09863ac23ce0f365f29f309b87e12fa88c43da63",
+      "entrypoint": "d69e79a51f649c2d7d8e0d1e9fd7e440fa0ec9bfcb1d9aa13074db84fed8d918",
+      "selector": "5ba3a5f49268dac17c5a640140a36f0f283779d69df0930a1e6536c7144e875d",
+      "benchmark": "898d1025a603f132b93272cd1f0f7647dffabe651a97316f43dd1e518abec020",
+      "costs": "a94734f9d93f5d1fcfd7ef8914e1376cec1abfb3d5d1716e39d4ed96cb4bfc58",
+      "installation": "9265d02ba100007b3753ba9fa5be973090f8719378c9203bb82f854ec744099e",
+      "configuration": "b8b0d0896fac0905d0932343fae7519cffc60d6ee848d47f8cff8d9b8ef04f84"
+    },
+    "research": {
+      "routing": "6d5cc68547f0b71c7677872d9cb538f33a80603c74d6ffa482c76aaa0d7305f5",
+      "compression": "9eda62e8d5f6b8bea3e445fe001e9db799bf83ce6187f484f711e5538e2ade35",
+      "compression_eval": "759c46bc70a71d5f3af0098474c30eb9562b957ca15dcfe02636d82aea1da8a0",
+      "jev": "044cd2d5eaf1b1019e4ca1f8ae511d36f205d3806505ddac391505480ffb0eee",
+      "models": "d0d9c833cf6b1b6c0097448df3180776a4ecae9b98d72526fe5bb02ca0d750be",
+      "installation": "e6db2fdc528e09c939ef75ae778f43fea56bff5015e052e7179435a370ed5b92"
+    }
+  },
+  "limitations": [
+    "Three authored cases, two repetitions; not a held-out public benchmark or universal estimate.",
+    "Reader-only CLI runs; controller/setup conversation and helper-development work excluded.",
+    "Adaptive prompt includes the 395-proxy-token skill; no reader tools executed.",
+    "Host-provided input varies across repetitions even with frozen user prompts; a 0.832% aggregate difference is weak evidence.",
+    "Cached-input allocation varied; uncached input increased. No metered financial savings claim.",
+    "Research route retained all evidence; its reader token variation cannot be attributed to evidence reduction.",
+    "No new publication, release or account-setting changes."
+  ],
+  "primary_uncached_input": {
+    "full": 127240,
+    "lexical": 138152,
+    "adaptive": 154922
+  },
+  "latency": {
+    "measurement": "Reader seconds measured monotonically from subprocess launch through CLI completion, including CLI startup; two concurrent jobs; scheduling queue excluded. Not isolated inference latency.",
+    "per_case": {
+      "small": {
+        "full": {
+          "samples_seconds": [
+            66.83,
+            70.14
+          ],
+          "mean_seconds": 68.485
+        },
+        "lexical": {
+          "samples_seconds": [
+            66.33,
+            69.98
+          ],
+          "mean_seconds": 68.155
+        },
+        "adaptive": {
+          "samples_seconds": [
+            64.57,
+            68.66
+          ],
+          "mean_seconds": 66.615
+        }
+      },
+      "engineering": {
+        "full": {
+          "samples_seconds": [
+            70.14,
+            70.12
+          ],
+          "mean_seconds": 70.13
+        },
+        "lexical": {
+          "samples_seconds": [
+            69.77,
+            70.13
+          ],
+          "mean_seconds": 69.95
+        },
+        "adaptive": {
+          "samples_seconds": [
+            70.24,
+            73.78
+          ],
+          "mean_seconds": 72.01
+        }
+      },
+      "research": {
+        "full": {
+          "samples_seconds": [
+            69.23,
+            66.75
+          ],
+          "mean_seconds": 67.99
+        },
+        "lexical": {
+          "samples_seconds": [
+            70.16,
+            75.42
+          ],
+          "mean_seconds": 72.79
+        },
+        "adaptive": {
+          "samples_seconds": [
+            70.11,
+            70.33
+          ],
+          "mean_seconds": 70.22
+        }
+      }
+    },
+    "aggregate": {
+      "full": {
+        "sum_task_seconds": 413.21,
+        "mean_task_seconds": 68.868,
+        "median_task_seconds": 69.675
+      },
+      "lexical": {
+        "sum_task_seconds": 421.79,
+        "mean_task_seconds": 70.298,
+        "median_task_seconds": 70.055
+      },
+      "adaptive": {
+        "sum_task_seconds": 417.69,
+        "mean_task_seconds": 69.615,
+        "median_task_seconds": 70.175
+      }
+    },
+    "reader_slowdown_percent": 1.084,
+    "preparation_seconds_approx_from_file_timestamps": 3.152697,
+    "approx_end_to_end_slowdown_percent_with_actual_reuse": 1.847,
+    "limits": [
+      "Original routing stage had no monotonic per-case timestamps; file-time interval is approximate and not isolated Jev latency.",
+      "Two samples per case/arm, concurrent service requests; no reliable p95 or statistical speed claim.",
+      "Lexical coding failures are incomplete tasks, not valid faster completions.",
+      "Small-case time improvement occurred with no Jev call, so it cannot be credited to Jev."
+    ]
+  }
+}

@@ -11,5 +11,7 @@
   "max_jev_calls_per_task": 6,
   "protocol": "systemone",
   "api_key_env": "DECISION_API_KEY",
-  "max_output_tokens": 2048
+  "max_output_tokens": 2048,
+  "max_attempts": 3,
+  "retry_budget_seconds": 90
 }

@@ -52,6 +52,8 @@ def select_context(cfg, manifest):
     verify = sorted(excluded, key=lambda name: result['answers'][name]['noul'], reverse=True)[:1]
     return {'status': 'selected', 'selected_ids': selected, 'excluded_ids': excluded,
             'verify_ids': verify, 'provider_calls': 1,
+            'request_attempts': result.get('request_attempts', 1),
+            'attempts': result.get('attempts', []),
             **{key: result[key] for key in ('model', 'usage', 'estimated_usd', 'cost_basis')}}
 
 

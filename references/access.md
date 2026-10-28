@@ -29,7 +29,7 @@ python scripts/jev_gate.py decide --request examples/manifest-decision.json --dr
 python scripts/jev_gate.py decide --request examples/manifest-decision.json
 ```
 
-`status` checks credential availability and selected route, not network connectivity. The dry-run validates the final wire payload without sending it. The final command is one billable request; no automatic retries or provider failover occur.
+`status` checks credential availability and selected route, not network connectivity. The dry-run validates the final wire payload without sending it. The final command is one logical request. Transient failures may cause up to three attempted calls under the bounded retry policy; every attempt can be billable, and provider failover is never automatic. See [retry accounting](protocol.md#bounded-retry-policy-local-development-revision).
 
 ## Supported contracts
 

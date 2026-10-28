@@ -1,0 +1,1675 @@
+{
+  "scope": "Local evidence-intake replication, two authored tasks, three paired repetitions; not an autonomous coding-agent benchmark",
+  "target_primary_reduction_percent": 10,
+  "aggregate": {
+    "full": {
+      "usage": {
+        "input_tokens": 199537,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 500,
+        "reasoning_output_tokens": 114
+      },
+      "total_primary_tokens": 200037,
+      "quality_passed": 6,
+      "runs": 6,
+      "sum_end_to_end_seconds": 398.711658,
+      "mean_end_to_end_seconds": 66.451943,
+      "sum_preparation_seconds": 0.004939
+    },
+    "adaptive": {
+      "usage": {
+        "input_tokens": 179104,
+        "cached_input_tokens": 24960,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 530,
+        "reasoning_output_tokens": 148
+      },
+      "total_primary_tokens": 179634,
+      "quality_passed": 6,
+      "runs": 6,
+      "sum_end_to_end_seconds": 480.122911,
+      "mean_end_to_end_seconds": 80.02048516666667,
+      "sum_preparation_seconds": 77.128205
+    }
+  },
+  "per_case": {
+    "authentication": {
+      "full": {
+        "primary_tokens": 100506,
+        "quality_passed": 3,
+        "mean_end_to_end_seconds": 66.48896666666667
+      },
+      "adaptive": {
+        "primary_tokens": 86480,
+        "quality_passed": 3,
+        "mean_end_to_end_seconds": 78.44245966666666
+      },
+      "primary_reduction_percent": 13.955385748114535
+    },
+    "primitives": {
+      "full": {
+        "primary_tokens": 99531,
+        "quality_passed": 3,
+        "mean_end_to_end_seconds": 66.41491933333333
+      },
+      "adaptive": {
+        "primary_tokens": 93154,
+        "quality_passed": 3,
+        "mean_end_to_end_seconds": 81.59851066666667
+      },
+      "primary_reduction_percent": 6.407049060091829
+    }
+  },
+  "per_repetition": [
+    {
+      "repetition": 1,
+      "full_primary_tokens": 66893,
+      "adaptive_primary_tokens": 59812,
+      "reduction_percent": 10.585562016952444
+    },
+    {
+      "repetition": 2,
+      "full_primary_tokens": 66501,
+      "adaptive_primary_tokens": 59940,
+      "reduction_percent": 9.866017052375152
+    },
+    {
+      "repetition": 3,
+      "full_primary_tokens": 66643,
+      "adaptive_primary_tokens": 59882,
+      "reduction_percent": 10.145101511036414
+    }
+  ],
+  "observed_primary_reduction_percent": 10.199613071581759,
+  "registered_primary_goal_met": true,
+  "all_six_adaptive_quality_checks_passed": true,
+  "decision_logical_batches": 12,
+  "decision_request_attempts": 12,
+  "decision_retries_observed_live": 0,
+  "unknown_decision_attempts": 0,
+  "known_decision_tokens": 98083,
+  "total_model_tokens": 277717,
+  "total_model_token_increase_percent": 38.83281592905312,
+  "decision_configured_rate_estimate_usd": "0.003549672",
+  "whole_process_time_change_percent": 20.418578530753663,
+  "configured_default_model": "gpt-6.1-sol",
+  "configured_default_effort": "medium",
+  "implementation_hashes": {
+    "scripts/prepare_context.py": "141e14fbf318b8c6dfdb90e4d0090137ee138d6cf4e5c121034285ad79353682",
+    "scripts/jev_gate.py": "dea5510090a96412be2cb9d1218f1137d2c3cabc4c988475c4147a4c59f630df",
+    "scripts/select_context.py": "c8a5f7c0514f980f8d743eb9b92eb63f010a484319a369ef26ac04e22aeab72a",
+    "SKILL.md": "dcdeef534d718d5ca939cf6eafc8aca198ffaaedb350725347528952573dac0e",
+    "benchmarks/retry-confirmation-plan.md": "5f35b6b45c91a8b1b7d70986b852b942c3119350e4451a817cb5f65777daaa31"
+  },
+  "limitations": [
+    "A narrow 10.20% observed aggregate on two authored tasks; not a general or per-task 10% guarantee.",
+    "Three paired repetitions; one repetition was below 10%; no strong statistical generality claimed.",
+    "All retry-replication provider calls succeeded first attempt; live cloud recovery was not exercised.",
+    "Transient retry behavior is separately covered by deterministic faults and a real loopback HTTP 503-to-200 integration test.",
+    "Whole task timings include fresh preprocessing, decision requests, reader execution and quality checks; exclude common frozen-corpus construction and queue wait.",
+    "No primary model changes; no selection reuse, rescore, deleted failure, release or marketplace publication.",
+    "Fixed subscription bill reduction and quota effects were not measured."
+  ],
+  "results": [
+    {
+      "case": "authentication",
+      "arm": "adaptive",
+      "repetition": 1,
+      "usage": {
+        "input_tokens": 28792,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 74,
+        "reasoning_output_tokens": 22
+      },
+      "passed": true,
+      "exit_code": 0,
+      "tool_starts": 0,
+      "prepare_seconds": 5.205381,
+      "reader_and_quality_seconds": 60.122781,
+      "end_to_end_seconds": 65.328163,
+      "routing": {
+        "status": "selected",
+        "selected_ids": [
+          "source_0_part_1",
+          "source_0_part_2",
+          "source_0_part_3",
+          "source_1_part_0",
+          "source_2_part_0",
+          "source_7_part_6"
+        ],
+        "verify_ids": [
+          "source_0_part_0"
+        ],
+        "classifications": {
+          "source_0_part_0": "background",
+          "source_0_part_1": "direct",
+          "source_0_part_2": "direct",
+          "source_0_part_3": "direct",
+          "source_0_part_4": "irrelevant",
+          "source_0_part_5": "irrelevant",
+          "source_0_part_6": "irrelevant",
+          "source_1_part_0": "direct",
+          "source_2_part_0": "background",
+          "source_2_part_1": "background",
+          "source_2_part_2": "irrelevant",
+          "source_2_part_3": "irrelevant",
+          "source_2_part_4": "irrelevant",
+          "source_2_part_5": "irrelevant",
+          "source_3_part_0": "irrelevant",
+          "source_3_part_1": "irrelevant",
+          "source_3_part_2": "irrelevant",
+          "source_3_part_3": "irrelevant",
+          "source_3_part_4": "irrelevant",
+          "source_4_part_0": "irrelevant",
+          "source_4_part_1": "irrelevant",
+          "source_4_part_2": "irrelevant",
+          "source_4_part_3": "irrelevant",
+          "source_4_part_4": "irrelevant",
+          "source_4_part_5": "irrelevant",
+          "source_5_part_0": "irrelevant",
+          "source_5_part_1": "irrelevant",
+          "source_5_part_2": "irrelevant",
+          "source_5_part_3": "irrelevant",
+          "source_5_part_4": "irrelevant",
+          "source_5_part_5": "irrelevant",
+          "source_5_part_6": "background",
+          "source_6_part_0": "irrelevant",
+          "source_6_part_1": "irrelevant",
+          "source_6_part_2": "irrelevant",
+          "source_6_part_3": "irrelevant",
+          "source_6_part_4": "irrelevant",
+          "source_6_part_5": "irrelevant",
+          "source_6_part_6": "irrelevant",
+          "source_7_part_0": "background",
+          "source_7_part_1": "irrelevant",
+          "source_7_part_2": "irrelevant",
+          "source_7_part_3": "irrelevant",
+          "source_7_part_4": "irrelevant",
+          "source_7_part_5": "irrelevant",
+          "source_7_part_6": "direct"
+        },
+        "provider_calls": 2,
+        "batches": [
+          {
+            "status": "selected",
+            "selected_ids": [
+              "source_0_part_1",
+              "source_0_part_2",
+              "source_0_part_3",
+              "source_1_part_0",
+              "source_2_part_0"
+            ],
+            "verify_ids": [
+              "source_0_part_0"
+            ],
+            "verification_priority": {
+              "source_0_part_0": [
+                0.22999999999999998,
+                true
+              ]
+            },
+            "classifications": {
+              "source_0_part_0": "background",
+              "source_0_part_1": "direct",
+              "source_0_part_2": "direct",
+              "source_0_part_3": "direct",
+              "source_0_part_4": "irrelevant",
+              "source_0_part_5": "irrelevant",
+              "source_0_part_6": "irrelevant",
+              "source_1_part_0": "direct",
+              "source_2_part_0": "background",
+              "source_2_part_1": "background",
+              "source_2_part_2": "irrelevant",
+              "source_2_part_3": "irrelevant",
+              "source_2_part_4": "irrelevant",
+              "source_2_part_5": "irrelevant",
+              "source_3_part_0": "irrelevant",
+              "source_3_part_1": "irrelevant",
+              "source_3_part_2": "irrelevant",
+              "source_3_part_3": "irrelevant",
+              "source_3_part_4": "irrelevant",
+              "source_4_part_0": "irrelevant",
+              "source_4_part_1": "irrelevant",
+              "source_4_part_2": "irrelevant",
+              "source_4_part_3": "irrelevant",
+              "source_4_part_4": "irrelevant",
+              "source_4_part_5": "irrelevant",
+              "source_5_part_0": "irrelevant",
+              "source_5_part_1": "irrelevant"
+            },
+            "provider_calls": 1,
+            "request_attempts": 1,
+            "attempts": [
+              {
+                "number": 1,
+                "status": "ok",
+                "usage": {
+                  "input_tokens": 8522,
+                  "output_tokens": 1420
+                },
+                "charge_usd": 0.000357924,
+                "cost_basis": "provider-reported request cost"
+              }
+            ],
+            "model": "typesafe/jev-1.14-20261014",
+            "usage": {
+              "input_tokens": 8522,
+              "output_tokens": 1420
+            },
+            "estimated_usd": 0.000357924,
+            "cost_basis": "provider-reported request cost"
+          },
+          {
+            "status": "selected",
+            "selected_ids": [
+              "source_7_part_6"
+            ],
+            "verify_ids": [
+              "source_7_part_0"
+            ],
+            "verification_priority": {
+              "source_7_part_0": [
+                0.09000000000000001,
+                true
+              ]
+            },
+            "classifications": {
+              "source_5_part_2": "irrelevant",
+              "source_5_part_3": "irrelevant",
+              "source_5_part_4": "irrelevant",
+              "source_5_part_5": "irrelevant",
+              "source_5_part_6": "background",
+              "source_6_part_0": "irrelevant",
+              "source_6_part_1": "irrelevant",
+              "source_6_part_2": "irrelevant",
+              "source_6_part_3": "irrelevant",
+              "source_6_part_4": "irrelevant",
+              "source_6_part_5": "irrelevant",
+              "source_6_part_6": "irrelevant",
+              "source_7_part_0": "background",
+              "source_7_part_1": "irrelevant",
+              "source_7_part_2": "irrelevant",
+              "source_7_part_3": "irrelevant",
+              "source_7_part_4": "irrelevant",
+              "source_7_part_5": "irrelevant",
+              "source_7_part_6": "direct"
+            },
+            "provider_calls": 1,
+            "request_attempts": 1,
+            "attempts": [
+              {
+                "number": 1,
+                "status": "ok",
+                "usage": {
+                  "input_tokens": 6106,
+                  "output_tokens": 1004
+                },
+                "charge_usd": 0.000256452,
+                "cost_basis": "provider-reported request cost"
+              }
+            ],
+            "model": "typesafe/jev-1.14-20261014",
+            "usage": {
+              "input_tokens": 6106,
+              "output_tokens": 1004
+            },
+            "estimated_usd": 0.000256452,
+            "cost_basis": "provider-reported request cost"
+          }
+        ],
+        "usage": {
+          "input_tokens": 14628,
+          "output_tokens": 2424
+        },
+        "request_attempts": 2,
+        "model": "typesafe/jev-1.14-20261014",
+        "estimated_usd": 0.000614376,
+        "served_models": [
+          "typesafe/jev-1.14-20261014"
+        ],
+        "cost_basis": "Sum of per-batch configured-rate estimates; see batches",
+        "screened_blocks": 46,
+        "baseline_bytes": 24685,
+        "delivered_bytes": 4621,
+        "delivered_ids": [
+          "validator",
+          "credentials",
+          "transport",
+          "protocol_tests"
+        ],
+        "elapsed_seconds": 5.202896
+      }
+    },
+    {
+      "case": "authentication",
+      "arm": "full",
+      "repetition": 1,
+      "usage": {
+        "input_tokens": 33615,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 72,
+        "reasoning_output_tokens": 20
+      },
+      "passed": true,
+      "exit_code": 0,
+      "tool_starts": 0,
+      "prepare_seconds": 0.000556,
+      "reader_and_quality_seconds": 65.091121,
+      "end_to_end_seconds": 65.091676,
+      "routing": {
+        "provider_calls": 0
+      }
+    },
+    {
+      "case": "primitives",
+      "arm": "adaptive",
+      "repetition": 1,
+      "usage": {
+        "input_tokens": 30835,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 111,
+        "reasoning_output_tokens": 35
+      },
+      "passed": true,
+      "exit_code": 0,
+      "tool_starts": 0,
+      "prepare_seconds": 11.788499,
+      "reader_and_quality_seconds": 70.141622,
+      "end_to_end_seconds": 81.930121,
+      "routing": {
+        "status": "selected",
+        "selected_ids": [
+          "source_0_part_0",
+          "source_0_part_1",
+          "source_0_part_4",
+          "source_1_part_0",
+          "source_1_part_1",
+          "source_1_part_2",
+          "source_1_part_3",
+          "source_1_part_4",
+          "source_2_part_1",
+          "source_2_part_3",
+          "source_3_part_0",
+          "source_3_part_1",
+          "source_3_part_2",
+          "source_3_part_3",
+          "source_4_part_3",
+          "source_4_part_4",
+          "source_5_part_5",
+          "source_6_part_4"
+        ],
+        "verify_ids": [
+          "source_4_part_1"
+        ],
+        "classifications": {
+          "source_0_part_0": "direct",
+          "source_0_part_1": "direct",
+          "source_0_part_2": "background",
+          "source_0_part_3": "background",
+          "source_0_part_4": "direct",
+          "source_0_part_5": "background",
+          "source_1_part_0": "direct",
+          "source_1_part_1": "direct",
+          "source_1_part_2": "direct",
+          "source_1_part_3": "direct",
+          "source_1_part_4": "direct",
+          "source_1_part_5": "background",
+          "source_2_part_0": "background",
+          "source_2_part_1": "direct",
+          "source_2_part_2": "background",
+          "source_2_part_3": "background",
+          "source_2_part_4": "background",
+          "source_2_part_5": "background",
+          "source_3_part_0": "direct",
+          "source_3_part_1": "direct",
+          "source_3_part_2": "direct",
+          "source_3_part_3": "direct",
+          "source_3_part_4": "background",
+          "source_3_part_5": "background",
+          "source_4_part_0": "background",
+          "source_4_part_1": "background",
+          "source_4_part_2": "background",
+          "source_4_part_3": "direct",
+          "source_4_part_4": "direct",
+          "source_4_part_5": "background",
+          "source_5_part_0": "background",
+          "source_5_part_1": "irrelevant",
+          "source_5_part_2": "background",
+          "source_5_part_3": "background",
+          "source_5_part_4": "irrelevant",
+          "source_5_part_5": "background",
+          "source_6_part_0": "background",
+          "source_6_part_1": "background",
+          "source_6_part_2": "background",
+          "source_6_part_3": "background",
+          "source_6_part_4": "background"
+        },
+        "provider_calls": 2,
+        "batches": [
+          {
+            "status": "selected",
+            "selected_ids": [
+              "source_0_part_0",
+              "source_0_part_1",
+              "source_0_part_4",
+              "source_1_part_0",
+              "source_1_part_1",
+              "source_1_part_2",
+              "source_1_part_3",
+              "source_1_part_4",
+              "source_2_part_1",
+              "source_2_part_3",
+              "source_3_part_0",
+              "source_3_part_1",
+              "source_3_part_2",
+              "source_3_part_3"
+            ],
+            "verify_ids": [
+              "source_4_part_1"
+            ],
+            "verification_priority": {
+              "source_4_part_1": [
+                0.32,
+                true
+              ]
+            },
+            "classifications": {
+              "source_0_part_0": "direct",
+              "source_0_part_1": "direct",
+              "source_0_part_2": "background",
+              "source_0_part_3": "background",
+              "source_0_part_4": "direct",
+              "source_0_part_5": "background",
+              "source_1_part_0": "direct",
+              "source_1_part_1": "direct",
+              "source_1_part_2": "direct",
+              "source_1_part_3": "direct",
+              "source_1_part_4": "direct",
+              "source_1_part_5": "background",
+              "source_2_part_0": "background",
+              "source_2_part_1": "direct",
+              "source_2_part_2": "background",
+              "source_2_part_3": "background",
+              "source_2_part_4": "background",
+              "source_2_part_5": "background",
+              "source_3_part_0": "direct",
+              "source_3_part_1": "direct",
+              "source_3_part_2": "direct",
+              "source_3_part_3": "direct",
+              "source_3_part_4": "background",
+              "source_3_part_5": "background",
+              "source_4_part_0": "background",
+              "source_4_part_1": "background"
+            },
+            "provider_calls": 1,
+            "request_attempts": 1,
+            "attempts": [
+              {
+                "number": 1,
+                "status": "ok",
+                "usage": {
+                  "input_tokens": 8329,
+                  "output_tokens": 1329
+                },
+                "charge_usd": 0.000349818,
+                "cost_basis": "provider-reported request cost"
+              }
+            ],
+            "model": "typesafe/jev-1.14-20261014",
+            "usage": {
+              "input_tokens": 8329,
+              "output_tokens": 1329
+            },
+            "estimated_usd": 0.000349818,
+            "cost_basis": "provider-reported request cost"
+          },
+          {
+            "status": "selected",
+            "selected_ids": [
+              "source_4_part_3",
+              "source_4_part_4",
+              "source_5_part_5",
+              "source_6_part_4"
+            ],
+            "verify_ids": [
+              "source_4_part_2"
+            ],
+            "verification_priority": {
+              "source_4_part_2": [
+                0.28,
+                true
+              ]
+            },
+            "classifications": {
+              "source_4_part_2": "background",
+              "source_4_part_3": "direct",
+              "source_4_part_4": "direct",
+              "source_4_part_5": "background",
+              "source_5_part_0": "background",
+              "source_5_part_1": "irrelevant",
+              "source_5_part_2": "background",
+              "source_5_part_3": "background",
+              "source_5_part_4": "irrelevant",
+              "source_5_part_5": "background",
+              "source_6_part_0": "background",
+              "source_6_part_1": "background",
+              "source_6_part_2": "background",
+              "source_6_part_3": "background",
+              "source_6_part_4": "background"
+            },
+            "provider_calls": 1,
+            "request_attempts": 1,
+            "attempts": [
+              {
+                "number": 1,
+                "status": "ok",
+                "usage": {
+                  "input_tokens": 5215,
+                  "output_tokens": 772
+                },
+                "charge_usd": 0.00021903,
+                "cost_basis": "provider-reported request cost"
+              }
+            ],
+            "model": "typesafe/jev-1.14-20261014",
+            "usage": {
+              "input_tokens": 5215,
+              "output_tokens": 772
+            },
+            "estimated_usd": 0.00021903,
+            "cost_basis": "provider-reported request cost"
+          }
+        ],
+        "usage": {
+          "input_tokens": 13544,
+          "output_tokens": 2101
+        },
+        "request_attempts": 2,
+        "model": "typesafe/jev-1.14-20261014",
+        "estimated_usd": 0.000568848,
+        "served_models": [
+          "typesafe/jev-1.14-20261014"
+        ],
+        "cost_basis": "Sum of per-batch configured-rate estimates; see batches",
+        "screened_blocks": 41,
+        "baseline_bytes": 24469,
+        "delivered_bytes": 13730,
+        "delivered_ids": [
+          "choice",
+          "score",
+          "noul",
+          "confidence",
+          "fanout",
+          "models",
+          "introduction"
+        ],
+        "elapsed_seconds": 11.787076
+      }
+    },
+    {
+      "case": "primitives",
+      "arm": "full",
+      "repetition": 1,
+      "usage": {
+        "input_tokens": 33130,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 76,
+        "reasoning_output_tokens": 0
+      },
+      "passed": true,
+      "exit_code": 0,
+      "tool_starts": 0,
+      "prepare_seconds": 0.000629,
+      "reader_and_quality_seconds": 60.496006,
+      "end_to_end_seconds": 60.496635,
+      "routing": {
+        "provider_calls": 0
+      }
+    },
+    {
+      "case": "authentication",
+      "arm": "full",
+      "repetition": 2,
+      "usage": {
+        "input_tokens": 33327,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 90,
+        "reasoning_output_tokens": 38
+      },
+      "passed": true,
+      "exit_code": 0,
+      "tool_starts": 0,
+      "prepare_seconds": 0.00074,
+      "reader_and_quality_seconds": 64.247332,
+      "end_to_end_seconds": 64.248073,
+      "routing": {
+        "provider_calls": 0
+      }
+    },
+    {
+      "case": "authentication",
+      "arm": "adaptive",
+      "repetition": 2,
+      "usage": {
+        "input_tokens": 28805,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 76,
+        "reasoning_output_tokens": 24
+      },
+      "passed": true,
+      "exit_code": 0,
+      "tool_starts": 0,
+      "prepare_seconds": 20.942569,
+      "reader_and_quality_seconds": 70.12786,
+      "end_to_end_seconds": 91.070428,
+      "routing": {
+        "status": "selected",
+        "selected_ids": [
+          "source_0_part_1",
+          "source_0_part_2",
+          "source_0_part_3",
+          "source_1_part_0",
+          "source_2_part_0",
+          "source_7_part_6"
+        ],
+        "verify_ids": [
+          "source_2_part_1"
+        ],
+        "classifications": {
+          "source_0_part_0": "background",
+          "source_0_part_1": "direct",
+          "source_0_part_2": "direct",
+          "source_0_part_3": "direct",
+          "source_0_part_4": "irrelevant",
+          "source_0_part_5": "irrelevant",
+          "source_0_part_6": "irrelevant",
+          "source_1_part_0": "direct",
+          "source_2_part_0": "background",
+          "source_2_part_1": "background",
+          "source_2_part_2": "irrelevant",
+          "source_2_part_3": "irrelevant",
+          "source_2_part_4": "irrelevant",
+          "source_2_part_5": "irrelevant",
+          "source_3_part_0": "irrelevant",
+          "source_3_part_1": "irrelevant",
+          "source_3_part_2": "irrelevant",
+          "source_3_part_3": "irrelevant",
+          "source_3_part_4": "irrelevant",
+          "source_4_part_0": "irrelevant",
+          "source_4_part_1": "irrelevant",
+          "source_4_part_2": "irrelevant",
+          "source_4_part_3": "irrelevant",
+          "source_4_part_4": "irrelevant",
+          "source_4_part_5": "irrelevant",
+          "source_5_part_0": "irrelevant",
+          "source_5_part_1": "irrelevant",
+          "source_5_part_2": "irrelevant",
+          "source_5_part_3": "irrelevant",
+          "source_5_part_4": "irrelevant",
+          "source_5_part_5": "irrelevant",
+          "source_5_part_6": "background",
+          "source_6_part_0": "irrelevant",
+          "source_6_part_1": "irrelevant",
+          "source_6_part_2": "irrelevant",
+          "source_6_part_3": "irrelevant",
+          "source_6_part_4": "irrelevant",
+          "source_6_part_5": "irrelevant",
+          "source_6_part_6": "irrelevant",
+          "source_7_part_0": "background",
+          "source_7_part_1": "irrelevant",
+          "source_7_part_2": "irrelevant",
+          "source_7_part_3": "irrelevant",
+          "source_7_part_4": "irrelevant",
+          "source_7_part_5": "irrelevant",
+          "source_7_part_6": "background"
+        },
+        "provider_calls": 2,
+        "batches": [
+          {
+            "status": "selected",
+            "selected_ids": [
+              "source_0_part_1",
+              "source_0_part_2",
+              "source_0_part_3",
+              "source_1_part_0",
+              "source_2_part_0"
+            ],
+            "verify_ids": [
+              "source_2_part_1"
+            ],
+            "verification_priority": {
+              "source_2_part_1": [
+                0.25,
+                true
+              ]
+            },
+            "classifications": {
+              "source_0_part_0": "background",
+              "source_0_part_1": "direct",
+              "source_0_part_2": "direct",
+              "source_0_part_3": "direct",
+              "source_0_part_4": "irrelevant",
+              "source_0_part_5": "irrelevant",
+              "source_0_part_6": "irrelevant",
+              "source_1_part_0": "direct",
+              "source_2_part_0": "background",
+              "source_2_part_1": "background",
+              "source_2_part_2": "irrelevant",
+              "source_2_part_3": "irrelevant",
+              "source_2_part_4": "irrelevant",
+              "source_2_part_5": "irrelevant",
+              "source_3_part_0": "irrelevant",
+              "source_3_part_1": "irrelevant",
+              "source_3_part_2": "irrelevant",
+              "source_3_part_3": "irrelevant",
+              "source_3_part_4": "irrelevant",
+              "source_4_part_0": "irrelevant",
+              "source_4_part_1": "irrelevant",
+              "source_4_part_2": "irrelevant",
+              "source_4_part_3": "irrelevant",
+              "source_4_part_4": "irrelevant",
+              "source_4_part_5": "irrelevant",
+              "source_5_part_0": "irrelevant",
+              "source_5_part_1": "irrelevant"
+            },
+            "provider_calls": 1,
+            "request_attempts": 1,
+            "attempts": [
+              {
+                "number": 1,
+                "status": "ok",
+                "usage": {
+                  "input_tokens": 8522,
+                  "output_tokens": 1420
+                },
+                "charge_usd": 0.000357924,
+                "cost_basis": "provider-reported request cost"
+              }
+            ],
+            "model": "typesafe/jev-1.14-20261014",
+            "usage": {
+              "input_tokens": 8522,
+              "output_tokens": 1420
+            },
+            "estimated_usd": 0.000357924,
+            "cost_basis": "provider-reported request cost"
+          },
+          {
+            "status": "selected",
+            "selected_ids": [
+              "source_7_part_6"
+            ],
+            "verify_ids": [
+              "source_5_part_6"
+            ],
+            "verification_priority": {
+              "source_5_part_6": [
+                0.07,
+                true
+              ]
+            },
+            "classifications": {
+              "source_5_part_2": "irrelevant",
+              "source_5_part_3": "irrelevant",
+              "source_5_part_4": "irrelevant",
+              "source_5_part_5": "irrelevant",
+              "source_5_part_6": "background",
+              "source_6_part_0": "irrelevant",
+              "source_6_part_1": "irrelevant",
+              "source_6_part_2": "irrelevant",
+              "source_6_part_3": "irrelevant",
+              "source_6_part_4": "irrelevant",
+              "source_6_part_5": "irrelevant",
+              "source_6_part_6": "irrelevant",
+              "source_7_part_0": "background",
+              "source_7_part_1": "irrelevant",
+              "source_7_part_2": "irrelevant",
+              "source_7_part_3": "irrelevant",
+              "source_7_part_4": "irrelevant",
+              "source_7_part_5": "irrelevant",
+              "source_7_part_6": "background"
+            },
+            "provider_calls": 1,
+            "request_attempts": 1,
+            "attempts": [
+              {
+                "number": 1,
+                "status": "ok",
+                "usage": {
+                  "input_tokens": 6106,
+                  "output_tokens": 1004
+                },
+                "charge_usd": 0.000256452,
+                "cost_basis": "provider-reported request cost"
+              }
+            ],
+            "model": "typesafe/jev-1.14-20261014",
+            "usage": {
+              "input_tokens": 6106,
+              "output_tokens": 1004
+            },
+            "estimated_usd": 0.000256452,
+            "cost_basis": "provider-reported request cost"
+          }
+        ],
+        "usage": {
+          "input_tokens": 14628,
+          "output_tokens": 2424
+        },
+        "request_attempts": 2,
+        "model": "typesafe/jev-1.14-20261014",
+        "estimated_usd": 0.000614376,
+        "served_models": [
+          "typesafe/jev-1.14-20261014"
+        ],
+        "cost_basis": "Sum of per-batch configured-rate estimates; see batches",
+        "screened_blocks": 46,
+        "baseline_bytes": 24685,
+        "delivered_bytes": 4663,
+        "delivered_ids": [
+          "validator",
+          "credentials",
+          "transport",
+          "protocol_tests"
+        ],
+        "elapsed_seconds": 20.940548
+      }
+    },
+    {
+      "case": "primitives",
+      "arm": "full",
+      "repetition": 2,
+      "usage": {
+        "input_tokens": 33008,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 76,
+        "reasoning_output_tokens": 0
+      },
+      "passed": true,
+      "exit_code": 0,
+      "tool_starts": 0,
+      "prepare_seconds": 0.000729,
+      "reader_and_quality_seconds": 70.16653,
+      "end_to_end_seconds": 70.167259,
+      "routing": {
+        "provider_calls": 0
+      }
+    },
+    {
+      "case": "primitives",
+      "arm": "adaptive",
+      "repetition": 2,
+      "usage": {
+        "input_tokens": 30957,
+        "cached_input_tokens": 24960,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 102,
+        "reasoning_output_tokens": 26
+      },
+      "passed": true,
+      "exit_code": 0,
+      "tool_starts": 0,
+      "prepare_seconds": 12.086602,
+      "reader_and_quality_seconds": 70.125975,
+      "end_to_end_seconds": 82.212577,
+      "routing": {
+        "status": "selected",
+        "selected_ids": [
+          "source_0_part_0",
+          "source_0_part_1",
+          "source_0_part_4",
+          "source_1_part_0",
+          "source_1_part_1",
+          "source_1_part_2",
+          "source_1_part_3",
+          "source_1_part_4",
+          "source_2_part_1",
+          "source_2_part_3",
+          "source_3_part_0",
+          "source_3_part_1",
+          "source_3_part_2",
+          "source_3_part_3",
+          "source_4_part_3",
+          "source_4_part_4",
+          "source_5_part_5",
+          "source_6_part_4"
+        ],
+        "verify_ids": [
+          "source_4_part_1"
+        ],
+        "classifications": {
+          "source_0_part_0": "direct",
+          "source_0_part_1": "direct",
+          "source_0_part_2": "background",
+          "source_0_part_3": "background",
+          "source_0_part_4": "direct",
+          "source_0_part_5": "background",
+          "source_1_part_0": "direct",
+          "source_1_part_1": "direct",
+          "source_1_part_2": "direct",
+          "source_1_part_3": "direct",
+          "source_1_part_4": "direct",
+          "source_1_part_5": "background",
+          "source_2_part_0": "background",
+          "source_2_part_1": "direct",
+          "source_2_part_2": "background",
+          "source_2_part_3": "background",
+          "source_2_part_4": "background",
+          "source_2_part_5": "background",
+          "source_3_part_0": "direct",
+          "source_3_part_1": "direct",
+          "source_3_part_2": "direct",
+          "source_3_part_3": "direct",
+          "source_3_part_4": "background",
+          "source_3_part_5": "background",
+          "source_4_part_0": "background",
+          "source_4_part_1": "background",
+          "source_4_part_2": "background",
+          "source_4_part_3": "direct",
+          "source_4_part_4": "direct",
+          "source_4_part_5": "background",
+          "source_5_part_0": "background",
+          "source_5_part_1": "irrelevant",
+          "source_5_part_2": "background",
+          "source_5_part_3": "background",
+          "source_5_part_4": "background",
+          "source_5_part_5": "background",
+          "source_6_part_0": "background",
+          "source_6_part_1": "background",
+          "source_6_part_2": "background",
+          "source_6_part_3": "background",
+          "source_6_part_4": "direct"
+        },
+        "provider_calls": 2,
+        "batches": [
+          {
+            "status": "selected",
+            "selected_ids": [
+              "source_0_part_0",
+              "source_0_part_1",
+              "source_0_part_4",
+              "source_1_part_0",
+              "source_1_part_1",
+              "source_1_part_2",
+              "source_1_part_3",
+              "source_1_part_4",
+              "source_2_part_1",
+              "source_2_part_3",
+              "source_3_part_0",
+              "source_3_part_1",
+              "source_3_part_2",
+              "source_3_part_3"
+            ],
+            "verify_ids": [
+              "source_4_part_1"
+            ],
+            "verification_priority": {
+              "source_4_part_1": [
+                0.31,
+                true
+              ]
+            },
+            "classifications": {
+              "source_0_part_0": "direct",
+              "source_0_part_1": "direct",
+              "source_0_part_2": "background",
+              "source_0_part_3": "background",
+              "source_0_part_4": "direct",
+              "source_0_part_5": "background",
+              "source_1_part_0": "direct",
+              "source_1_part_1": "direct",
+              "source_1_part_2": "direct",
+              "source_1_part_3": "direct",
+              "source_1_part_4": "direct",
+              "source_1_part_5": "background",
+              "source_2_part_0": "background",
+              "source_2_part_1": "direct",
+              "source_2_part_2": "background",
+              "source_2_part_3": "background",
+              "source_2_part_4": "background",
+              "source_2_part_5": "background",
+              "source_3_part_0": "direct",
+              "source_3_part_1": "direct",
+              "source_3_part_2": "direct",
+              "source_3_part_3": "direct",
+              "source_3_part_4": "background",
+              "source_3_part_5": "background",
+              "source_4_part_0": "background",
+              "source_4_part_1": "background"
+            },
+            "provider_calls": 1,
+            "request_attempts": 1,
+            "attempts": [
+              {
+                "number": 1,
+                "status": "ok",
+                "usage": {
+                  "input_tokens": 8329,
+                  "output_tokens": 1329
+                },
+                "charge_usd": 0.000349818,
+                "cost_basis": "provider-reported request cost"
+              }
+            ],
+            "model": "typesafe/jev-1.14-20261014",
+            "usage": {
+              "input_tokens": 8329,
+              "output_tokens": 1329
+            },
+            "estimated_usd": 0.000349818,
+            "cost_basis": "provider-reported request cost"
+          },
+          {
+            "status": "selected",
+            "selected_ids": [
+              "source_4_part_3",
+              "source_4_part_4",
+              "source_5_part_5",
+              "source_6_part_4"
+            ],
+            "verify_ids": [
+              "source_4_part_2"
+            ],
+            "verification_priority": {
+              "source_4_part_2": [
+                0.30000000000000004,
+                true
+              ]
+            },
+            "classifications": {
+              "source_4_part_2": "background",
+              "source_4_part_3": "direct",
+              "source_4_part_4": "direct",
+              "source_4_part_5": "background",
+              "source_5_part_0": "background",
+              "source_5_part_1": "irrelevant",
+              "source_5_part_2": "background",
+              "source_5_part_3": "background",
+              "source_5_part_4": "background",
+              "source_5_part_5": "background",
+              "source_6_part_0": "background",
+              "source_6_part_1": "background",
+              "source_6_part_2": "background",
+              "source_6_part_3": "background",
+              "source_6_part_4": "direct"
+            },
+            "provider_calls": 1,
+            "request_attempts": 1,
+            "attempts": [
+              {
+                "number": 1,
+                "status": "ok",
+                "usage": {
+                  "input_tokens": 5215,
+                  "output_tokens": 770
+                },
+                "charge_usd": 0.00021903,
+                "cost_basis": "provider-reported request cost"
+              }
+            ],
+            "model": "typesafe/jev-1.14-20261014",
+            "usage": {
+              "input_tokens": 5215,
+              "output_tokens": 770
+            },
+            "estimated_usd": 0.00021903,
+            "cost_basis": "provider-reported request cost"
+          }
+        ],
+        "usage": {
+          "input_tokens": 13544,
+          "output_tokens": 2099
+        },
+        "request_attempts": 2,
+        "model": "typesafe/jev-1.14-20261014",
+        "estimated_usd": 0.000568848,
+        "served_models": [
+          "typesafe/jev-1.14-20261014"
+        ],
+        "cost_basis": "Sum of per-batch configured-rate estimates; see batches",
+        "screened_blocks": 41,
+        "baseline_bytes": 24469,
+        "delivered_bytes": 13730,
+        "delivered_ids": [
+          "choice",
+          "score",
+          "noul",
+          "confidence",
+          "fanout",
+          "models",
+          "introduction"
+        ],
+        "elapsed_seconds": 12.084326
+      }
+    },
+    {
+      "case": "authentication",
+      "arm": "adaptive",
+      "repetition": 3,
+      "usage": {
+        "input_tokens": 28683,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 50,
+        "reasoning_output_tokens": 0
+      },
+      "passed": true,
+      "exit_code": 0,
+      "tool_starts": 0,
+      "prepare_seconds": 16.588547,
+      "reader_and_quality_seconds": 62.340241,
+      "end_to_end_seconds": 78.928788,
+      "routing": {
+        "status": "selected",
+        "selected_ids": [
+          "source_0_part_1",
+          "source_0_part_2",
+          "source_0_part_3",
+          "source_1_part_0",
+          "source_2_part_0",
+          "source_7_part_6"
+        ],
+        "verify_ids": [
+          "source_2_part_1"
+        ],
+        "classifications": {
+          "source_0_part_0": "background",
+          "source_0_part_1": "direct",
+          "source_0_part_2": "direct",
+          "source_0_part_3": "direct",
+          "source_0_part_4": "irrelevant",
+          "source_0_part_5": "irrelevant",
+          "source_0_part_6": "irrelevant",
+          "source_1_part_0": "direct",
+          "source_2_part_0": "background",
+          "source_2_part_1": "background",
+          "source_2_part_2": "irrelevant",
+          "source_2_part_3": "irrelevant",
+          "source_2_part_4": "irrelevant",
+          "source_2_part_5": "irrelevant",
+          "source_3_part_0": "irrelevant",
+          "source_3_part_1": "irrelevant",
+          "source_3_part_2": "irrelevant",
+          "source_3_part_3": "irrelevant",
+          "source_3_part_4": "irrelevant",
+          "source_4_part_0": "irrelevant",
+          "source_4_part_1": "irrelevant",
+          "source_4_part_2": "irrelevant",
+          "source_4_part_3": "irrelevant",
+          "source_4_part_4": "irrelevant",
+          "source_4_part_5": "irrelevant",
+          "source_5_part_0": "irrelevant",
+          "source_5_part_1": "irrelevant",
+          "source_5_part_2": "irrelevant",
+          "source_5_part_3": "background",
+          "source_5_part_4": "irrelevant",
+          "source_5_part_5": "irrelevant",
+          "source_5_part_6": "background",
+          "source_6_part_0": "irrelevant",
+          "source_6_part_1": "irrelevant",
+          "source_6_part_2": "irrelevant",
+          "source_6_part_3": "irrelevant",
+          "source_6_part_4": "irrelevant",
+          "source_6_part_5": "irrelevant",
+          "source_6_part_6": "irrelevant",
+          "source_7_part_0": "background",
+          "source_7_part_1": "irrelevant",
+          "source_7_part_2": "irrelevant",
+          "source_7_part_3": "irrelevant",
+          "source_7_part_4": "irrelevant",
+          "source_7_part_5": "irrelevant",
+          "source_7_part_6": "background"
+        },
+        "provider_calls": 2,
+        "batches": [
+          {
+            "status": "selected",
+            "selected_ids": [
+              "source_0_part_1",
+              "source_0_part_2",
+              "source_0_part_3",
+              "source_1_part_0",
+              "source_2_part_0"
+            ],
+            "verify_ids": [
+              "source_2_part_1"
+            ],
+            "verification_priority": {
+              "source_2_part_1": [
+                0.24000000000000002,
+                true
+              ]
+            },
+            "classifications": {
+              "source_0_part_0": "background",
+              "source_0_part_1": "direct",
+              "source_0_part_2": "direct",
+              "source_0_part_3": "direct",
+              "source_0_part_4": "irrelevant",
+              "source_0_part_5": "irrelevant",
+              "source_0_part_6": "irrelevant",
+              "source_1_part_0": "direct",
+              "source_2_part_0": "background",
+              "source_2_part_1": "background",
+              "source_2_part_2": "irrelevant",
+              "source_2_part_3": "irrelevant",
+              "source_2_part_4": "irrelevant",
+              "source_2_part_5": "irrelevant",
+              "source_3_part_0": "irrelevant",
+              "source_3_part_1": "irrelevant",
+              "source_3_part_2": "irrelevant",
+              "source_3_part_3": "irrelevant",
+              "source_3_part_4": "irrelevant",
+              "source_4_part_0": "irrelevant",
+              "source_4_part_1": "irrelevant",
+              "source_4_part_2": "irrelevant",
+              "source_4_part_3": "irrelevant",
+              "source_4_part_4": "irrelevant",
+              "source_4_part_5": "irrelevant",
+              "source_5_part_0": "irrelevant",
+              "source_5_part_1": "irrelevant"
+            },
+            "provider_calls": 1,
+            "request_attempts": 1,
+            "attempts": [
+              {
+                "number": 1,
+                "status": "ok",
+                "usage": {
+                  "input_tokens": 8522,
+                  "output_tokens": 1420
+                },
+                "charge_usd": 0.000357924,
+                "cost_basis": "provider-reported request cost"
+              }
+            ],
+            "model": "typesafe/jev-1.14-20261014",
+            "usage": {
+              "input_tokens": 8522,
+              "output_tokens": 1420
+            },
+            "estimated_usd": 0.000357924,
+            "cost_basis": "provider-reported request cost"
+          },
+          {
+            "status": "selected",
+            "selected_ids": [
+              "source_7_part_6"
+            ],
+            "verify_ids": [
+              "source_5_part_6"
+            ],
+            "verification_priority": {
+              "source_5_part_6": [
+                0.08,
+                true
+              ]
+            },
+            "classifications": {
+              "source_5_part_2": "irrelevant",
+              "source_5_part_3": "background",
+              "source_5_part_4": "irrelevant",
+              "source_5_part_5": "irrelevant",
+              "source_5_part_6": "background",
+              "source_6_part_0": "irrelevant",
+              "source_6_part_1": "irrelevant",
+              "source_6_part_2": "irrelevant",
+              "source_6_part_3": "irrelevant",
+              "source_6_part_4": "irrelevant",
+              "source_6_part_5": "irrelevant",
+              "source_6_part_6": "irrelevant",
+              "source_7_part_0": "background",
+              "source_7_part_1": "irrelevant",
+              "source_7_part_2": "irrelevant",
+              "source_7_part_3": "irrelevant",
+              "source_7_part_4": "irrelevant",
+              "source_7_part_5": "irrelevant",
+              "source_7_part_6": "background"
+            },
+            "provider_calls": 1,
+            "request_attempts": 1,
+            "attempts": [
+              {
+                "number": 1,
+                "status": "ok",
+                "usage": {
+                  "input_tokens": 6106,
+                  "output_tokens": 1002
+                },
+                "charge_usd": 0.000256452,
+                "cost_basis": "provider-reported request cost"
+              }
+            ],
+            "model": "typesafe/jev-1.14-20261014",
+            "usage": {
+              "input_tokens": 6106,
+              "output_tokens": 1002
+            },
+            "estimated_usd": 0.000256452,
+            "cost_basis": "provider-reported request cost"
+          }
+        ],
+        "usage": {
+          "input_tokens": 14628,
+          "output_tokens": 2422
+        },
+        "request_attempts": 2,
+        "model": "typesafe/jev-1.14-20261014",
+        "estimated_usd": 0.000614376,
+        "served_models": [
+          "typesafe/jev-1.14-20261014"
+        ],
+        "cost_basis": "Sum of per-batch configured-rate estimates; see batches",
+        "screened_blocks": 46,
+        "baseline_bytes": 24685,
+        "delivered_bytes": 4663,
+        "delivered_ids": [
+          "validator",
+          "credentials",
+          "transport",
+          "protocol_tests"
+        ],
+        "elapsed_seconds": 16.586036
+      }
+    },
+    {
+      "case": "authentication",
+      "arm": "full",
+      "repetition": 3,
+      "usage": {
+        "input_tokens": 33327,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 75,
+        "reasoning_output_tokens": 23
+      },
+      "passed": true,
+      "exit_code": 0,
+      "tool_starts": 0,
+      "prepare_seconds": 0.000989,
+      "reader_and_quality_seconds": 70.126162,
+      "end_to_end_seconds": 70.127151,
+      "routing": {
+        "provider_calls": 0
+      }
+    },
+    {
+      "case": "primitives",
+      "arm": "adaptive",
+      "repetition": 3,
+      "usage": {
+        "input_tokens": 31032,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 117,
+        "reasoning_output_tokens": 41
+      },
+      "passed": true,
+      "exit_code": 0,
+      "tool_starts": 0,
+      "prepare_seconds": 10.516607,
+      "reader_and_quality_seconds": 70.136227,
+      "end_to_end_seconds": 80.652834,
+      "routing": {
+        "status": "selected",
+        "selected_ids": [
+          "source_0_part_0",
+          "source_0_part_1",
+          "source_0_part_4",
+          "source_1_part_0",
+          "source_1_part_1",
+          "source_1_part_2",
+          "source_1_part_3",
+          "source_1_part_4",
+          "source_2_part_1",
+          "source_2_part_3",
+          "source_3_part_0",
+          "source_3_part_1",
+          "source_3_part_2",
+          "source_3_part_3",
+          "source_4_part_1",
+          "source_4_part_3",
+          "source_4_part_4",
+          "source_5_part_5",
+          "source_6_part_4"
+        ],
+        "verify_ids": [
+          "source_2_part_0"
+        ],
+        "classifications": {
+          "source_0_part_0": "direct",
+          "source_0_part_1": "direct",
+          "source_0_part_2": "background",
+          "source_0_part_3": "background",
+          "source_0_part_4": "direct",
+          "source_0_part_5": "background",
+          "source_1_part_0": "direct",
+          "source_1_part_1": "direct",
+          "source_1_part_2": "direct",
+          "source_1_part_3": "direct",
+          "source_1_part_4": "direct",
+          "source_1_part_5": "background",
+          "source_2_part_0": "background",
+          "source_2_part_1": "direct",
+          "source_2_part_2": "background",
+          "source_2_part_3": "background",
+          "source_2_part_4": "background",
+          "source_2_part_5": "background",
+          "source_3_part_0": "direct",
+          "source_3_part_1": "direct",
+          "source_3_part_2": "direct",
+          "source_3_part_3": "direct",
+          "source_3_part_4": "background",
+          "source_3_part_5": "background",
+          "source_4_part_0": "background",
+          "source_4_part_1": "background",
+          "source_4_part_2": "background",
+          "source_4_part_3": "direct",
+          "source_4_part_4": "direct",
+          "source_4_part_5": "background",
+          "source_5_part_0": "background",
+          "source_5_part_1": "background",
+          "source_5_part_2": "background",
+          "source_5_part_3": "background",
+          "source_5_part_4": "background",
+          "source_5_part_5": "background",
+          "source_6_part_0": "background",
+          "source_6_part_1": "background",
+          "source_6_part_2": "background",
+          "source_6_part_3": "background",
+          "source_6_part_4": "direct"
+        },
+        "provider_calls": 2,
+        "batches": [
+          {
+            "status": "selected",
+            "selected_ids": [
+              "source_0_part_0",
+              "source_0_part_1",
+              "source_0_part_4",
+              "source_1_part_0",
+              "source_1_part_1",
+              "source_1_part_2",
+              "source_1_part_3",
+              "source_1_part_4",
+              "source_2_part_1",
+              "source_2_part_3",
+              "source_3_part_0",
+              "source_3_part_1",
+              "source_3_part_2",
+              "source_3_part_3",
+              "source_4_part_1"
+            ],
+            "verify_ids": [
+              "source_2_part_0"
+            ],
+            "verification_priority": {
+              "source_2_part_0": [
+                0.30000000000000004,
+                true
+              ]
+            },
+            "classifications": {
+              "source_0_part_0": "direct",
+              "source_0_part_1": "direct",
+              "source_0_part_2": "background",
+              "source_0_part_3": "background",
+              "source_0_part_4": "direct",
+              "source_0_part_5": "background",
+              "source_1_part_0": "direct",
+              "source_1_part_1": "direct",
+              "source_1_part_2": "direct",
+              "source_1_part_3": "direct",
+              "source_1_part_4": "direct",
+              "source_1_part_5": "background",
+              "source_2_part_0": "background",
+              "source_2_part_1": "direct",
+              "source_2_part_2": "background",
+              "source_2_part_3": "background",
+              "source_2_part_4": "background",
+              "source_2_part_5": "background",
+              "source_3_part_0": "direct",
+              "source_3_part_1": "direct",
+              "source_3_part_2": "direct",
+              "source_3_part_3": "direct",
+              "source_3_part_4": "background",
+              "source_3_part_5": "background",
+              "source_4_part_0": "background",
+              "source_4_part_1": "background"
+            },
+            "provider_calls": 1,
+            "request_attempts": 1,
+            "attempts": [
+              {
+                "number": 1,
+                "status": "ok",
+                "usage": {
+                  "input_tokens": 8329,
+                  "output_tokens": 1329
+                },
+                "charge_usd": 0.000349818,
+                "cost_basis": "provider-reported request cost"
+              }
+            ],
+            "model": "typesafe/jev-1.14-20261014",
+            "usage": {
+              "input_tokens": 8329,
+              "output_tokens": 1329
+            },
+            "estimated_usd": 0.000349818,
+            "cost_basis": "provider-reported request cost"
+          },
+          {
+            "status": "selected",
+            "selected_ids": [
+              "source_4_part_3",
+              "source_4_part_4",
+              "source_5_part_5",
+              "source_6_part_4"
+            ],
+            "verify_ids": [
+              "source_4_part_2"
+            ],
+            "verification_priority": {
+              "source_4_part_2": [
+                0.29000000000000004,
+                true
+              ]
+            },
+            "classifications": {
+              "source_4_part_2": "background",
+              "source_4_part_3": "direct",
+              "source_4_part_4": "direct",
+              "source_4_part_5": "background",
+              "source_5_part_0": "background",
+              "source_5_part_1": "background",
+              "source_5_part_2": "background",
+              "source_5_part_3": "background",
+              "source_5_part_4": "background",
+              "source_5_part_5": "background",
+              "source_6_part_0": "background",
+              "source_6_part_1": "background",
+              "source_6_part_2": "background",
+              "source_6_part_3": "background",
+              "source_6_part_4": "direct"
+            },
+            "provider_calls": 1,
+            "request_attempts": 1,
+            "attempts": [
+              {
+                "number": 1,
+                "status": "ok",
+                "usage": {
+                  "input_tokens": 5215,
+                  "output_tokens": 768
+                },
+                "charge_usd": 0.00021903,
+                "cost_basis": "provider-reported request cost"
+              }
+            ],
+            "model": "typesafe/jev-1.14-20261014",
+            "usage": {
+              "input_tokens": 5215,
+              "output_tokens": 768
+            },
+            "estimated_usd": 0.00021903,
+            "cost_basis": "provider-reported request cost"
+          }
+        ],
+        "usage": {
+          "input_tokens": 13544,
+          "output_tokens": 2097
+        },
+        "request_attempts": 2,
+        "model": "typesafe/jev-1.14-20261014",
+        "estimated_usd": 0.000568848,
+        "served_models": [
+          "typesafe/jev-1.14-20261014"
+        ],
+        "cost_basis": "Sum of per-batch configured-rate estimates; see batches",
+        "screened_blocks": 41,
+        "baseline_bytes": 24469,
+        "delivered_bytes": 14575,
+        "delivered_ids": [
+          "choice",
+          "score",
+          "noul",
+          "confidence",
+          "fanout",
+          "models",
+          "introduction"
+        ],
+        "elapsed_seconds": 10.514422
+      }
+    },
+    {
+      "case": "primitives",
+      "arm": "full",
+      "repetition": 3,
+      "usage": {
+        "input_tokens": 33130,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 111,
+        "reasoning_output_tokens": 33
+      },
+      "passed": true,
+      "exit_code": 0,
+      "tool_starts": 0,
+      "prepare_seconds": 0.001296,
+      "reader_and_quality_seconds": 68.579567,
+      "end_to_end_seconds": 68.580864,
+      "routing": {
+        "provider_calls": 0
+      }
+    }
+  ]
+}

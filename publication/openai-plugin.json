@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "research-engineering-router",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Provider-configurable evidence triage and verified software/research workflows.",
   "author": {
     "name": "Mehrad Yaghoubi"
@@ -20,7 +20,7 @@
       "interface": {
         "displayName": "Research & Engineering Router",
         "shortDescription": "Evidence triage with your configured decision model",
-        "longDescription": "Routes bounded evidence decisions to a configured provider while the selected main model owns reasoning, implementation and verification. Python 3.10+ and provider configuration are required. No guaranteed token or cost savings.",
+        "longDescription": "Provider-configurable evidence screening for code audits and research, with primary-model ownership and verification. A limited six-pair evaluation measured 10.20% fewer primary-model tokens and 20.42% longer whole-process time. No general savings guarantee. Python 3.10+ and private provider setup required.",
         "developerName": "Mehrad Yaghoubi",
         "category": "Productivity",
         "capabilities": [

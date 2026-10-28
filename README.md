@@ -6,7 +6,7 @@ A portable Agent Skills package for Codex, Claude Code, Pi, OpenCode and compati
 
 The historical name and invocation **`$jev-research-engineering`** remain compatible. **Jev is optional:** System One, OpenAI-compatible Chat Completions, and Anthropic Messages contracts are supported. The author's personal GapGPT route is not bundled into other users' setup.
 
-**Experimental:** two real primary-agent A/B pairs increased total primary-model tokens **42.17%**, while uncached input fell **1.82%**. No net token or financial saving is established. Skip routing for small tasks; see the [real agent benchmark](benchmarks/real-agent-ab.md) and historical [context-only comparison](benchmarks/token-counts.md).
+**Experimental v0.3.0:** a six-pair code-audit/research evaluation measured **10.20% fewer total primary-model tokens** with all six assisted answers passing quality checks. The **whole process took 20.42% longer** (66.45 → 80.02 seconds per task). These are limited evidence-intake results, not a guarantee for every task or agent. See the [complete measurement](benchmarks/retry-confirmation-results.md).
 
 ## Install
 
@@ -18,7 +18,7 @@ npx skills add MehradYaghoubi/jev-research-engineering --skill jev-research-engi
 npx skills add MehradYaghoubi/jev-research-engineering --skill jev-research-engineering -g -a codex claude-code pi opencode
 ```
 
-Pi-native: `pi install git:github.com/MehradYaghoubi/jev-research-engineering@v0.2.1`.
+Pi-native: `pi install git:github.com/MehradYaghoubi/jev-research-engineering@v0.3.0`.
 
 Claude marketplace: `/plugin marketplace add MehradYaghoubi/jev-research-engineering`, then `/plugin install research-engineering-router@mehrad-research-tools`.
 
@@ -86,6 +86,7 @@ To use another provider, copy its profile instead and use its credential variabl
 | `cached_input_usd_per_million`, `cache_write_input_usd_per_million` | Optional cache rates; set correctly when comparing cached requests |
 | `daily_budget_usd`, `max_request_bytes`, `max_output_tokens` | Estimated shared daily budget and request/output bounds |
 | `anthropic_version` | API version supported by your Anthropic-compatible provider |
+| `max_attempts`, `retry_budget_seconds` | At most 3 attempts (1 disables replay), bounded retry window; every attempted request is accounted separately |
 
 Config precedence: `--config`, `DECISION_GATE_CONFIG`, legacy `JEV_GATE_CONFIG`, private `~/.config/research-engineering-router/config.json`, then public defaults. Existing legacy configs without `api_key_env` use `JEV_API_KEY`. Updating the installed skill does not overwrite the private user config.
 
@@ -96,7 +97,7 @@ Config precedence: `--config`, `DECISION_GATE_CONFIG`, legacy `JEV_GATE_CONFIG`,
 python scripts/jev_gate.py status
 # Offline: validate the request without sending it (sent=false)
 python scripts/jev_gate.py decide --request examples/manifest-decision.json --dry-run
-# Live: one potentially billable request, no automatic retry
+# Live: one logical request, up to three billable attempts for transient errors
 python scripts/jev_gate.py decide --request examples/manifest-decision.json
 # Inspect the local estimated usage ledger
 python scripts/jev_gate.py usage
@@ -116,6 +117,16 @@ Example task: “Use Research & Engineering Router. Before loading a large corpu
 
 ## Use
 
+Evidence intake with atomic Jev screening (v0.3.0):
+
+```bash
+python scripts/prepare_context.py --corpus examples/evidence-corpus.json --audit new-audit.json
+```
+
+This example is deliberately small and makes no provider call. For a larger authorized corpus, the helper screens complete evidence blocks before primary-model intake, emits only delivered evidence, and keeps usage in the separate new audit file. The entrypoint is shorter and detailed workflow guidance loads progressively. This is caller-controlled preprocessing; a portable skill does not intercept every agent's input automatically. See the [corpus contract](references/cost-routing.md) and [preregistered test plan](benchmarks/adaptive-plan.md). The [18-run local pilot](benchmarks/adaptive-results.md) measured 0.832% fewer total primary tokens overall (3.58% fewer on its engineering case), but task-reader time increased 1.084% and total model tokens including the two decision calls increased 6.668%. These small authored cases do not establish general savings or speed improvement. Earlier pilot results are retained for comparison.
+
+The newer [retry-policy replication](benchmarks/retry-confirmation-results.md) reached the registered aggregate primary-token target: **200,037 → 179,634 tokens (10.20% fewer)** with 6/6 quality checks. Whole-process mean time was **66.45 → 80.02 seconds (20.42% slower)**. This is not a financial-savings claim. This is a narrow code-audit/research evidence-intake test, not an autonomous-agent benchmark. One repetition was below 10%. The release is experimental; official directory approval is separate.
+
 ```bash
 python scripts/jev_gate.py status
 python scripts/select_context.py --manifest examples/context-manifest.json
@@ -124,7 +135,7 @@ python scripts/jev_gate.py decide --request examples/manifest-decision.json
 python scripts/jev_gate.py usage
 ```
 
-`status` and dry-run are offline. Nontrivial selection and `decide` without dry-run call the configured model and may be billable. The selector accepts compact candidate summaries and returns source IDs; read full selected bodies afterward. Preserve required evidence and inspect the strongest excluded alternative. Do not load the whole corpus into the main model first. No automatic retry, provider switching or independent supervisor.
+`status` and dry-run are offline. Nontrivial selection and `decide` without dry-run call the configured model and may be billable. The selector accepts compact candidate summaries and returns source IDs; read full selected bodies afterward. Preserve required evidence and inspect the strongest excluded alternative. Do not load the whole corpus into the main model first. Transient requests use at most three attempts with bounded backoff; no provider switching or independent supervisor.
 
 [Wire protocol](references/protocol.md) · [Cost routing and manifests](references/cost-routing.md)
 
@@ -181,7 +192,7 @@ Install through the command above and share the public repository. Skills.sh dis
 
 ## فارسی
 
-ارائه‌دهنده و مدل تصمیم‌گیر قابل‌تغییر است: Jev از GapGPT، TypeSafe یا OpenRouter، یا مدل دیگری با API سازگار و خروجی JSON. تنظیمات شخصی خارج از پوشهٔ نصب می‌مانند. در دو تست واقعی Codex، مجموع توکن مدل اصلی ۴۲٫۱۷٪ بیشتر و ورودی کش‌نشده ۱٫۸۲٪ کمتر شد؛ کاهش مصرف کل و صرفه‌جویی مالی اثبات نشده است. راهنمای تنظیم اتصال، انتخاب پروتکل و تست آنلاین در بخش Configure and connect آمده است. اصول Clean Code، OOP معنادار و بررسی اتصال‌های جاافتاده حفظ شده‌اند.
+ارائه‌دهنده و مدل تصمیم‌گیر قابل‌تغییر است: Jev از GapGPT، TypeSafe یا OpenRouter، یا مدل دیگری با API سازگار و خروجی JSON. تنظیمات شخصی خارج از پوشهٔ نصب می‌مانند. در آزمون محدود نسخهٔ ۰٫۳٫۰، مجموع توکن مدل اصلی ۱۰٫۲۰٪ کمتر و زمان کل فرایند ۲۰٫۴۲٪ بیشتر شد؛ هر شش پاسخ مسیر کمکی کنترل کیفیت را پاس کردند. این نتیجه تضمین عمومی یا اثبات صرفه‌جویی مالی نیست. راهنمای تنظیم اتصال، انتخاب پروتکل و تست آنلاین در بخش Configure and connect آمده است. اصول Clean Code، OOP معنادار و بررسی اتصال‌های جاافتاده حفظ شده‌اند.
 
 ## License
 

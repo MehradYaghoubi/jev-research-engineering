@@ -1,5 +1,17 @@
 # Context selection and cost measurement
 
+## Screen evidence before lead-model intake
+
+`python scripts/prepare_context.py --corpus corpus.json --audit new-audit.json` accepts an explicitly authorized JSON corpus: `{"task":"question", "candidates":[{"id":"source_a", "body":"complete evidence block", "required":true}, {"id":"source_b", "body":"other evidence"}]}`. IDs follow the manifest rules below. Generate this file directly with search/export tools, without first printing full bodies to the lead model. The operator must approve the evidence trust boundary; this helper does not scan the filesystem or redact arbitrary secrets.
+
+For fewer than four blocks or under 16 KB serialized evidence, it skips the provider. This is a conservative heuristic, not a measured universal break-even point. The current local candidate splits larger bodies into bounded line blocks, preserving source IDs and line ranges within the supplied body (not necessarily original file line numbers). It shares only the task across questions and puts each block inside its own typed Choice question. Direct evidence, explicit uncertainty, mandatory blocks and direct/uncertain probability mass of at least .35 are retained. The strongest excluded verification block is retained too. Scores are judgments, not correctness guarantees.
+
+All requests are planned and validated before sending: at most three independent batches per corpus, bounded further by `max_jev_calls_per_task`, the configured byte limit and shared daily ledger. Batches contain different questions; transient failures may be retried under the bounded policy below; invalid credentials and invalid responses are not retried. If planning exceeds these bounds, the helper keeps original evidence with no call. A partial provider failure keeps the complete original corpus, records completed batch information, and leaves unknown billing/attempt status unknown. Callers must also respect the remaining task-wide decision-call allowance. There is no forced top-k.
+
+Stdout contains only task and delivered evidence; provider usage/cost, preprocessing `elapsed_seconds` (monotonic wall time, including a decision call when made) and selection bookkeeping go to the optional new audit file. Existing audit files are never overwritten. An unhelpful selection returns the original packet. This prevents packet expansion; it does **not** bound skill/tool overhead or guarantee fewer total primary-model tokens. A portable skill cannot automatically intercept every host's input: the caller must invoke the helper before lead-model intake. The older summary-only selector remains compatible for callers that already have summaries.
+
+Detailed failure tracebacks should be kept in a local log, with a bounded error summary delivered to the lead. After an unchanged environment failure, diagnose or report it instead of rerunning the same full suite. Do not weaken the sandbox to improve benchmark scores.
+
 ## Manifest
 
 The helper accepts only the task and compact candidate summaries, not full bodies:

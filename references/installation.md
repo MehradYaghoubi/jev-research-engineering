@@ -4,11 +4,16 @@ This is a portable Agent Skills directory: standard `SKILL.md`, relative referen
 
 There is **one skill**, identified as `jev-research-engineering`, with the display title **Research & Engineering Router**. `research-engineering-router` is the optional plugin package containing that same skill. Code and research are workflows within it, not separate installations. The two context-selection scripts are helper interfaces, not additional skills.
 
-## Shared installer
+## Local or Global installation
+
+Choose one scope per agent. **Local** installs in the current project; **Global** installs for your user account across projects. These scopes are independent of whether the model provider runs locally or in the cloud. The private provider config is shared across scopes.
 
 ```bash
-# Interactive: choose the agents you use
-npx skills add MehradYaghoubi/jev-research-engineering --skill jev-research-engineering -g
+# Local (default): run inside your project; choose agents interactively
+npx skills add MehradYaghoubi/jev-research-engineering --skill jev-research-engineering
+
+# OR Global: available across your projects
+npx skills add MehradYaghoubi/jev-research-engineering --skill jev-research-engineering --global
 
 # Explicit examples
 npx skills add MehradYaghoubi/jev-research-engineering --skill jev-research-engineering -g -a codex claude-code pi opencode

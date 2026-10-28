@@ -14,11 +14,11 @@ If this helps your work, thank you for trying it. **[Give the project a GitHub s
 
 ## Watch the installation guide
 
-https://github.com/user-attachments/assets/9155c730-eed7-4c1a-8668-9ed964611643
+https://github.com/user-attachments/assets/a6cc936f-74a4-4fdc-b7dd-4769578e0b6d
 
-**3 min 31 sec · 1080p · English narration and visible captions.** Follow a Windows PowerShell project installation for Codex, choose a provider, keep credentials private, check the route, and see a real connection result. Commands appear gradually with reading pauses. Actual installer/provider excerpts are labelled separately from setup instructions and the example agent prompt. This is an authored walkthrough, not an unedited desktop recording or a new savings benchmark.
+**2 min 41 sec · 1080p · Silent, with English on-screen explanations and captions.** Choose a Local (project) or Global (user) Codex installation, configure a provider privately, check the route, and see a real connection result. Commands appear gradually with reading pauses. Actual installer/provider excerpts are labelled separately from setup instructions and the example agent prompt. This is an authored walkthrough, not an unedited desktop recording or a new savings benchmark.
 
-[Watch / download MP4](https://github.com/user-attachments/assets/9155c730-eed7-4c1a-8668-9ed964611643) · [Chapter guide and transcript](references/video-guide.md) · [English subtitle file](media/installation-walkthrough.en.srt)
+[Watch / download MP4](https://github.com/user-attachments/assets/a6cc936f-74a4-4fdc-b7dd-4769578e0b6d) · [Chapter guide and transcript](references/video-guide.md) · [English subtitle file](media/installation-walkthrough.en.srt)
 
 ## What it helps with
 
@@ -45,13 +45,24 @@ Choose **one installation method per agent**. Installing both the standalone ski
 
 ## Install
 
-Recommended: install the standalone skill for the agents you use:
+Choose one scope for the agents you use:
+
+| Scope | Available where? | When to choose it |
+| --- | --- | --- |
+| **Local** (default) | The current project | Use the skill in this project |
+| **Global** (`--global` or `-g`) | Your user account, across projects | Use the skill in many projects |
 
 ```bash
-npx skills add MehradYaghoubi/jev-research-engineering --skill jev-research-engineering -g
+# Local: run from your project folder
+npx skills add MehradYaghoubi/jev-research-engineering --skill jev-research-engineering
+
+# OR Global: install once for your user account
+npx skills add MehradYaghoubi/jev-research-engineering --skill jev-research-engineering --global
 ```
 
-Choose your agents in the installer, or append `-a codex` for Codex only. Python 3.10+ is required for API-assisted routing; helpers and offline tests use only the standard library. Provider configuration is private and shared across your installed copies.
+Choose your agents in the installer, or append `-a codex` to either command for Codex only. Choose Local **or** Global for an agent to avoid duplicate entries. Global means your user account, not every user on the computer. Installation scope is separate from model hosting: either scope can use a cloud or local model.
+
+Python 3.10+ is required for API-assisted routing; helpers and offline tests use only the standard library. Private provider configuration is shared across scopes and is not overwritten by installation.
 
 Alternative formats are optional: [Pi-native package, Claude plugin and manual ZIP installation](references/installation.md). Do not install an alternative on top of the standalone skill for the same agent.
 
@@ -214,7 +225,7 @@ Install through the command above and share the public repository. Skills.sh dis
 
 این اسکیل **رایگان و متن‌باز با مجوز MIT** است. هدف آن این است که پیش از خواندن حجم زیادی کد یا منبع تحقیق، شواهد مرتبط را انتخاب کند تا مدل اصلی کمتر مطالب نامرتبط بخواند. هزینهٔ احتمالی API به ارائه‌دهندهٔ انتخابی شما مربوط است.
 
-[ویدئوی نصب و اتصال](https://github.com/user-attachments/assets/9155c730-eed7-4c1a-8668-9ed964611643) حدود سه‌ونیم دقیقه است؛ گویندگی و زیرنویس انگلیسی، نمایش تدریجی فرمان‌ها و مکث برای خواندن دارد. نصب آزمایشی و اتصال واقعی از مثال‌های تنظیمات و درخواست نمونه تفکیک شده‌اند.
+[ویدئوی نصب و اتصال](https://github.com/user-attachments/assets/a6cc936f-74a4-4fdc-b7dd-4769578e0b6d) ۲ دقیقه و ۴۱ ثانیه است؛ بدون صدا، با توضیح و زیرنویس انگلیسی، نمایش تدریجی فرمان‌ها و مکث برای خواندن. هر دو روش Local برای پروژهٔ فعلی و Global با `--global` برای همهٔ پروژه‌های همان کاربر توضیح داده شده‌اند؛ یکی را انتخاب کنید. نصب آزمایشی و اتصال واقعی از مثال‌های تنظیمات و درخواست نمونه تفکیک شده‌اند.
 
 اگر برایتان مفید بود، ممنون می‌شویم به [مخزن GitHub ستاره بدهید](https://github.com/MehradYaghoubi/jev-research-engineering) یا آن را به دیگران معرفی کنید؛ استفاده از اسکیل به ستاره یا پرداخت وابسته نیست.
 

@@ -2,6 +2,8 @@
 
 This is a portable Agent Skills directory: standard `SKILL.md`, relative references and standard-library Python helpers. It does not require Codex tools, a particular model, an installed Ponytail skill, Node runtime inside the agent, or a supervisor. Python 3.10+ and permission to read files/run helpers are needed for full API-assisted operation. Choose one installation method per agent to avoid duplicate skill names.
 
+There is **one skill**, identified as `jev-research-engineering`, with the display title **Research & Engineering Router**. `research-engineering-router` is the optional plugin package containing that same skill. Code and research are workflows within it, not separate installations. The two context-selection scripts are helper interfaces, not additional skills.
+
 ## Shared installer
 
 ```bash
@@ -33,7 +35,7 @@ Paths above follow official current documentation. Agent versions, enterprise po
 The repository's `package.json` declares `pi.skills: ["./"]`; there are no JavaScript dependencies or install hooks.
 
 ```bash
-pi install git:github.com/MehradYaghoubi/jev-research-engineering@v0.3.1
+pi install git:github.com/MehradYaghoubi/jev-research-engineering@v0.3.2
 ```
 
 This is a git-backed Pi package. It does not require npm registry publication. Do not advertise the scoped npm name as installable from npm until it is actually published there. `pi-package` metadata prepares it for Pi packaging, but does not itself confirm gallery indexing.
@@ -56,6 +58,14 @@ Download the GitHub release ZIP and verify its SHA256 against the accompanying c
 Configure a private provider profile once as explained in [access methods](access.md). Configuration and credentials stay outside installation folders, so copying/updating the skill does not erase them. Headless hosts use environment secrets; Windows-only DPAPI configuration is optional. A host without shell/file access can only apply the written research/engineering guidance and cannot run API-assisted triage; disclose this degraded mode.
 
 ## Verification scope
+
+### If the skill appears twice
+
+Check the file path shown for each entry. Keep one installation per agent: standalone **or** plugin. In Codex, the standard user location is `~/.agents/skills/jev-research-engineering/`; an older separate copy in `~/.codex/skills/` can appear alongside it in builds that still scan that location. After comparing the contents and preserving any local changes, move the extra copy outside every skill-discovery directory as a backup, then restart the agent if the selector has not refreshed. Do not remove the shared `~/.agents` copy while another agent uses it. See [Codex skill discovery](https://learn.chatgpt.com/docs/build-skills).
+
+If one entry is plugin-namespaced and another is standalone, choose which installation format to keep and remove the other through that host's normal skill/plugin management. Installing the provider or a second Jev skill is not necessary.
+
+### What was verified
 
 [Compatibility results](../benchmarks/agent-installation.json) distinguish installer/file checks, native manifest validation and real agent task execution. No paid model calls are needed for installer tests. Only explicitly recorded runtimes have been exercised; the standard format cannot guarantee support in every existing or future agent.
 

@@ -4,25 +4,64 @@
 
 A portable Agent Skills package for Codex, Claude Code, Pi, OpenCode and compatible hosts, with provider-configurable evidence triage, Clean Code/OOP, missing-integration checks, and reproducible research. Route bounded decisions to your chosen inexpensive model while your selected chat model owns reasoning, implementation, synthesis and verification.
 
-The historical name and invocation **`$jev-research-engineering`** remain compatible. **Jev is optional:** System One, OpenAI-compatible Chat Completions, and Anthropic Messages contracts are supported. The author's personal GapGPT route is not bundled into other users' setup.
+[Install](#install) · [How to use it](#how-to-use-it) · [Configure a provider](#configure-and-connect-complete-quickstart) · [Results table](#measured-results) · [فارسی](#فارسی)
 
-**Experimental v0.3.0:** a six-pair code-audit/research evaluation measured **10.20% fewer total primary-model tokens** with all six assisted answers passing quality checks. The **whole process took 20.42% longer** (66.45 → 80.02 seconds per task). These are limited evidence-intake results, not a guarantee for every task or agent. See the [complete measurement](benchmarks/retry-confirmation-results.md).
+## One skill, several installation formats
+
+**There is one skill: `jev-research-engineering`.** Its display title is **Research & Engineering Router**. The plugin named `research-engineering-router` packages this same skill; it is not a second workflow, model or supervisor. Jev is an optional decision model, not another skill to install.
+
+| Name you see | What it means |
+| --- | --- |
+| Research & Engineering Router | Human-readable title |
+| `jev-research-engineering` | Skill identifier used to install and invoke it |
+| `research-engineering-router` | Plugin package containing the same skill |
+
+Choose **one installation method per agent**. Installing both the standalone skill and its plugin can display duplicate entries. The code and research workflows belong to the same skill.
 
 ## Install
 
-```bash
-# Choose your agents interactively
-npx skills add MehradYaghoubi/jev-research-engineering --skill jev-research-engineering -g
+Recommended: install the standalone skill for the agents you use:
 
-# Or target specific agents
-npx skills add MehradYaghoubi/jev-research-engineering --skill jev-research-engineering -g -a codex claude-code pi opencode
+```bash
+npx skills add MehradYaghoubi/jev-research-engineering --skill jev-research-engineering -g
 ```
 
-Pi-native: `pi install git:github.com/MehradYaghoubi/jev-research-engineering@v0.3.1`.
+Choose your agents in the installer, or append `-a codex` for Codex only. Python 3.10+ is required for API-assisted routing; helpers and offline tests use only the standard library. Provider configuration is private and shared across your installed copies.
 
-Claude marketplace: `/plugin marketplace add MehradYaghoubi/jev-research-engineering`, then `/plugin install research-engineering-router@mehrad-research-tools`.
+Alternative formats are optional: [Pi-native package, Claude plugin and manual ZIP installation](references/installation.md). Do not install an alternative on top of the standalone skill for the same agent.
 
-[Full installation guide](references/installation.md) covers activation commands, VS Code extensions, manual ZIP installs, runtime requirements, compatibility limits and avoiding duplicate installs. Python 3.10+ is needed for the helpers; runtime code uses only the standard library. Existing private provider setup survives updates. No other skill is required.
+## How to use it
+
+1. Install once and configure your provider using the next section. An existing working configuration needs no replacement.
+2. Start a new agent session if the skill is not visible, then invoke the skill as shown below.
+3. Give it the actual coding or research task. The primary model remains in charge. On a large evidence set it can ask the cheaper model to select relevant evidence **before** reading all of it; on a small task it skips that call.
+
+| Agent / installation | Invoke |
+| --- | --- |
+| Codex, standalone | `$jev-research-engineering` |
+| Claude Code, standalone | `/jev-research-engineering` |
+| Claude Code, plugin alternative | `/research-engineering-router:jev-research-engineering` |
+| Pi | `/skill:jev-research-engineering` |
+| OpenCode / other compatible agents | Ask the agent to load the `jev-research-engineering` skill using its skill loader |
+
+Codex example:
+
+```text
+$jev-research-engineering
+Find why the refund endpoint is unreachable. Check startup registration and
+callers, apply the smallest complete fix, and verify the real entry point.
+Use my configured decision model only if it replaces substantial evidence reading.
+```
+
+Research example:
+
+```text
+$jev-research-engineering
+Compare these API contracts using primary sources. Screen the supplied evidence
+before reading it all, preserve contradictory findings, and cite decisive sources.
+```
+
+You do not need to run the helper commands manually for every task; the agent invokes them when its tools and permissions allow it. A host without file/shell access cannot perform API-assisted routing. Installing the skill alone does not connect a provider or guarantee token savings.
 
 ## Configure and connect (complete quickstart)
 
@@ -109,35 +148,17 @@ For a separate config, place `--config /path/to/provider.json` **before** the co
 
 Troubleshooting: missing credentials → configure or inject the exact named variable; request rejected → check model, protocol and JSON-mode support; TLS/network error → verify the documented endpoint and connectivity; budget exhausted → inspect `usage` and continue with the lead model. Do not print keys, auth headers or raw provider errors. [Full access requirements and tested routes](references/access.md).
 
-### 4. Activate in your agent
+### 4. Run a task
 
-Use the host's skills menu/name: Codex standalone `$jev-research-engineering` (plugin-aware builds may show `$research-engineering-router:jev-research-engineering`), Claude standalone `/jev-research-engineering`, Claude plugin `/research-engineering-router:jev-research-engineering`, Pi `/skill:jev-research-engineering`, or ask OpenCode to load the named skill. Start a new session if discovery has not refreshed.
+Use the invocation and task examples in [How to use it](#how-to-use-it). You can use the same skill for code work and research; no second activation or separate Jev skill is needed.
 
-Example task: “Use Research & Engineering Router. Before loading a large corpus, triage evidence with my configured provider, retain required dependencies, check missing wiring, and verify the smallest complete change. Skip routing for small tasks and report actual usage without promising savings.”
-
-## Use
-
-Evidence intake with atomic Jev screening (v0.3.0):
+For integration into your own tooling, `prepare_context.py` accepts evidence bodies and returns selected evidence; the older `select_context.py` accepts summaries and returns source IDs. These are two helper interfaces inside the same skill. Start with `prepare_context.py` for new integrations:
 
 ```bash
 python scripts/prepare_context.py --corpus examples/evidence-corpus.json --audit new-audit.json
 ```
 
-This example is deliberately small and makes no provider call. For a larger authorized corpus, the helper screens complete evidence blocks before primary-model intake, emits only delivered evidence, and keeps usage in the separate new audit file. The entrypoint is shorter and detailed workflow guidance loads progressively. This is caller-controlled preprocessing; a portable skill does not intercept every agent's input automatically. See the [corpus contract](references/cost-routing.md) and [preregistered test plan](benchmarks/adaptive-plan.md). The [18-run local pilot](benchmarks/adaptive-results.md) measured 0.832% fewer total primary tokens overall (3.58% fewer on its engineering case), but task-reader time increased 1.084% and total model tokens including the two decision calls increased 6.668%. These small authored cases do not establish general savings or speed improvement. Earlier pilot results are retained for comparison.
-
-The newer [retry-policy replication](benchmarks/retry-confirmation-results.md) reached the registered aggregate primary-token target: **200,037 → 179,634 tokens (10.20% fewer)** with 6/6 quality checks. Whole-process mean time was **66.45 → 80.02 seconds (20.42% slower)**. This is not a financial-savings claim. This is a narrow code-audit/research evidence-intake test, not an autonomous-agent benchmark. One repetition was below 10%. The release is experimental; official directory approval is separate.
-
-```bash
-python scripts/jev_gate.py status
-python scripts/select_context.py --manifest examples/context-manifest.json
-python scripts/jev_gate.py decide --request examples/manifest-decision.json --dry-run
-python scripts/jev_gate.py decide --request examples/manifest-decision.json
-python scripts/jev_gate.py usage
-```
-
-`status` and dry-run are offline. Nontrivial selection and `decide` without dry-run call the configured model and may be billable. The selector accepts compact candidate summaries and returns source IDs; read full selected bodies afterward. Preserve required evidence and inspect the strongest excluded alternative. Do not load the whole corpus into the main model first. Transient requests use at most three attempts with bounded backoff; no provider switching or independent supervisor.
-
-[Wire protocol](references/protocol.md) · [Cost routing and manifests](references/cost-routing.md)
+This deliberately small example makes no provider call. Larger authorized corpora can make billable calls. The helper must run before primary-model intake; it cannot remove evidence already read by the primary model. Usage is stored in the separate audit file. See the [corpus contract](references/cost-routing.md).
 
 ## Quality rules
 
@@ -146,20 +167,62 @@ python scripts/jev_gate.py usage
 - **Research and R&D:** current primary evidence, provenance, contrary findings, explicit hypothesis, baseline, discriminating experiment, reproducibility and stopping conditions. No invented citations or benchmark outcomes.
 - **Cost and privacy:** routing must replace work; count instruction/output/correction overhead, keep secrets out of requests, validate answers, retain mandatory context and visibly fall back on failure. Chat-model probabilities are uncalibrated judgments, not confidence guarantees.
 
-## Tests and measured results
+## Measured results
 
-Runtime helpers and offline tests use only the Python standard library; no pip packages are required or installed. The historical tokenizer counter has been retired. For current comparisons, record actual primary-model usage from equivalent baseline and assisted runs, including cached input and output; see the [measurement guide](references/cost-routing.md).
+**What was compared:** the primary model alone versus the same primary model with fresh Jev evidence screening. Two authored tasks—one code audit and one research task—were each repeated three times: **six matched pairs, twelve primary-model runs**. These are evidence-reading and answer checks, not autonomous implementation benchmarks.
+
+The following results were recorded for **v0.3.0**. v0.3.1 removed an optional historical tokenizer tool; v0.3.2 clarifies documentation. Neither patch changes routing or supplies a new performance measurement.
+
+| Metric | Primary model alone | With Jev screening | Observed change |
+| --- | ---: | ---: | --- |
+| Primary-model tokens, all six tasks | 200,037 | 179,634 | **10.20% fewer** |
+| Primary tokens, code audit (three runs) | 100,506 | 86,480 | **13.96% fewer** |
+| Primary tokens, research (three runs) | 99,531 | 93,154 | **6.41% fewer** |
+| Mean whole-process time per task | 66.45 s | 80.02 s | **20.42% longer** |
+| Answers passing the same quality checks | 6/6 | 6/6 | All checked answers passed |
+
+**How to read the table:** primary tokens include input (cached input included once) plus output. Time runs from preparation through Jev calls, the primary response and quality checks. The observed trade-off is less primary-model context processing with a longer overall process. Passing these checks does not prove correctness on other tasks.
+
+The aggregate met the 10% target narrowly. Research alone and one paired repetition were below 10%. The tasks were known from an earlier experiment, not a newly held-out test set. No universal saving, speed improvement or reduction in a fixed subscription bill is claimed. All decision calls succeeded on their first attempt in this measurement, so it does not demonstrate recovery from a real provider outage.
+
+[Full methodology and limitations](benchmarks/retry-confirmation-results.md) · [Recorded per-run data](benchmarks/retry-confirmation-results.json) · [Plan fixed before the replication](benchmarks/retry-confirmation-plan.md)
+
+## Software checks: different from a performance benchmark
+
+**47 offline tests passed for v0.3.2.** They check protocol parsing, credentials/configuration boundaries, context selection, bounded retries, accounting and ZIP packaging. Two tests belonging solely to the retired tokenizer counter were removed in v0.3.1. These tests validate software behavior; they do not measure token savings.
+
+Run from the repository or installed skill directory:
 
 ```bash
-python -m unittest discover -s tests -v
-python scripts/jev_gate.py self-test
-# Explicitly opt-in billable synthetic rerun:
+# Offline tests; -S disables third-party site-packages
+python -S -m unittest discover -s tests -v
+# Offline request/accounting self-check; no inference call
+python -S scripts/jev_gate.py self-test
+```
+
+For a **live connection check**, use step 3 of the quickstart. It may be billable and confirms the configured route works; it does not establish savings. An optional small triage exercise is also available:
+
+```bash
 python scripts/benchmark_triage.py --live --output benchmarks/new-run.json
 ```
 
-[The first live run](benchmarks/first-run.md) retained all nine critical evidence items across three easy synthetic cases. [Exact tokenizer text counts](benchmarks/token-counts.md) show **1316 → 1093 tokens (16.95% fewer)** for the routed context with `o200k_base`. At the measured pre-portability revision, one **923-token** entrypoint load gave **2016 tokens (53.19% more)** across those small cases. This is a negative net-token result, not a savings claim. The new [real primary-agent A/B test](benchmarks/real-agent-ab.md) measured whole CLI runs: **617,245 baseline versus 877,518 routed input + output tokens (+42.17%)** across two pairs. Uncached input fell 1.82%; this is not total-token savings. All four outputs passed the same 13 acceptance cases and independent full-suite reruns. One decision call added 5,544 tokens and an estimated $0.000201684; subscription-bill savings remain unproven.
+That command checks synthetic evidence selection only. It **does not rerun the twelve-run primary-model comparison** in the results table. A new savings experiment needs matched baseline/assisted tasks, the same primary-model settings and quality checks, and actual usage and whole-process timings; see the [measurement guide](references/cost-routing.md). The confirmation's complete runner/corpus artifacts remain local, so the public records support inspection rather than a one-command reproduction of that experiment.
 
-Protocol tests cover native request compatibility, Anthropic Messages/header/cache handling, chat JSON/usage normalization, rejected truncation/malformed responses, configured credential variables, loopback restrictions, transport accounting, and preservation of personal configuration. Selection tests cover required evidence and safe fallback. Live GapGPT succeeded; other provider profiles have documented contracts and offline tests, not live-provider certification.
+<details>
+<summary>Earlier experiments, including regressions</summary>
+
+Earlier results are retained rather than replaced by the latest result:
+
+| Earlier experiment | What it measured | Primary-token outcome |
+| --- | --- | --- |
+| [Initial full agent A/B](benchmarks/real-agent-ab.md) | Two pairs of real agent runs | **42.17% more**; an unsuccessful routing setup |
+| [18-run evidence-intake pilot](benchmarks/adaptive-results.md) | Three tasks, full/lexical/assisted arms | **0.83% fewer** overall; below target |
+| [First atomic confirmation](benchmarks/atomic-results.md) | Code/research evidence intake | Rejected under its original completeness gate after a provider failure |
+| [Archived tokenizer experiment](benchmarks/token-counts.md) | Text encoding counts on tiny synthetic cases | Not actual primary-model usage; instruction overhead erased context-only gains |
+
+These use different tasks and protocols and should not be averaged with the latest replication. Historical records are not current setup instructions.
+
+</details>
 
 ## Financial interpretation
 
@@ -191,7 +254,19 @@ Install through the command above and share the public repository. Skills.sh dis
 
 ## فارسی
 
-ارائه‌دهنده و مدل تصمیم‌گیر قابل‌تغییر است: Jev از GapGPT، TypeSafe یا OpenRouter، یا مدل دیگری با API سازگار و خروجی JSON. تنظیمات شخصی خارج از پوشهٔ نصب می‌مانند. در آزمون محدود نسخهٔ ۰٫۳٫۰، مجموع توکن مدل اصلی ۱۰٫۲۰٪ کمتر و زمان کل فرایند ۲۰٫۴۲٪ بیشتر شد؛ هر شش پاسخ مسیر کمکی کنترل کیفیت را پاس کردند. این نتیجه تضمین عمومی یا اثبات صرفه‌جویی مالی نیست. راهنمای تنظیم اتصال، انتخاب پروتکل و تست آنلاین در بخش Configure and connect آمده است. اصول Clean Code، OOP معنادار و بررسی اتصال‌های جاافتاده حفظ شده‌اند.
+**فقط یک اسکیل داریم:** شناسهٔ نصب و اجرا `jev-research-engineering` و نام نمایشی آن **Research & Engineering Router** است. پلاگین `research-engineering-router` بستهٔ نصب همان اسکیل است؛ اسکیل دوم یا ناظر جداگانه نیست. برای هر ایجنت فقط یکی از روش‌های نصب را انتخاب کنید. دو اسکریپت انتخاب شواهد هم ابزار داخلی همین اسکیل هستند.
+
+پس از یک‌بار نصب و تنظیم ارائه‌دهنده، در Codex بنویسید `$jev-research-engineering` و سپس درخواست برنامه‌نویسی یا تحقیق را مطرح کنید. مدل اصلی کار را هدایت می‌کند؛ مدل ارزان‌تر فقط وقتی کمک می‌کند که بتواند بخشی از خواندن شواهد را جایگزین کند. Jev اجباری نیست و ارائه‌دهنده از بخش Configure and connect قابل تنظیم است.
+
+| معیار در آزمون محدود نسخهٔ ۰٫۳٫۰ | مدل اصلی تنها | همراه Jev | تغییر |
+| --- | ---: | ---: | --- |
+| توکن مدل اصلی، مجموع شش اجرا | ۲۰۰٬۰۳۷ | ۱۷۹٬۶۳۴ | **۱۰٫۲۰٪ کاهش** |
+| توکن مدل اصلی، بررسی کد | ۱۰۰٬۵۰۶ | ۸۶٬۴۸۰ | **۱۳٫۹۶٪ کاهش** |
+| توکن مدل اصلی، تحقیق | ۹۹٬۵۳۱ | ۹۳٬۱۵۴ | **۶٫۴۱٪ کاهش** |
+| میانگین زمان کل هر تسک | ۶۶٫۴۵ ثانیه | ۸۰٫۰۲ ثانیه | **۲۰٫۴۲٪ افزایش** |
+| پاسخ‌های قبول‌شده در کنترل کیفیت | ۶ از ۶ | ۶ از ۶ | همه قبول شدند |
+
+توکن مدل اصلی شامل ورودی با احتساب کش و خروجی است. زمان کل از آماده‌سازی تا پایان پاسخ و کنترل کیفیت محاسبه شده است. این آزمون روی دو مسئله با سه تکرار انجام شد؛ معیار ۱۰٪ در مجموع محقق شد، اما تحقیق به‌تنهایی و یک تکرار کمتر از ۱۰٪ بودند. نتیجه تضمین عمومی یا اثبات کاهش مبلغ اشتراک نیست. تست‌های آفلاین سلامت کد را می‌سنجند و آزمون کاهش مصرف توکن محسوب نمی‌شوند.
 
 ## License
 

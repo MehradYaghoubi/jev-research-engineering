@@ -12,6 +12,14 @@ If this helps your work, thank you for trying it. **[Give the project a GitHub s
 
 [Install](#install) · [How to use it](#how-to-use-it) · [Configure a provider](#configure-and-connect-complete-quickstart) · [Results table](#measured-results) · [فارسی](#فارسی)
 
+## Watch the installation guide
+
+[![Watch the narrated installation walkthrough](media/installation-preview.png)](https://github.com/MehradYaghoubi/jev-research-engineering/blob/main/media/installation-walkthrough.mp4)
+
+**3 min 31 sec · 1080p · English narration and visible captions.** Follow a Windows PowerShell project installation for Codex, choose a provider, keep credentials private, check the route, and see a real connection result. Commands appear gradually with reading pauses. Actual installer/provider excerpts are labelled separately from setup instructions and the example agent prompt. This is an authored walkthrough, not an unedited desktop recording or a new savings benchmark.
+
+[Watch / download MP4](https://github.com/MehradYaghoubi/jev-research-engineering/blob/main/media/installation-walkthrough.mp4) · [Chapter guide and transcript](references/video-guide.md) · [English subtitle file](media/installation-walkthrough.en.srt)
+
 ## What it helps with
 
 | Your task | How the skill helps |
@@ -205,6 +213,8 @@ Install through the command above and share the public repository. Skills.sh dis
 ## فارسی
 
 این اسکیل **رایگان و متن‌باز با مجوز MIT** است. هدف آن این است که پیش از خواندن حجم زیادی کد یا منبع تحقیق، شواهد مرتبط را انتخاب کند تا مدل اصلی کمتر مطالب نامرتبط بخواند. هزینهٔ احتمالی API به ارائه‌دهندهٔ انتخابی شما مربوط است.
+
+[ویدئوی نصب و اتصال](https://github.com/MehradYaghoubi/jev-research-engineering/blob/main/media/installation-walkthrough.mp4) حدود سه‌ونیم دقیقه است؛ گویندگی و زیرنویس انگلیسی، نمایش تدریجی فرمان‌ها و مکث برای خواندن دارد. نصب آزمایشی و اتصال واقعی از مثال‌های تنظیمات و درخواست نمونه تفکیک شده‌اند.
 
 اگر برایتان مفید بود، ممنون می‌شویم به [مخزن GitHub ستاره بدهید](https://github.com/MehradYaghoubi/jev-research-engineering) یا آن را به دیگران معرفی کنید؛ استفاده از اسکیل به ستاره یا پرداخت وابسته نیست.
 

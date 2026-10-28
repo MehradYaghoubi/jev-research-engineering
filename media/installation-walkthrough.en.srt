@@ -1,0 +1,143 @@
+1
+00:00:01,000 --> 00:00:06,459
+This guide installs Research and Engineering Router for Codex on Windows. Your main model
+
+2
+00:00:06,459 --> 00:00:11,528
+stays in charge. The skill is free, while provider API charges may apply.
+
+3
+00:00:15,328 --> 00:00:20,301
+Start in your project folder. You need Node for the Skills installer, and Python
+
+4
+00:00:20,301 --> 00:00:25,274
+three point ten or newer for the helpers. The helper runtime needs no third
+
+5
+00:00:25,274 --> 00:00:26,340
+party Python packages.
+
+6
+00:00:30,140 --> 00:00:35,466
+Run this command in PowerShell. This is a real project installation, with the output
+
+7
+00:00:35,466 --> 00:00:40,792
+shortened for readability. Add dash g if you want a personal installation across projects
+
+8
+00:00:40,792 --> 00:00:41,172
+instead.
+
+9
+00:00:44,972 --> 00:00:51,075
+Open the installed skill folder. Keep its scripts, examples and references together. Run the
+
+10
+00:00:51,075 --> 00:00:55,870
+following commands here. You only need one installation format per agent.
+
+11
+00:00:59,670 --> 00:01:05,606
+Jev is optional. Choose a provider profile with a matching endpoint, model and protocol.
+
+12
+00:01:05,606 --> 00:01:11,541
+This demonstration uses an existing GapGPT profile. Other profiles are documented, but are not
+
+13
+00:01:11,541 --> 00:01:13,661
+live tested in this video.
+
+14
+00:01:17,461 --> 00:01:23,830
+New users create a private configuration outside the skill folder. These are setup instructions,
+
+15
+00:01:23,830 --> 00:01:30,198
+not commands executed during this recording. Keep an existing working configuration. For another provider,
+
+16
+00:01:30,198 --> 00:01:33,383
+copy its profile and replace placeholder settings.
+
+17
+00:01:37,182 --> 00:01:42,783
+On Windows, configure prompts for the provider key without echoing it, and stores encrypted
+
+18
+00:01:42,783 --> 00:01:48,384
+credentials outside the skill. Secret input is not recorded here. Headless hosts can inject
+
+19
+00:01:48,384 --> 00:01:50,384
+the configured environment variable instead.
+
+20
+00:01:54,184 --> 00:01:59,658
+Status confirms the selected route and credential availability without sending a model request. These
+
+21
+00:01:59,658 --> 00:02:04,741
+are selected fields from the real run. Credential ready does not prove connectivity.
+
+22
+00:02:08,541 --> 00:02:13,662
+Dry run checks the request without sending it. The real output says sent false.
+
+23
+00:02:13,662 --> 00:02:17,319
+This step is useful before a potentially billable connection test.
+
+24
+00:02:21,119 --> 00:02:26,175
+Remove dry run to make the live call. Our real request succeeded on the
+
+25
+00:02:26,175 --> 00:02:31,231
+first attempt and returned a refund score of zero point nine nine. This verifies
+
+26
+00:02:31,231 --> 00:02:34,481
+the connection, not token savings. Provider charges may apply.
+
+27
+00:02:38,281 --> 00:02:43,375
+Now mention the skill in Codex and describe your real task. Reload the agent
+
+28
+00:02:43,375 --> 00:02:48,469
+if necessary. This is an example prompt, not a recorded coding result. The skill
+
+29
+00:02:48,469 --> 00:02:52,108
+screens large evidence sets and skips routing for small tasks.
+
+30
+00:02:55,908 --> 00:03:01,090
+Earlier matched comparisons recorded thirteen point nine six percent fewer main model tokens for
+
+31
+00:03:01,090 --> 00:03:06,272
+code audit, and six point four one percent fewer for research. Overall task time
+
+32
+00:03:06,272 --> 00:03:11,454
+increased twenty point four two percent. These were two authored tasks, not a guarantee
+
+33
+00:03:11,454 --> 00:03:12,564
+for every workload.
+
+34
+00:03:16,364 --> 00:03:21,768
+The repository has provider setup, examples and the full recorded results. Try a real
+
+35
+00:03:21,768 --> 00:03:27,172
+task and share feedback. If the skill helps your work, consider giving it a
+
+36
+00:03:27,172 --> 00:03:28,716
+GitHub star. Thank you.

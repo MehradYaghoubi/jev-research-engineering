@@ -154,7 +154,7 @@ The aggregate met the 10% target narrowly. Research alone and one paired repetit
 
 ## Software checks: different from a performance benchmark
 
-**47 offline tests passed for v0.3.2.** They check protocol parsing, credentials/configuration boundaries, context selection, bounded retries, accounting and ZIP packaging. Two tests belonging solely to the retired tokenizer counter were removed in v0.3.1. These tests validate software behavior; they do not measure token savings.
+**47 offline tests passed for v0.3.2.** The Agensi packaging correction adds four packaging/fixture checks; the reviewed GitHub revision passes 51 offline tests. They check protocol parsing, credentials/configuration boundaries, context selection, bounded retries, accounting and ZIP packaging. Two tests belonging solely to the retired tokenizer counter were removed in v0.3.1. These tests validate software behavior; they do not measure token savings.
 
 Run from the repository or installed skill directory:
 
@@ -200,6 +200,20 @@ python scripts/compare_costs.py --input examples/api-cost-comparison.json
 
 Missing API usage or prices stays unknown; the calculator never fills it with a fake zero. Provider-reported cost is distinguished from configured-rate estimates and explicit fixed-cost assumptions.
 
+## Distribution and permissions
+
+[Free Agensi listing](https://www.agensi.io/skills/research-engineering-router) · [Permissions and data flow](publication/agensi-permissions.md)
+
+There is one skill. GitHub keeps the complete source, tests, benchmark history, installation video and captions. The Agensi ZIP contains only the runtime helpers, setup references and examples; video and development files remain here. Both use the same stable routing logic. The packaging correction does not change the measured results above.
+
+To build a lightweight marketplace ZIP from an explicitly reviewed checkout, run from that checkout:
+
+```bash
+python scripts/build_submission.py --target agensi --source . --output ../jev-agensi.zip
+```
+
+Choose a new output filename: this builder refuses to overwrite an archive. It checks the runtime allowlist, file/count limits, obvious credential patterns and ZIP integrity. This is a packaging check, not a complete security audit. Provider configuration and credentials belong outside the skill folder; [setup](references/setup.md) explains the supported authentication methods.
+
 ## Official marketplace publication
 
 A public GitHub release or self-hosted Claude marketplace is not an approved official directory listing.
@@ -215,7 +229,7 @@ A public GitHub release or self-hosted Claude marketplace is not an approved off
 
 Thanks for using the skill. If it is useful, [star the GitHub repository](https://github.com/MehradYaghoubi/jev-research-engineering), share the source link, or [report a reproducible problem](https://github.com/MehradYaghoubi/jev-research-engineering/issues). No payment or star is required to use it.
 
-Use the same repository link in free marketplace listings, technical posts and demos so people can inspect the source, read the limitations and get updates. [Ready-to-use English social posts and listing copy](publication/community.md) are available. Agensi listing is not yet confirmed.
+Use the same repository link in free marketplace listings, technical posts and demos so people can inspect the source, read the limitations and get updates. [Ready-to-use English social posts and listing copy](publication/community.md) are available. The skill is also [available free on Agensi](https://www.agensi.io/skills/research-engineering-router).
 
 [Versioned downloads and releases](https://github.com/MehradYaghoubi/jev-research-engineering/releases) · [Agent installation guide](references/installation.md) · [Compatibility checks](benchmarks/agent-installation.json)
 

@@ -4,30 +4,7 @@ Draft copy for human publication. No email or social post has been sent by prepa
 
 ## LinkedIn post
 
-How much of your AI coding agent's context is spent reading material it never uses?
-
-I built Research & Engineering Router to explore that question. It's a free, open-source skill for coding and research workflows in Codex, Claude Code, Pi, OpenCode and compatible agents.
-
-The idea is simple: let a cheaper model screen a large set of evidence before the main model reads it. The main model still owns reasoning, code changes, research conclusions and verification. Small tasks skip the extra call.
-
-The workflow also asks the agent to check missing integrations—like a route that was written but never registered—and to preserve sources and conflicting evidence during research.
-
-In a limited evaluation of two code-audit/research tasks, repeated three times:
-
-- Primary-model tokens fell by 10.20% overall.
-- Whole-process time increased by 20.42%.
-- All six assisted answers passed the same quality checks.
-
-That's a trade-off, not a promise: research alone was below 10%, and this was an evidence-intake test, not a full autonomous coding benchmark. Lower token use also does not mean a lower fixed subscription bill.
-
-Jev is optional. You can configure a compatible provider or local model. The skill is MIT-licensed and free; provider API charges may apply.
-
-I'd love feedback from people working on larger codebases or research workflows. If you try it and find it useful, a GitHub star or a share would mean a lot. Thank you!
-
-Source, setup and measured results:
-https://github.com/MehradYaghoubi/jev-research-engineering
-
-#OpenSource #AIAgents #Codex #ClaudeCode #ContextEngineering
+Draft only; not published. Copy the [ready-to-post English text](linkedin-post.txt). It includes the separate code-audit and research results, the complete-process time trade-off, Local/Global installation and the free Agensi listing.
 
 ## Instagram story — one slide
 
@@ -69,7 +46,7 @@ Distribution note: Preserve the complete scripts/references layout and MIT notic
 | --- | --- | --- |
 | GitHub | Clear README, source link and optional star invitation | Published source and readable setup/results |
 | Skills.sh | Commit official page metadata and update a real installation | Current public page verified; security re-audit verified separately |
-| Agensi | Confirm free listing, source attribution and helper-file support | A public free listing, not just an invitation or draft |
+| Agensi | Free listing verified on 2026-10-29; retain source attribution and helper layout | [Public free skill page](https://www.agensi.io/skills/research-engineering-router) |
 | LinkedIn / Instagram | Share the drafts above with the GitHub link | User-approved publication; no fabricated endorsements or metrics |
 | Technical communities | Share a concrete demo where community rules permit | Useful discussion and real feedback, not repeated promotional spam |
 

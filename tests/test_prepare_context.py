@@ -63,7 +63,7 @@ class PrepareContextTests(unittest.TestCase):
         self.assertEqual(packet, prepare_context.render(self.corpus['task'], self.corpus['candidates']))
 
     def test_invalid_corpus_rejected_before_provider(self):
-        cases = [dict(self.corpus, task=''), dict(self.corpus, secret='forbidden'),
+        cases = [dict(self.corpus, task=''), dict(self.corpus, unsupported_field=True),
                  dict(self.corpus, candidates=[{'id': 'a', 'body': ''}]),
                  dict(self.corpus, candidates=[{'id': 'a', 'body': 'ok', 'required': 1}]),
                  dict(self.corpus, candidates=[{'id': 'a', 'body': 'ok'}] * 4)]

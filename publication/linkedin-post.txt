@@ -1,0 +1,35 @@
+Your AI agent may be spending context on evidence it never uses.
+
+I built Research & Engineering Router, a free, open-source skill that lets a configured low-cost model screen large sets of code or research evidence before the main model reads them.
+
+Your main model stays in charge of reasoning, implementation and verification. Small, obvious tasks skip the extra call.
+
+What did we measure?
+
+In two authored evidence-intake tasks, each repeated three times:
+• Code audit: 13.96% fewer primary-model tokens.
+• Research: 6.41% fewer primary-model tokens.
+• Across all six pairs: 10.20% fewer primary-model tokens.
+• Mean end-to-end time: 20.42% longer.
+• All six assisted answers passed the same quality checks.
+
+These are results from a small evidence-intake evaluation. The coding case was a code audit, not a full autonomous implementation benchmark. They are not a guarantee for other tasks, and fewer tokens do not lower a fixed subscription bill.
+
+The skill also guides Clean Code, meaningful OOP, missing-integration checks and research that preserves sources and conflicting evidence.
+
+Jev is optional. You can configure a compatible hosted provider or local model. The skill is free under MIT; provider API charges may apply.
+
+Install locally:
+npx skills add MehradYaghoubi/jev-research-engineering --skill jev-research-engineering
+
+Add --global for an installation across your projects. Provider setup is a separate step explained in the README.
+
+The free Agensi listing is now live:
+https://www.agensi.io/skills/research-engineering-router
+
+Source, setup, captioned installation video and measured results:
+https://github.com/MehradYaghoubi/jev-research-engineering
+
+If you try it, I'd love to hear where it helps and where it falls short. If you find it useful, thank you—and please consider giving the GitHub repository a star. ⭐
+
+#OpenSource #AIAgents #Codex #ClaudeCode #ContextEngineering

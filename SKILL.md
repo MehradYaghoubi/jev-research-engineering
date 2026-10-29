@@ -1,6 +1,8 @@
 ---
 name: jev-research-engineering
 description: Select relevant code and research evidence with a configured inexpensive model before the main model reads it. Use for large evidence sets or explicit cheap-model routing; skip small, obvious tasks. Jev is optional.
+metadata:
+  tags: "coding, research, evidence-triage"
 ---
 
 # Research & Engineering Router
@@ -10,6 +12,8 @@ A free MIT-licensed skill for coding and research. Your main model remains in ch
 ## Setup
 
 Keep the chat-selected model and reasoning setting as lead; no independent supervisor. Resolve helper paths from this skill directory. Python 3.10+ is required; helpers and offline tests use only its standard library, with no pip installation.
+
+For approved file access, configured credentials and provider endpoints, see [permissions and data flow](publication/agensi-permissions.md).
 
 ## Screen evidence before reading it all
 

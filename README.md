@@ -1,6 +1,7 @@
 # Research & Engineering Router
 
 [![skills.sh](https://skills.sh/b/MehradYaghoubi/jev-research-engineering)](https://skills.sh/MehradYaghoubi/jev-research-engineering)
+[![XERJ Corpus Hub contributor](https://hub.xerj.org/contributors/MehradYaghoubi/badge.svg)](https://hub.xerj.org/contributors/MehradYaghoubi)
 
 A free, open-source skill that helps your coding agent read less irrelevant material before solving a coding or research task.
 
